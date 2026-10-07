@@ -1,0 +1,3 @@
+# Giữ nguyên byte đầu vào và fixture để hash không đổi khi clone khác hệ điều hành.
+data/** -text
+tests/fixtures/** -text

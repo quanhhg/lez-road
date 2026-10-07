@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "profile_status": "draft",
+  "method_id": "admin_units_research_proposal_v1",
+  "automatic_activation": false,
+  "legal_scope": {
+    "source_id": "resolution_57_2025",
+    "source_file": "data/raw/legal/resolution_57_2025.pdf",
+    "verified_sha256": "f5f886b9c262890e2ffb51f8523f0b8629277ec46a6f6181beda88122a2dc377",
+    "verified_pages": [
+      3,
+      9
+    ],
+    "clause_refs": [
+      "Article 3(6)-(8)",
+      "Article 11(1)(c)"
+    ],
+    "name_list_verified_against_pdf": true,
+    "scope_status": "draft_admin_extent_proxy",
+    "note": "Legal list of 36 units matched to technical OSM polygons. This union is a research proposal; it is not an independently verified official GIS boundary.",
+    "names": [
+      "Hai Bà Trưng",
+      "Cửa Nam",
+      "Hoàn Kiếm",
+      "Ô Chợ Dừa",
+      "Văn Miếu - Quốc Tử Giám",
+      "Ba Đình",
+      "Giảng Võ",
+      "Ngọc Hà",
+      "Tây Hồ",
+      "Láng",
+      "Đống Đa",
+      "Kim Liên",
+      "Bạch Mai",
+      "Vĩnh Tuy",
+      "Phú Thượng",
+      "Xuân Đỉnh",
+      "Nghĩa Đô",
+      "Cầu Giấy",
+      "Yên Hòa",
+      "Thanh Xuân",
+      "Khương Đình",
+      "Định Công",
+      "Phương Liệt",
+      "Tương Mai",
+      "Hoàng Mai",
+      "Vĩnh Hưng",
+      "Long Biên",
+      "Phúc Lợi",
+      "Việt Hưng",
+      "Bồ Đề",
+      "Phù Đổng",
+      "Đông Anh",
+      "Thư Lâm",
+      "Phúc Thịnh",
+      "Vĩnh Thanh",
+      "Nội Bài"
+    ]
+  },
+  "strata": [
+    {
+      "stratum_id": "V1",
+      "names": [
+        "Hoàn Kiếm",
+        "Cửa Nam"
+      ],
+      "rationale": "Core central wards; draft research assignment."
+    },
+    {
+      "stratum_id": "V2",
+      "names": [
+        "Ba Đình",
+        "Ngọc Hà",
+        "Giảng Võ",
+        "Văn Miếu - Quốc Tử Giám",
+        "Ô Chợ Dừa",
+        "Đống Đa",
+        "Láng",
+        "Kim Liên"
+      ],
+      "rationale": "Western inner-city wards; draft research assignment."
+    },
+    {
+      "stratum_id": "V3",
+      "names": [
+        "Tây Hồ",
+        "Phú Thượng",
+        "Xuân Đỉnh",
+        "Nghĩa Đô",
+        "Cầu Giấy",
+        "Yên Hòa"
+      ],
+      "rationale": "Northwest wards; draft research assignment."
+    },
+    {
+      "stratum_id": "V4",
+      "names": [
+        "Hai Bà Trưng",
+        "Bạch Mai",
+        "Vĩnh Tuy",
+        "Tương Mai",
+        "Phương Liệt",
+        "Vĩnh Hưng",
+        "Hoàng Mai",
+        "Định Công",
+        "Khương Đình",
+        "Thanh Xuân"
+      ],
+      "rationale": "Southern and southeastern inner-city wards; draft research assignment."
+    },
+    {
+      "stratum_id": "V5",
+      "names": [
+        "Long Biên",
+        "Phúc Lợi",
+        "Việt Hưng",
+        "Bồ Đề",
+        "Phù Đổng",
+        "Đông Anh",
+        "Thư Lâm",
+        "Phúc Thịnh",
+        "Vĩnh Thanh",
+        "Nội Bài"
+      ],
+      "rationale": "Eastern wards and remaining northern expansion. Northern grouping requires research confirmation."
+    },
+    {
+      "stratum_id": "N1",
+      "names": [
+        "Từ Liêm",
+        "Đại Mỗ",
+        "Phú Diễn",
+        "Đông Ngạc",
+        "Thượng Cát",
+        "Tây Tựu",
+        "Xuân Phương",
+        "Tây Mỗ",
+        "Dương Nội",
+        "Hà Đông",
+        "Kiến Hưng",
+        "Yên Nghĩa",
+        "Phú Lương",
+        "Thanh Liệt"
+      ],
+      "rationale": "Explicit administrative-unit proposal for west/southwest outer urban area, including Ha Dong/Yen Nghia. No invented distance band."
+    },
+    {
+      "stratum_id": "N2",
+      "names": [
+        "An Khánh",
+        "Sơn Đồng",
+        "Hoài Đức",
+        "Ô Diên",
+        "Đan Phượng",
+        "Dương Hòa"
+      ],
+      "rationale": "Hoai Duc/Dan Phuong area by current named units; crosswalk is a draft."
+    },
+    {
+      "stratum_id": "N3",
+      "names": [
+        "Quốc Oai",
+        "Hưng Đạo",
+        "Phú Cát",
+        "Yên Xuân",
+        "Kiều Phú",
+        "Hòa Lạc",
+        "Hạ Bằng",
+        "Thạch Thất",
+        "Tây Phương"
+      ],
+      "rationale": "Quoc Oai/Thach That/Hoa Lac area; draft crosswalk."
+    },
+    {
+      "stratum_id": "N4",
+      "names": [
+        "Đoài Phương",
+        "Yên Bài",
+        "Tùng Thiện",
+        "Sơn Tây",
+        "Ba Vì",
+        "Suối Hai",
+        "Bất Bạt",
+        "Quảng Oai",
+        "Minh Châu",
+        "Vật Lại",
+        "Cổ Đô"
+      ],
+      "rationale": "Son Tay/Ba Vi area; draft crosswalk."
+    },
+    {
+      "stratum_id": "N5",
+      "names": [
+        "Chương Mỹ",
+        "Phú Nghĩa",
+        "Xuân Mai",
+        "Trần Phú",
+        "Quảng Bị",
+        "Dân Hòa",
+        "Thanh Oai",
+        "Hòa Phú",
+        "Tam Hưng",
+        "Bình Minh"
+      ],
+      "rationale": "Chuong My/Thanh Oai area; draft crosswalk."
+    },
+    {
+      "stratum_id": "N6",
+      "names": [
+        "Thường Tín",
+        "Thượng Phúc",
+        "Chương Dương",
+        "Hồng Vân",
+        "Phượng Dực",
+        "Phú Xuyên",
+        "Đại Xuyên",
+        "Chuyên Mỹ"
+      ],
+      "rationale": "Thuong Tin/Phu Xuyen area; draft crosswalk."
+    },
+    {
+      "stratum_id": "N7",
+      "names": [
+        "Ứng Hòa",
+        "Hòa Xá",
+        "Vân Đình",
+        "Phúc Sơn",
+        "Ứng Thiên",
+        "Hương Sơn",
+        "Mỹ Đức",
+        "Hồng Sơn"
+      ],
+      "rationale": "Ung Hoa/My Duc area; draft crosswalk."
+    },
+    {
+      "stratum_id": "N8",
+      "names": [
+        "Thuận An",
+        "Gia Lâm",
+        "Bát Tràng"
+      ],
+      "rationale": "Gia Lam area outside proposed LEZ."
+    },
+    {
+      "stratum_id": "N9",
+      "names": [
+        "Mê Linh",
+        "Quang Minh",
+        "Yên Lãng",
+        "Tiến Thắng"
+      ],
+      "rationale": "Me Linh area; draft crosswalk."
+    },
+    {
+      "stratum_id": "N10",
+      "names": [
+        "Sóc Sơn",
+        "Đa Phúc",
+        "Trung Giã",
+        "Kim Anh"
+      ],
+      "rationale": "Soc Son area excluding Noi Bai selected into proposed LEZ."
+    }
+  ],
+  "unassigned_policy": "report_only",
+  "note": "Research proposal, not legal administrative classification. Active boundary_project.json and strata_mapping.csv remain unchanged."
+}

@@ -1,0 +1,15 @@
+{
+  "source_id": "lez_vd1_project_report",
+  "url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+  "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+  "type": "official_published_project_report",
+  "requested_url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+  "captured_at": "2026-10-03T16:04:43.291415+00:00",
+  "gis_geometry_extracted": false,
+  "status": "captured",
+  "final_url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+  "http_status": 200,
+  "sha256": "9bb1b1644d73d5ff0f9643da0921104be30962bfa969512c3fb911901d687471",
+  "local_file": "work/data/raw/legal/lez_vd1_project_report.pdf",
+  "bytes": 3178657
+}

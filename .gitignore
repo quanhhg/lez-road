@@ -1,0 +1,82 @@
+# Đặt tệp này ở work/.gitignore.
+# Giữ scripts, notebooks, config, docs, tests và các đầu vào nhỏ bên dưới.
+# Không chặn chung *.csv, *.json, *.pdf: nhiều tệp là đầu vào của dự án.
+
+# macOS và tệp tạm của trình soạn thảo
+.DS_Store
+._*
+*.swp
+*.swo
+*~
+
+# Python, notebook và môi trường PyQGIS trên từng máy
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.pyqgis-runtime/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+*.egg-info/
+/build/
+/dist/
+
+# Thiết lập máy cá nhân và biến môi trường; giữ mẫu cấu hình nếu có
+/.vscode/
+/.idea/
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Bản sao lưu, báo cáo và kết quả bản đồ được sinh khi chạy
+/backups/
+/reports/
+/maps/*
+!/maps/routes/
+/maps/routes/*
+!/maps/routes/README.md
+
+# Mặc định không đưa dữ liệu lớn, bundle xử lý và dữ liệu thực địa lên Git.
+# Giữ metadata ô, truy vấn, tài liệu nghiên cứu và nguồn pháp lý.
+/data/*
+!/data/hanoi_tiles/
+!/data/raw/
+!/data/tiles.csv
+
+# Không đưa response/manifest từng ô lên Git; giữ đầu vào ranh giới gốc.
+/data/hanoi_tiles/data/*
+!/data/hanoi_tiles/data/raw/
+/data/hanoi_tiles/data/raw/*
+!/data/hanoi_tiles/data/raw/hanoi_boundary_query.ql
+!/data/hanoi_tiles/data/raw/boundary_manifest.json
+!/data/hanoi_tiles/data/raw/hanoi_osm_20261001.json
+
+# Không đưa cache dân cư/hoạt động và bản đo vào Git.
+/data/raw/*
+!/data/raw/research/
+!/data/raw/legal/
+
+# Trạng thái tạm của bộ tải; tiles.csv và tiles_history.json vẫn được giữ.
+/data/hanoi_tiles/download_cooldown.json
+.tile_project.lock
+.tile_state_transaction.json
+
+# Nhật ký và tệp đang ghi dở
+*.log
+*.tmp
+*.part
+*.partial
+*.gpkg-wal
+*.gpkg-shm
+*.sqlite-wal
+*.sqlite-shm

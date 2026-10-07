@@ -1,0 +1,11 @@
+{
+  "is_test_data": true,
+  "source_bundle_sha256": "33d4badd0b534368b846d47633fa7ee7f17adc109ff041e07ac11be281852766",
+  "route_version": "651f62df52e08fdf9e5f0047f82ee574f3788f374d21380c7bc413e5d4fb5f78",
+  "point_count": 31,
+  "route_id": "A01",
+  "speed_is_arbitrary_test_input": true,
+  "driving_cycle_constructed": false,
+  "created_at": "2026-10-06T12:28:52.298272+00:00",
+  "purpose": "CSV ingestion/CRS/directed-route matching smoke test only"
+}

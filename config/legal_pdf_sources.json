@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "decision_3273_20260629",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Q%203273%20ngy%2029.6.2026-%20%20n%20vng%20pht%20thi%20thp.pdf",
+      "authority": "UBND thành phố Hà Nội",
+      "type": "official_decision",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "lez_vd1_project_report",
+      "url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "type": "official_published_project_report"
+    },
+    {
+      "source_id": "decision_3273_map_appendices",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Ph%20lc%203237.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "type": "official_published_appendices",
+      "note": "URL filename is recorded verbatim from the official publication."
+    },
+    {
+      "source_id": "resolution_57_2025",
+      "url": "https://datafiles.hanoi.gov.vn/gov-hni/7476/VanBan/2026/1/10/10.12%20NQ-57.pdf",
+      "authority": "HĐND thành phố Hà Nội",
+      "type": "official_resolution",
+      "published_date": "2025-11-26",
+      "fallback_urls": [
+        "https://sqhx-hanoi.mediacdn.vn/91579363132710912/2026/1/12/nghi-quyet-57-ve-vung-phat-thai-thap-tren-dia-ban-thanh-pho-ha-noi-1768184676513793957970.pdf"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "method_version": "route_constrained_trip_qc_v1",
+  "input_directory": "data/measurements/incoming",
+  "trips_filename": "trips.csv",
+  "points_filename": "gps_points.csv",
+  "measurement_timezone": "Asia/Ho_Chi_Minh",
+  "max_gap_s": 5.0,
+  "max_gps_accuracy_m": 50.0,
+  "max_speed_kmh": 180.0,
+  "max_gps_jump_speed_kmh": 180.0,
+  "max_abs_acceleration_m_s2": 8.0,
+  "idle_speed_kmh": 1.0,
+  "acceleration_threshold_m_s2": 0.1,
+  "cruise_abs_acceleration_max_m_s2": 0.1,
+  "map_matching": {
+    "enabled": true,
+    "metric_crs": "EPSG:3405",
+    "candidate_radius_m": 40.0,
+    "max_candidates": 12,
+    "ambiguity_distance_margin_m": 3.0,
+    "ambiguity_progress_separation_m": 25.0,
+    "heading_min_displacement_m": 5.0,
+    "minimum_heading_cosine": 0.0,
+    "backward_tolerance_m": 5.0,
+    "continuity_slack_m": 75.0,
+    "grid_cell_size_m": 80.0
+  },
+  "required_trip_fields": [
+    "trip_id", "route_id", "vehicle_id", "driver_id", "started_at", "ended_at",
+    "time_block", "measurement_date", "sampling_zone", "lez_status_at_measurement", "policy_version",
+    "route_version", "source_bundle_sha256"
+  ],
+  "required_point_fields": ["trip_id", "timestamp", "latitude", "longitude", "speed", "speed_unit"],
+  "accepted_speed_units": {"km/h": 1.0, "kmh": 1.0, "kph": 1.0, "m/s": 3.6},
+  "valid_lez_statuses": ["unknown", "inside", "outside"],
+  "notes": [
+    "Thresholds are configurable QC/design choices, not observed Hanoi performance.",
+    "Policy version and zone refer to the current research route snapshot; measurement LEZ status is recorded separately.",
+    "No microtrip segmentation or driving-cycle construction is implemented."
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "rules_version": "2026-10-03-v1",
+  "survey_datetime": null,
+  "vehicle": "motorcycle",
+  "default_status": "provisionally_allowed",
+  "automatic_verified_allowed": false,
+  "excluded_highways": [
+    "motorway",
+    "motorway_link",
+    "footway",
+    "cycleway",
+    "pedestrian",
+    "steps",
+    "bridleway",
+    "path",
+    "construction",
+    "proposed",
+    "platform",
+    "raceway",
+    "corridor"
+  ],
+  "provisional_highways": [
+    "primary",
+    "primary_link",
+    "secondary",
+    "secondary_link",
+    "tertiary",
+    "tertiary_link",
+    "residential",
+    "unclassified",
+    "service",
+    "living_street"
+  ],
+  "conditional_policy": "review_required_until_evaluated",
+  "unsupported_turn_policy": "remove_affected_ways_from_routing_graph",
+  "node_barrier_policy": "review_without_mode_specific_evidence",
+  "access_sources": [
+    "https://wiki.openstreetmap.org/wiki/Key:access",
+    "https://wiki.openstreetmap.org/wiki/Key:oneway:motorcycle",
+    "https://wiki.openstreetmap.org/wiki/Relation:restriction"
+  ]
+}

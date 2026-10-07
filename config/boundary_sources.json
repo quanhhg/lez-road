@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "hanoi_lez_approved_20260630",
+      "url": "https://sonnmt.hanoi.gov.vn/index.php/tin-t-c/moi-tru-ng/21856-ha-n-i-cong-b-d-an-vung-phat-th-i-th-p-trong-vanh-dai-1-thanh-ph-ha-n-i-thi-di-m-t-ngay-01-7-2027",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "published_date": "2026-06-30",
+      "type": "official_publication",
+      "note": "The publication refers to map attachments to Decision 3273/QD-UBND. A text article is not a GIS polygon."
+    },
+    {
+      "source_id": "hanoi_lez_resolution_registry",
+      "url": "https://vanban.hanoi.gov.vn/chi-tiet-van-ban/quy-dinh-thuc-hien-vung-phat-thai-thap-tren-dia-ban-thanh-pho-ha-noi-thuc-hien-diem-a-khoan-2-dieu--228371",
+      "authority": "Cổng văn bản Hà Nội",
+      "type": "official_document_registry",
+      "note": "Archive the source; if fetch fails, keep the failure evidence and the pending input."
+    }
+  ]
+}

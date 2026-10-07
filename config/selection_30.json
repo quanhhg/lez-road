@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "method_version": "ABC_LEZ_FIRST_pre_survey_C1_C7_v4",
+  "scope": "LEZ2027_A_LEZ2030_minus_A_B_outside_LEZ2030_C",
+  "quota": {
+    "inside": 18,
+    "outside": 12
+  },
+  "field_data_required_before_selection": false,
+  "required_strata": [
+    "A",
+    "B",
+    "C"
+  ],
+  "weights": {
+    "C1": 25,
+    "C2": 15,
+    "C3": 15,
+    "C4": 15,
+    "C5": 10,
+    "C6": 10,
+    "C7": 10
+  },
+  "C6_missing_policy": "neutral_assumption_with_score_interval",
+  "incomplete_features_policy": "raw_NULL_preserved_RC_median_scoring_model_with_missing_flags_and_seven_feature_sensitivity",
+  "oneway_feature": "fraction_of_route_length_on_parts_with_one_effective_motorcycle_direction_in_source_graph",
+  "junction_feature": "distinct_visited_nodes_with_at_least_three_distinct_physical_graph_neighbors_OSM_proxy_no_complete_roundabout_conflation",
+  "signals_feature": "unique_mapped_on_way_signal_nodes_visited_OSM_proxy_not_field_count",
+  "X_normalization": "fixed_minmax_fit_on_all_60_candidates_drop_constant_variables",
+  "C3_method": "fraction_of_fixed_feature_quartile_groups_not_yet_represented_in_selected_set",
+  "C7_rubric": "2_new_primary_stratum_plus_2_new_primary_stratum_RC_pair_plus_1_fraction_new_material_cells",
+  "minimum_cell_fraction": 0.3,
+  "mandatory_cells": [],
+  "mandatory_cells_policy": "all_ABC_primary_strata_required_RC_cell_coverage_diagnostic_joint_LEZ_quotas_hard",
+  "score_normalization": "C1_C5_minmax_over_feasible_candidates_each_round_C7_divide_by_5",
+  "constant_criterion_policy": "all_one_preserve_weights",
+  "seed_count": 10,
+  "seed_method": "10_lowest_RC_only_global_D_feasible_inside_outside_pairs_ties_by_route_ID",
+  "best_run_objective": "minimum_RC_only_global_D_then_mean_domain_D_then_sorted_route_IDs",
+  "max_corridor_overlap": 0.7,
+  "overlap_review_fraction": 0.5,
+  "max_swap_rounds": 50,
+  "swap_min_improvement": 1e-09,
+  "swap_objective": "strictly_reduce_RC_only_global_D_preserve_exact_LEZ_and_ABC_intersection_quota_strata_material_cell_count_and_diversity",
+  "minimum_quantile_diversity_retained": 0.9,
+  "max_domain_D_worsening": 0.02,
+  "tie_tolerance": 1e-10,
+  "sensitivity": {
+    "weight_factor": 1.2,
+    "review_thresholds": [
+      0.4,
+      0.5,
+      0.6
+    ],
+    "cell_thresholds": [
+      0.25,
+      0.3,
+      0.4
+    ],
+    "quota_neighbors": [],
+    "quota_policy": "User exact18/12 and A_inside10/B_inside8/C_outside12 stay fixed across sensitivity scenarios"
+  },
+  "source_requirements": "data/raw/research/source_requirements.json",
+  "sources": [
+    "data/raw/research/60_tuyen_LEZ_QGIS.docx",
+    "data/raw/research/Chuyen_de_nghien_cuu_khao_sat_tuyen_chu_trinh_lai_Ha_Noi_2_10_2026.docx",
+    "data/raw/research/Phan_tich_ABC_LEZ.docx"
+  ],
+  "implementation_decisions_status": "explicit_provisional_research_choices_not_statutory_thresholds",
+  "measurement_verified": false,
+  "C6_neutral_assumption": 2.5,
+  "feature_policy": "nine_features_with_explicit_models",
+  "pool_quota": {
+    "A": 20,
+    "B": 20,
+    "C": 20
+  },
+  "intersection_quota": [
+    {
+      "name": "A_inside",
+      "group": "inside",
+      "sampling_zones": [
+        "A"
+      ],
+      "count": 10
+    },
+    {
+      "name": "B_inside",
+      "group": "inside",
+      "sampling_zones": [
+        "B"
+      ],
+      "count": 8
+    },
+    {
+      "name": "C_outside",
+      "group": "outside",
+      "sampling_zones": [
+        "C"
+      ],
+      "count": 12
+    }
+  ],
+  "sampling_config": "config/sampling_abc.json",
+  "parent_report": "reports/sampling/latest_sampling_abc.json",
+  "required_material_cells": [],
+  "zone_basis": "LEZ_first",
+  "policy_config": "config/lez_policy.json",
+  "policy_version": "LEZ2027_2030_LEZ_FIRST_v1"
+}

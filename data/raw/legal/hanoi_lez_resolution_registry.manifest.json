@@ -1,0 +1,12 @@
+{
+  "source_id": "hanoi_lez_resolution_registry",
+  "url": "https://vanban.hanoi.gov.vn/chi-tiet-van-ban/quy-dinh-thuc-hien-vung-phat-thai-thap-tren-dia-ban-thanh-pho-ha-noi-thuc-hien-diem-a-khoan-2-dieu--228371",
+  "authority": "Cổng văn bản Hà Nội",
+  "type": "official_document_registry",
+  "note": "Archive the source; if fetch fails, keep the failure evidence and the pending input.",
+  "requested_url": "https://vanban.hanoi.gov.vn/chi-tiet-van-ban/quy-dinh-thuc-hien-vung-phat-thai-thap-tren-dia-ban-thanh-pho-ha-noi-thuc-hien-diem-a-khoan-2-dieu--228371",
+  "captured_at": "2026-10-05T02:32:05.368195+00:00",
+  "geometry_available": false,
+  "status": "fetch_failed",
+  "error": "HTTPSConnectionPool(host='vanban.hanoi.gov.vn', port=443): Read timed out. (read timeout=10)"
+}

@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "metric_crs": "EPSG:3405",
+  "source_network": "work/data/processed/network.gpkg",
+  "source_layer": "segments",
+  "definition_status": "research_road_alignment_proxy_not_official_gis",
+  "boundary_touch_policy": "A includes the Ring 1 boundary; B includes the Ring 3 boundary; route eligibility requires full geometry containment within tolerance",
+  "sources": [
+    {
+      "id": "abc_research",
+      "file": "work/data/raw/research/Phan_tich_ABC_LEZ.docx",
+      "role": "A inside Ring 1; B Ring 1 to Ring 3; C outside Ring 3"
+    },
+    {
+      "id": "ring1_official_project_report",
+      "file": "work/data/raw/legal/lez_vd1_project_report.pdf",
+      "url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+      "role": "Section 6 and Ring 1 implementation scope list the enclosing roads and a reference area of 26.07 km2"
+    },
+    {
+      "id": "ring3_planning_report",
+      "url": "https://vqh.hanoi.gov.vn/uploads/nvform/thuyetminh_qhc-hanoi_26_10_2023_dau.pdf",
+      "role": "Defines Ring 3 via Ninh Hiep, Duc Tu and the south side of the railway back to Quang Minh"
+    }
+  ],
+  "ring1": {
+    "bbox_wgs84": [
+      105.79,
+      20.99,
+      105.89,
+      21.1
+    ],
+    "names": [
+      "Đường Cầu Giấy",
+      "Cầu Giấy",
+      "Đường La Thành",
+      "Đường Đê La Thành",
+      "Đường Vành đai 1",
+      "Phố Hoàng Cầu",
+      "Phố Ô Chợ Dừa",
+      "Phố Xã Đàn",
+      "Đường Đại Cồ Việt",
+      "Đường Trần Khát Chân",
+      "Đường Nguyễn Khoái",
+      "Đường Trần Khánh Dư",
+      "Đường Trần Quang Khải",
+      "Đường Trần Nhật Duật",
+      "Trần Nhật Duật",
+      "Đường Yên Phụ",
+      "Đường Nghi Tàm",
+      "Đường Âu Cơ",
+      "Đường An Dương Vương",
+      "Đường Lạc Long Quân",
+      "Đường Bưởi",
+      "Đường Vành đai 2",
+      "Cầu vượt Nút giao Cầu Giấy",
+      "Cầu vượt Bưởi",
+      "Vòng Xoay Bưởi - Vành Đai 2"
+    ],
+    "waypoints_wgs84": [
+      [
+        105.8055,
+        21.0283
+      ],
+      [
+        105.8178,
+        21.0235
+      ],
+      [
+        105.8256,
+        21.0208
+      ],
+      [
+        105.8348,
+        21.0142
+      ],
+      [
+        105.8406,
+        21.0091
+      ],
+      [
+        105.8505,
+        21.0091
+      ],
+      [
+        105.8680533,
+        21.0064097
+      ],
+      [
+        105.8627355,
+        21.0158063
+      ],
+      [
+        105.8567492,
+        21.0313753
+      ],
+      [
+        105.8420441,
+        21.0487284
+      ],
+      [
+        105.8257322,
+        21.0729601
+      ],
+      [
+        105.8178,
+        21.0822
+      ],
+      [
+        105.8089,
+        21.0596
+      ],
+      [
+        105.8063,
+        21.0485
+      ],
+      [
+        105.8055,
+        21.0283
+      ]
+    ],
+    "maximum_component_snap_m": 180,
+    "reference_area_km2": 26.07,
+    "area_bounds_km2": [
+      20,
+      35
+    ]
+  },
+  "ring3": {
+    "bbox_wgs84": [
+      105.76,
+      20.94,
+      105.98,
+      21.19
+    ],
+    "name_contains": [
+      "Đường cao tốc Vành đai 3",
+      "Đường vành đai 3 Thành phố Hà Nội"
+    ],
+    "names": [
+      "Đường Võ Văn Kiệt",
+      "Cầu Thăng Long",
+      "Cầu Quang Minh",
+      "Cầu Kênh Giữa",
+      "Cầu vượt Bắc Thăng Long",
+      "Đường cao tốc Hà Nội - Thái Nguyên",
+      "Cầu Thạc Quả"
+    ],
+    "refs": [
+      "CT.37"
+    ],
+    "waypoints_wgs84": [
+      [
+        105.7794,
+        21.1593
+      ],
+      [
+        105.7785,
+        21.1386
+      ],
+      [
+        105.7879,
+        21.0904
+      ],
+      [
+        105.7819,
+        21.0546
+      ],
+      [
+        105.7796,
+        21.0304
+      ],
+      [
+        105.797,
+        21.0
+      ],
+      [
+        105.8318,
+        20.9672
+      ],
+      [
+        105.8685,
+        20.9642
+      ],
+      [
+        105.8926526,
+        20.983562
+      ],
+      [
+        105.93,
+        21.0269
+      ],
+      [
+        105.9559,
+        21.0803
+      ],
+      [
+        105.927,
+        21.108
+      ],
+      [
+        105.9057,
+        21.1276
+      ],
+      [
+        105.8467,
+        21.1541
+      ]
+    ],
+    "northern_closure": {
+      "status": "explicit_missing_alignment_research_closure",
+      "description": "The cached CT.37 proposed alignment ends at Bac Hong. The remaining segment to Quang Minh is an explicit straight research closure, not a surveyed or official Ring 3 GIS alignment.",
+      "coordinates_wgs84": [
+        [
+          105.8467,
+          21.1541
+        ],
+        [
+          105.7794,
+          21.1593
+        ]
+      ],
+      "maximum_length_m": 7500,
+      "uncertainty_buffer_m": 2000
+    },
+    "maximum_component_snap_m": 250,
+    "area_bounds_km2": [
+      220,
+      420
+    ]
+  }
+}

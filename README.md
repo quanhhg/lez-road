@@ -34,3 +34,5 @@ Hướng dẫn chi tiết: [quy trình](docs/lez/PROJECT_AUTOMATION.md), [thực
 Các bundle L/O, phạm vi điều chỉnh theo dân cư và phân tầng V/N cũ giữ để truy vết lịch sử. Chúng không được dùng thay ranh giới LEZ-first hiện hành. Raw OSM và tài liệu nguồn được giữ nguyên.
 
 Kiểm tra độ nhạy mở rộng được tích hợp vào notebook 09, xem kết quả ở mục 4; mục 7a–7c notebook 06 dùng để chạy riêng: [work/docs/lez/SENSITIVITY.md](docs/lez/SENSITIVITY.md). Báo cáo riêng `work/reports/selection/latest_sensitivity.json`, có chuẩn hóa X, trọng số, phần làn/tốc độ thiếu, C6 khác nhau và thay tuyến giả lập; giữ bộ 30 đã công bố.
+
+Bản trên GitHub giữ mã nguồn, notebook, cấu hình, truy vấn, metadata ô và tài liệu nguồn theo [`.gitignore`](.gitignore). Response OSM từng ô, bundle xử lý, dữ liệu đo, báo cáo, bản đồ và backup được giữ trên máy. Khi clone sang máy khác, cần tải hoặc khôi phục dữ liệu OSM và thiết lập PyQGIS trước khi chạy các bước phụ thuộc dữ liệu.

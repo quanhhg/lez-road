@@ -1,0 +1,991 @@
+{
+  "purpose": "Source-backed requirements for ABC candidate generation and provisional selection of 30 survey routes; not field-validated final routes or an execution report.",
+  "sources": {
+    "old": {
+      "filename": "60_tuyen_LEZ_QGIS.docx",
+      "source": "work/data/raw/research/60_tuyen_LEZ_QGIS.docx",
+      "sha256": "086c5a158191fb2b55d44cac4b22a31c0a64a14e5e021fcd80d9effe8ef8fe0c"
+    },
+    "new": {
+      "filename": "Chuyen_de_nghien_cuu_khao_sat_tuyen_chu_trinh_lai_Ha_Noi_2_10_2026.docx",
+      "source": "work/data/raw/research/Chuyen_de_nghien_cuu_khao_sat_tuyen_chu_trinh_lai_Ha_Noi_2_10_2026.docx",
+      "sha256": "50e0ba9788f07cbd41bcacde2d75bd75f209d427a8a5b221c9e7d111daf4b1fc"
+    },
+    "abc": {
+      "filename": "Phan_tich_ABC_LEZ.docx",
+      "source": "work/data/raw/research/Phan_tich_ABC_LEZ.docx",
+      "sha256": "9cafef8c4b52f79ff8ca91d16168d93fab613d7df5365e144e8e2f894c5a9c32"
+    }
+  },
+  "priority": [
+    "current user instruction",
+    "ABC document for spatial design and temporal policy classification",
+    "new research document for scoring/selection criteria",
+    "old document for inherited requirements"
+  ],
+  "current_request": {
+    "instruction_date": "2026-10-06",
+    "candidate_count": 60,
+    "candidate_quota_by_sampling_zone": {
+      "A": 20,
+      "B": 20,
+      "C": 20
+    },
+    "candidate_quota_by_lez2030_group": {
+      "inside": 40,
+      "outside": 20
+    },
+    "selection_count": 30,
+    "quota_in": 18,
+    "quota_out": 12,
+    "selection_quota_by_sampling_zone": {
+      "A": 10,
+      "B": 8,
+      "C": 12
+    },
+    "sampling_zone_definitions": {
+      "A": "LEZ2027 KV1/KV2/KV3 pilot according to Decision3273; technical reconstructed geometry",
+      "B": "LEZ2030 scope excluding A",
+      "C": "outside LEZ2030 within Hanoi"
+    },
+    "required_lez2030_group_by_sampling_zone": {
+      "A": "inside",
+      "B": "inside",
+      "C": "outside"
+    },
+    "zone_scope": "research LEZ 2030, classified independently of ABC",
+    "matrix": "12 primary cells: sampling_zone A/B/C x RC1-RC4; optional fine ABC x legacy V/N x RC audit",
+    "legacy_15_primary_strata_hard_constraint": false,
+    "criteria_and_selection_algorithm": "preserve C1-C7, weights, per-round normalization, constrained greedy and swaps",
+    "field_data_required_before_selection": false,
+    "stage_label": "proposed_for_survey",
+    "missing_field_status": "unknown/survey_required",
+    "zone_basis": "LEZ_first",
+    "policy_version": "LEZ2027_2030_LEZ_FIRST_v1",
+    "automate_pre_survey_and_trip_processing": true,
+    "driving_cycle_construction_requested": false
+  },
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Giá trị bổ sung độ phủ",
+      "weight": 0.25,
+      "direction": "benefit",
+      "formula": "DeltaD_i(S)=D(S)-D(S union {i})",
+      "availability": "GIS",
+      "requirements": [
+        "network_length_by_zone_stratum_rc",
+        "route_length_by_zone_stratum_rc",
+        "selected_set"
+      ],
+      "raw_definition": "Giảm độ lệch giữa cơ cấu chiều dài tập tuyến và cơ cấu chiều dài mạng mục tiêu; tính lại ở từng vòng chọn.",
+      "unknown_handling": "Nếu lớp phân tầng là proxy, giữ kết quả cùng nhãn proxy và phương pháp; không tạo khẳng định đã xác nhận pháp lý.",
+      "evidence": [
+        {
+          "source": "new",
+          "id": "T03 R002",
+          "text": "C1 | Giá trị bổ sung độ phủ ΔD | 25 | Đo mức giảm sai lệch cơ cấu khi thêm tuyến."
+        },
+        {
+          "source": "new",
+          "id": "P0089",
+          "text": "ΔDᵢ(S) = D(S) − D(S ∪ {i})    (9)"
+        },
+        {
+          "source": "new",
+          "id": "P0090",
+          "text": "Nếu ΔDᵢ > 0, thêm tuyến i làm mẫu gần cơ cấu mạng hơn. Nếu ΔDᵢ ≤ 0, tuyến chỉ nên được giữ khi nó bổ sung một đặc trưng quan trọng chưa được D(S) phản ánh, ví dụ một dạng hình học/điều khiển giao thông hiếm."
+        },
+        {
+          "source": "new",
+          "id": "T08 R002",
+          "text": "C1 ΔD | ΔDᵢ(S) | Lớn | Min–max lợi ích, công thức (1)."
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "name": "Mức thiếu ô mục tiêu",
+      "weight": 0.15,
+      "direction": "benefit",
+      "formula": "Gap_i(S)=sum(P_i(h,k)*max(0,q(h,k)-q_S(h,k)))",
+      "availability": "GIS",
+      "requirements": [
+        "route_fraction_by_zone_stratum_rc",
+        "network_length_by_zone_stratum_rc",
+        "selected_set"
+      ],
+      "raw_definition": "P_i dùng tỷ lệ 0–1 theo chiều dài; không đưa số phần trăm 0–100 vào tổng khi q ở 0–1.",
+      "unknown_handling": "Báo cùng nguồn/phạm vi các ô dùng tính; thiếu thuộc tính thực địa không ảnh hưởng tiêu chí này.",
+      "evidence": [
+        {
+          "source": "new",
+          "id": "T03 R003",
+          "text": "C2 | Mức thiếu của ô mục tiêu | 15 | Ưu tiên tuyến đi qua ô tầng×RC còn thiếu."
+        },
+        {
+          "source": "new",
+          "id": "P0085",
+          "text": "Deficit_S(h,k) = max[0, q(h,k) − q_S(h,k)]    (7)"
+        },
+        {
+          "source": "new",
+          "id": "P0086",
+          "text": "Điểm thiếu của tuyến i có thể tính bằng tổng deficit của các ô mà tuyến đóng góp, có trọng số theo tỷ lệ chiều dài tuyến nằm trong ô:"
+        },
+        {
+          "source": "new",
+          "id": "P0087",
+          "text": "Gapᵢ(S) = ΣₕΣₖ Pᵢ(h,k) × Deficit_S(h,k)    (8)"
+        },
+        {
+          "source": "new",
+          "id": "T08 R003",
+          "text": "C2 Gap | Gapᵢ(S) | Lớn | Min–max lợi ích."
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "name": "Đa dạng hạ tầng",
+      "weight": 0.15,
+      "direction": "benefit",
+      "formula": "Document permits distance to centroid(S), or coverage of unrepresented feature quantiles; choose one rule before run.",
+      "availability": "GIS_OSM_with_partial_unknowns",
+      "requirements": [
+        "RC fractions",
+        "lanes",
+        "maxspeed",
+        "intersection density",
+        "signal density",
+        "oneway fraction"
+      ],
+      "raw_definition": "Tài liệu không chốt duy nhất một công thức. OSM lanes/maxspeed có thể thiếu; tín hiệu không có trong OSM không đồng nghĩa ngoài thực tế không có.",
+      "unknown_handling": "Chọn biến có dữ liệu hoặc công bố phép điền khuyết và missing flags; không đặt giá trị thô thiếu=0, không dùng thiếu trường để loại tuyến.",
+      "evidence": [
+        {
+          "source": "new",
+          "id": "T03 R004",
+          "text": "C3 | Đa dạng hạ tầng | 15 | Bổ sung thông tin về RC, làn, tốc độ, nút, tín hiệu, một chiều."
+        },
+        {
+          "source": "new",
+          "id": "P0100",
+          "text": "Xᵢ = [P_RC1, P_RC2, P_RC3, P_RC4, lanes, maxspeed, D_int, D_sig, P_oneway]    (12)"
+        },
+        {
+          "source": "new",
+          "id": "T08 R004",
+          "text": "C3 Đa dạng | Có thể dùng khoảng cách tới centroid của S hoặc số biến thuộc quantile chưa được phủ | Lớn | Min–max lợi ích; phải mô tả rõ cách chọn biến."
+        }
+      ]
+    },
+    {
+      "id": "C4",
+      "name": "Độc lập hình học",
+      "weight": 0.15,
+      "direction": "cost",
+      "formula": "Omax(i,S)=max(O(i,j) for j in S); O(i,j)=L_shared(i,j)/min(L_i,L_j)*100",
+      "availability": "GIS",
+      "requirements": [
+        "shared canonical segments or snapped same-network geometric support",
+        "route lengths",
+        "selected_set"
+      ],
+      "raw_definition": "Không suy trùng từ tên đường/cặp nghi vấn tài liệu. Tính dùng đoạn OSM chung hoặc hỗ trợ hình học sau snap theo mạng.",
+      "unknown_handling": "Cờ trùng chỉ là quản trị mẫu; trường hợp trùng cao được giữ nếu có giải trình; định nghĩa L_shared phải ghi rõ để không đếm đôi loop.",
+      "evidence": [
+        {
+          "source": "new",
+          "id": "T03 R005",
+          "text": "C4 | Độc lập hình học | 15 | Ưu tiên tuyến có O_max thấp với tập đã chọn."
+        },
+        {
+          "source": "new",
+          "id": "P0096",
+          "text": "O(i,j) = L_chung(i,j) / min(Lᵢ, Lⱼ) × 100%    (11)"
+        },
+        {
+          "source": "new",
+          "id": "P0097",
+          "text": "L_chung được tính bằng tổng chiều dài các đoạn OSM dùng chung hoặc phần hình học trùng sau khi snap về cùng mạng. Dùng mẫu số min(Lᵢ,Lⱼ) để phát hiện trường hợp một tuyến ngắn gần như nằm hoàn toàn trong tuyến dài hơn."
+        },
+        {
+          "source": "new",
+          "id": "P0106",
+          "text": "O_max(i,S) = max_{j∈S} O(i,j)    (14)"
+        },
+        {
+          "source": "new",
+          "id": "P0108",
+          "text": "C4 được xây dựng từ O_max theo hướng càng thấp càng tốt; C5 được xây dựng từ d_min theo hướng càng lớn càng tốt."
+        },
+        {
+          "source": "new",
+          "id": "T08 R005",
+          "text": "C4 Độc lập hình học | O_max(i,S) | Nhỏ | Min–max chi phí, công thức (2)."
+        }
+      ]
+    },
+    {
+      "id": "C5",
+      "name": "Độc lập đặc trưng",
+      "weight": 0.1,
+      "direction": "benefit",
+      "formula": "dmin(i,S)=min(dX(i,j) for j in S); dX=sqrt(sum((xstar_i-xstar_j)^2))",
+      "availability": "GIS_OSM_with_partial_unknowns",
+      "requirements": [
+        "standardized RC fractions",
+        "lanes",
+        "maxspeed",
+        "intersection density",
+        "signal density",
+        "oneway fraction",
+        "selected_set"
+      ],
+      "raw_definition": "X=[P_RC1,P_RC2,P_RC3,P_RC4,lanes,maxspeed,D_int,D_sig,P_oneway]; z-score hoặc min-max trước Euclid, không trộn đơn vị thô.",
+      "unknown_handling": "Cùng chính sách điền khuyết như C3; ghi độ đầy đủ và phân tích độ nhạy nếu có thể. Không thể chứng minh bằng dữ liệu thiếu mà không công bố.",
+      "evidence": [
+        {
+          "source": "new",
+          "id": "T03 R006",
+          "text": "C5 | Độc lập đặc trưng | 10 | Ưu tiên tuyến có khoảng cách véc-tơ hạ tầng đủ lớn so với tuyến gần nhất."
+        },
+        {
+          "source": "new",
+          "id": "P0100",
+          "text": "Xᵢ = [P_RC1, P_RC2, P_RC3, P_RC4, lanes, maxspeed, D_int, D_sig, P_oneway]    (12)"
+        },
+        {
+          "source": "new",
+          "id": "P0101",
+          "text": "Chuẩn hóa từng biến của X về z-score hoặc min–max, sau đó tính khoảng cách Euclid:"
+        },
+        {
+          "source": "new",
+          "id": "P0102",
+          "text": "d_X(i,j) = √Σₘ (x*ᵢm − x*ⱼm)²    (13)"
+        },
+        {
+          "source": "new",
+          "id": "P0107",
+          "text": "d_min(i,S) = min_{j∈S} d_X(i,j)    (15)"
+        },
+        {
+          "source": "new",
+          "id": "P0108",
+          "text": "C4 được xây dựng từ O_max theo hướng càng thấp càng tốt; C5 được xây dựng từ d_min theo hướng càng lớn càng tốt."
+        },
+        {
+          "source": "new",
+          "id": "T08 R006",
+          "text": "C5 Độc lập đặc trưng | d_min(i,S) | Lớn | Min–max lợi ích."
+        }
+      ]
+    },
+    {
+      "id": "C6",
+      "name": "Khả năng khảo sát thực địa",
+      "weight": 0.1,
+      "direction": "benefit",
+      "formula": "z_C6=field_score_0_to_5/5",
+      "availability": "proxy_or_unknown_before_survey",
+      "requirements": [
+        "start_end safety",
+        "repeatability",
+        "GPS reliability",
+        "construction risk",
+        "unresolved permission review"
+      ],
+      "raw_definition": "Thang 0–5 trong T09; GIS hỗ trợ kiểm tra cấu trúc đường/điểm đầu cuối, không xác minh được an toàn/GPS/công trình thực tế.",
+      "unknown_handling": "Theo yêu cầu hiện tại: field status unknown/survey_required không chặn chọn30; không đổi unknown thành verified hay score0. Nếu cần điểm, dùng proxy công bố hoặc điểm trung tính chung và phân tích ảnh hưởng; đó là quy ước triển khai, không phải công thức có sẵn trong nguồn.",
+      "evidence": [
+        {
+          "source": "new",
+          "id": "T03 R007",
+          "text": "C6 | Khả năng khảo sát thực địa | 10 | Điểm đầu/cuối, định vị, khả năng lặp, rủi ro công trình."
+        },
+        {
+          "source": "new",
+          "id": "T08 R007",
+          "text": "C6 Thực địa | Thang 0–5: an toàn, lặp, GPS, công trình, quyền chưa rõ | Lớn | Điểm/5. Chỉ áp dụng sau G1–G6."
+        },
+        {
+          "source": "new",
+          "id": "T09 R002",
+          "text": "5 | Điểm đầu/cuối an toàn; dễ lặp; tín hiệu GPS ổn định; không có công trình đáng kể; không còn quyền lưu thông chưa rõ."
+        },
+        {
+          "source": "new",
+          "id": "T09 R003",
+          "text": "4 | Có một hạn chế nhỏ nhưng không ảnh hưởng chất lượng đo."
+        },
+        {
+          "source": "new",
+          "id": "T09 R004",
+          "text": "3 | Có rủi ro trung bình, cần biện pháp tổ chức đo hoặc chọn thời gian."
+        },
+        {
+          "source": "new",
+          "id": "T09 R005",
+          "text": "2 | Nhiều bất tiện; chỉ giữ nếu đóng góp độ phủ cao."
+        },
+        {
+          "source": "new",
+          "id": "T09 R006",
+          "text": "1 | Khó triển khai lặp hoặc dữ liệu dễ sai; nên có tuyến thay thế."
+        },
+        {
+          "source": "new",
+          "id": "T09 R007",
+          "text": "0 | Không khả thi; chuyển LOẠI/ĐỔI TUYẾN."
+        }
+      ]
+    },
+    {
+      "id": "C7",
+      "name": "Vai trò không gian và khả năng nối dữ liệu",
+      "weight": 0.1,
+      "direction": "benefit",
+      "formula": "z_C7=spatial_role_score_0_to_5/5",
+      "availability": "GIS_research_proxy",
+      "requirements": [
+        "unrepresented strata",
+        "target cells",
+        "corridors",
+        "selected_set"
+      ],
+      "raw_definition": "Tài liệu đề xuất 0–5 dựa tầng/ô/hành lang chưa có đại diện nhưng chưa cho rubric cụ thể. Phải quy định trước khi chạy.",
+      "unknown_handling": "Dùng độ mới của tầng/ô/hành lang từ GIS theo rubric công bố; quan sát trạng thái giao thông thực vẫn chưa có, không giả lập như dữ liệu hiện trường.",
+      "evidence": [
+        {
+          "source": "new",
+          "id": "T03 R008",
+          "text": "C7 | Vai trò không gian/khả năng nối dữ liệu | 10 | Bảo đảm các tầng, hành lang và trạng thái giao thông không bị bỏ trống."
+        },
+        {
+          "source": "new",
+          "id": "T08 R008",
+          "text": "C7 Vai trò không gian | 0–5 dựa trên tầng/ô/hành lang chưa có đại diện | Lớn | Điểm/5; phải quy định trước khi chạy chọn."
+        }
+      ]
+    }
+  ],
+  "formulas": {
+    "q": "L_network(h,k)/sum_hk(L_network(h,k))",
+    "q_S": "L_sample(h,k)/sum_hk(L_sample(h,k))",
+    "D": "0.5*sum_hk(abs(q_S-q))",
+    "benefit_z": "(x_i-min(x))/(max(x)-min(x))",
+    "cost_z": "(max(x)-x_i)/(max(x)-min(x))",
+    "score": "100*sum_k(w_k*z_ik(S))",
+    "constant_feature": "Document allows z=1 for all OR remove feature and renormalize weights; pick and log one policy.",
+    "target_cell_share_pct": "L_i(h,k)/L_i*100",
+    "jaccard": "intersection(S0,Sa) size / union(S0,Sa) size",
+    "saturation": "(D(n-delta_n)-D(n))/D(n-delta_n)*100"
+  },
+  "denominator_conventions": {
+    "network_length": "Canonical physical road length in the selected GIS scope after motorcycle-policy filter and overlays; no doubled length for two travel directions.",
+    "sample_length": "Document does not settle repeated traversal vs union support. Choose explicitly; primary route traversal sum and a unique-support sensitivity can be reported separately.",
+    "separate_zone_metrics": "Compute D_in and D_out within each zone, besides D_all, so one zone does not hide mismatch in the other.",
+    "empty_set": "S empty gives zero sample denominator and empty min/max. Document does not define initial values; implement deterministic seeds or explicit D_empty/Gap/Omax/dmin conventions and log.",
+    "overlap": "State directed/undirected geometric support and repeat handling. Do not infer exact overlap from document pre-screened pairs.",
+    "primary_spatial_cells": "ABCxRC1-RC4; legacy V/N fine overlay is an audit, not an automatic hard constraint requiring all15old strata."
+  },
+  "gates": [
+    {
+      "id": "G1",
+      "evidence": {
+        "source": "new",
+        "id": "T02 R002",
+        "text": "G1 | Quyền xe máy | 100% chiều dài cuối cho phép xe máy lưu thông hợp pháp. | Loại hoặc sửa hình học."
+      }
+    },
+    {
+      "id": "G2",
+      "evidence": {
+        "source": "new",
+        "id": "T02 R003",
+        "text": "G2 | Liên tục và đúng chiều | Không đứt mạng; không đi ngược chiều; tuân thủ hạn chế rẽ. | Loại hoặc sinh lại tuyến."
+      }
+    },
+    {
+      "id": "G3",
+      "evidence": {
+        "source": "new",
+        "id": "T02 R004",
+        "text": "G3 | Thuần vùng | Tuyến trong vùng: P_vùng=100%; tuyến ngoài vùng: P_vùng=0% (nếu thiết kế nghiên cứu yêu cầu hai bộ thuần vùng). | Chuyển sang tuyến chuyển tiếp/dự phòng nếu không đạt."
+      }
+    },
+    {
+      "id": "G4",
+      "evidence": {
+        "source": "new",
+        "id": "T02 R005",
+        "text": "G4 | Ổn định | Không phụ thuộc công trình hay phân luồng tạm để tồn tại. | Chờ khảo sát lại hoặc thay tuyến."
+      }
+    },
+    {
+      "id": "G5",
+      "evidence": {
+        "source": "new",
+        "id": "T02 R006",
+        "text": "G5 | Khả năng lặp | Có thể chạy lại cùng hành lang trong nhiều ngày/khung giờ. | Loại khỏi tập đo chính."
+      }
+    },
+    {
+      "id": "G6",
+      "evidence": {
+        "source": "new",
+        "id": "T02 R007",
+        "text": "G6 | An toàn thực địa | Điểm đầu/cuối và thao tác quay đầu/dừng thiết bị có thể thực hiện an toàn. | Điều chỉnh điểm neo hoặc tuyến."
+      }
+    }
+  ],
+  "pre_survey_application": {
+    "known_geometry_or_direction_violations": "Keep actual GIS checks and recorded correction/removal reasons; not interpreted as field verification.",
+    "field_unknowns": "Missing field evidence does not stop or reduce requested 30. Preserve unknown/survey_required flags and inspection questions.",
+    "post_survey_lock": "Only after survey, update observed values separately from raw OSM and recompute metrics/gates before final lock."
+  },
+  "quota_evidence": [
+    {
+      "source": "current_user_instruction",
+      "id": "2026-10-06 ABC redesign",
+      "text": "60 candidates:20A/20B/20C. Select30:18insideLEZ2030, including10A and8B;12outsideLEZ2030 fromC. Preserve criteria and matrix-based algorithm."
+    },
+    {
+      "source": "abc",
+      "id": "OOXML body TABLE44 R1-R4",
+      "text": "A | 20 | Lõi vùng phát thải thấp | 10; B | 20 | Chuyển tiếp chính sách | 8; C | 20 | Đối chứng ổn định | 12; Tổng | 60 | Bao phủ toàn bộ cấu trúc nghiên cứu | 30"
+    },
+    {
+      "source": "abc",
+      "id": "OOXML body P43",
+      "text": "Để cân bằng giữa độ phủ không gian và khả năng theo dõi chính sách, có thể dùng cấu trúc ứng viên 20–20–20. Đây là phương án thiết kế ban đầu, không phải tỷ lệ bắt buộc."
+    }
+  ],
+  "thresholds": {
+    "target_share_baseline_pct": 30,
+    "target_share_sensitivity_pct": [
+      25,
+      40
+    ],
+    "overlap_bands_pct": [
+      30,
+      50,
+      70
+    ],
+    "overlap_review_pct": 50,
+    "overlap_sensitivity_pct": [
+      40,
+      60
+    ],
+    "very_high_overlap_pct": 70,
+    "feature_distance_small_threshold": null,
+    "saturation_pct": 2,
+    "saturation_sensitivity_pct": [
+      1,
+      3
+    ],
+    "saturation_window_steps": [
+      2,
+      3
+    ],
+    "saturation_consecutive_checks": 3,
+    "Jaccard_required_threshold": null
+  },
+  "workflow": [
+    "Inventory and hash ABC boundaries, cached LEZ normalization, motorcycle network and the new60ABC routes; preserve raw sources and historical L/O bundles.",
+    "Run GIS checks; label G1/G4/G5/G6 field portions as unknown/survey_required. Lack of field data is not an exclusion under current user instruction.",
+    "Build q and route cell-length matrix on12ABCxRC cells, separate LEZ domain metrics, O(60x60), dX(60x60) and declared proxy/missing flags.",
+    "Identify existing non-negligible cells/tiers that require representation; do not impose nonexistent cells.",
+    "Greedy select under exact10A/8B/12C and18inside/12outside quotas: re-evaluate DeltaD, Gap, Omax, dmin, C3, C7 and normalized Score every round.",
+    "Tie-break DeltaD descending, then Omax ascending, then field/proxy feasibility descending, finally stable route_id for determinism.",
+    "Try swaps preserving ABC and LEZ quotas and declared coverage/diversity constraints; store evaluated substitutions and reasons. Keep overlap>=50 review records; >=70 with similar features requires explanation.",
+    "Run weight sensitivity C1/C2 and C4/C5 +20% with re-normalization, overlap40/60, target-share25/40; compare D_in,D_out, overlap, quotas and Jaccard.",
+    "Export exactly30 proposed_for_survey with selection rationale, GIS metrics, proxy/unknown field status, alternates and field checklist. No claim final legal validation.",
+    "Survey preliminarily, revise route/field values, re-score/reselect if needed, then lock final geometry and plan repeated speed-time measurements."
+  ],
+  "workflow_evidence": [
+    {
+      "source": "new",
+      "id": "P0111",
+      "text": "Không chọn 30 tuyến bằng một bảng điểm tĩnh. Sử dụng thuật toán chọn tuần tự có ràng buộc: sau mỗi lần thêm tuyến, tính lại độ phủ, deficit, ΔD, O_max, d_min và điểm tổng của các tuyến còn lại. Cách này làm giảm nguy cơ 10–15 tuyến đầu cùng “ăn” một loại lợi ích rồi khiến các tầng hiếm bị bỏ trống."
+    },
+    {
+      "source": "new",
+      "id": "P0113",
+      "text": "Lọc 60 tuyến qua G1–G6. Tuyến không đạt được chuyển sang SỬA/ĐỔI TUYẾN/LOẠI trước khi chấm điểm."
+    },
+    {
+      "source": "new",
+      "id": "P0114",
+      "text": "Tính q(h,k) từ toàn mạng mục tiêu sau lọc xe máy."
+    },
+    {
+      "source": "new",
+      "id": "P0115",
+      "text": "Tính ma trận 60×60 của O(i,j) và ma trận khoảng cách hạ tầng d_X(i,j)."
+    },
+    {
+      "source": "new",
+      "id": "P0116",
+      "text": "Xác định các ô bắt buộc phải có đại diện dựa trên tỷ trọng mạng và ý nghĩa nghiên cứu; không ép ô không tồn tại hoặc quá nhỏ."
+    },
+    {
+      "source": "new",
+      "id": "P0117",
+      "text": "Khởi tạo S = ∅."
+    },
+    {
+      "source": "new",
+      "id": "P0119",
+      "text": "Với mỗi tuyến i chưa chọn, tính ΔDᵢ(S), Gapᵢ(S), O_max(i,S), d_min(i,S), điểm đa dạng, điểm thực địa và điểm vai trò không gian."
+    },
+    {
+      "source": "new",
+      "id": "P0120",
+      "text": "Chuẩn hóa các tiêu chí và tính Scoreᵢ(S)."
+    },
+    {
+      "source": "new",
+      "id": "P0121",
+      "text": "Loại tạm thời tuyến vi phạm hard constraint về quota/tầng hoặc tuyến làm mất khả năng hoàn thành các ô bắt buộc sau này."
+    },
+    {
+      "source": "new",
+      "id": "P0122",
+      "text": "Chọn tuyến có Score cao nhất; khi hòa điểm, ưu tiên ΔD lớn hơn, sau đó O_max thấp hơn, sau đó feasibility cao hơn."
+    },
+    {
+      "source": "new",
+      "id": "P0123",
+      "text": "Thêm tuyến vào S, cập nhật q_S(h,k), deficit và ma trận trạng thái."
+    },
+    {
+      "source": "new",
+      "id": "P0124",
+      "text": "Chạy kiểm tra trùng với các tuyến vừa chọn. Nếu cặp mới vượt ngưỡng rất cao và d_X nhỏ, thử phương án thay thế tuyến có điểm biên thấp hơn."
+    },
+    {
+      "source": "new",
+      "id": "P0125",
+      "text": "Lặp đến khi |S|=30 hoặc quy tắc dừng sớm cho thấy không thể đạt các điều kiện bắt buộc."
+    },
+    {
+      "source": "new",
+      "id": "P0134",
+      "text": "Tất cả 30 tuyến đạt G1–G6 sau khảo sát sơ bộ và khóa hình học."
+    },
+    {
+      "source": "new",
+      "id": "P0143",
+      "text": "Sau khi có 30 tuyến, với từng tuyến j∈S và từng tuyến i∉S, thử S′=(S−{j})∪{i}. Nếu S′ giảm D rõ rệt, giảm O_max hoặc cải thiện coverage mà không làm giảm feasibility, ghi nhận là phương án tốt hơn. Dừng khi một vòng swap đầy đủ không còn cải thiện đáng kể."
+    }
+  ],
+  "sensitivity_evidence": [
+    {
+      "source": "new",
+      "id": "P0068",
+      "text": "Tổng trọng số: 100%. Đây là bộ trọng số đề xuất để chạy thử; cần kiểm tra độ nhạy bằng ít nhất hai cấu hình thay thế, ví dụ ±20% cho C1/C4 và tái chuẩn hóa tổng về 100%."
+    },
+    {
+      "source": "new",
+      "id": "P0093",
+      "text": "Ngưỡng 30% trong tài liệu nguồn được giữ làm giá trị thử nghiệm ban đầu; cần kiểm tra độ nhạy trong khoảng 25–40%. Không áp cứng cho ô hiếm hoặc ô có mạng quá ngắn."
+    },
+    {
+      "source": "new",
+      "id": "P0098",
+      "text": "Quy tắc cờ đề xuất: O<30%: thấp; 30–<50%: trung bình; 50–<70%: cao; ≥70%: rất cao. Ngưỡng 50% chỉ là cờ xem xét, không phải tự động loại."
+    },
+    {
+      "source": "new",
+      "id": "P0141",
+      "text": "Quy tắc đề xuất để báo cáo: dùng Δn=2 hoặc 3; coi bão hòa khi Improve < 2% trong ba bước liên tiếp và không còn deficit đáng kể ở ô bắt buộc. Ngưỡng 2% cần được trình bày là tiêu chí nghiên cứu đề xuất và kiểm tra độ nhạy với 1% và 3%."
+    },
+    {
+      "source": "new",
+      "id": "T05 R002",
+      "text": "Cơ sở | Trọng số 25/15/15/15/10/10/10; cờ trùng 50%."
+    },
+    {
+      "source": "new",
+      "id": "T05 R003",
+      "text": "Nhấn mạnh độ phủ | Tăng C1 và C2 khoảng 20%, giảm tương ứng các tiêu chí còn lại."
+    },
+    {
+      "source": "new",
+      "id": "T05 R004",
+      "text": "Nhấn mạnh độc lập | Tăng C4 và C5 khoảng 20%."
+    },
+    {
+      "source": "new",
+      "id": "T05 R005",
+      "text": "Ngưỡng trùng thấp | Cờ O≥40%."
+    },
+    {
+      "source": "new",
+      "id": "T05 R006",
+      "text": "Ngưỡng trùng cao | Cờ O≥60%."
+    },
+    {
+      "source": "new",
+      "id": "T05 R007",
+      "text": "P_ô thấp/cao | 25% và 40%."
+    },
+    {
+      "source": "new",
+      "id": "P0146",
+      "text": "J(S₀,Sₐ) = |S₀ ∩ Sₐ| / |S₀ ∪ Sₐ|    (17)"
+    },
+    {
+      "source": "new",
+      "id": "P0147",
+      "text": "J càng cao chứng tỏ lựa chọn ít nhạy với các giả định. Không nên đặt một ngưỡng “chuẩn” nếu chưa chạy dữ liệu; có thể dùng J để so sánh và thảo luận độ ổn định."
+    }
+  ],
+  "survey_evidence": [
+    {
+      "source": "new",
+      "id": "P0150",
+      "text": "Xác minh quyền xe máy trên đúng nhánh/làn và các hạn chế theo thời gian."
+    },
+    {
+      "source": "new",
+      "id": "P0151",
+      "text": "Kiểm tra một chiều, cấm rẽ, điểm quay đầu và thay đổi hình học mới."
+    },
+    {
+      "source": "new",
+      "id": "P0152",
+      "text": "Xác minh số làn, tốc độ giới hạn, vị trí tín hiệu, công trình và phân luồng tạm."
+    },
+    {
+      "source": "new",
+      "id": "P0153",
+      "text": "Đánh giá chất lượng GPS/độ che khuất đô thị ở hành lang khó."
+    },
+    {
+      "source": "new",
+      "id": "P0154",
+      "text": "Chọn điểm bắt đầu/kết thúc an toàn, dễ lặp và không tạo hành vi lái bất thường."
+    },
+    {
+      "source": "new",
+      "id": "P0156",
+      "text": "Tối thiểu cần ghi speed–time theo thời gian đồng bộ. Với mục tiêu mở rộng sang phát thải và tiêu thụ nhiên liệu, nên đồng bộ GPS, tín hiệu tốc độ bánh xe/ECU hoặc OBD nếu khả dụng, fuel-rate và PEMS. Tần suất 1 Hz phù hợp với nhiều nghiên cứu driving-cycle thực địa và đã được sử dụng trong nghiên cứu 30 tuyến tại Hà Nội; các kênh nhanh hơn có thể lưu ở tần suất gốc rồi quy về cùng trục thời gian cho phân tích."
+    },
+    {
+      "source": "new",
+      "id": "P0158",
+      "text": "Mỗi tuyến không nên chỉ đo một lần. Thiết kế phải bao phủ cao điểm sáng, ngoài cao điểm, cao điểm chiều và một phần cuối tuần. Số lượt lặp được phân bổ theo độ biến thiên quan sát: tầng/hành lang có phương sai tốc độ lớn hoặc congestion biến động cao cần nhiều lượt hơn."
+    },
+    {
+      "source": "new",
+      "id": "P0161",
+      "text": "Đồng bộ đồng hồ tất cả thiết bị."
+    },
+    {
+      "source": "new",
+      "id": "P0162",
+      "text": "Kiểm tra bộ nhớ, pin/nguồn, trạng thái bắt vệ tinh và tần suất ghi."
+    },
+    {
+      "source": "new",
+      "id": "P0163",
+      "text": "Zero/span/leak check đối với PEMS theo hướng dẫn thiết bị nếu sử dụng."
+    },
+    {
+      "source": "new",
+      "id": "P0164",
+      "text": "Kiểm tra cảm biến tốc độ/fuel-rate và tín hiệu bất thường."
+    },
+    {
+      "source": "new",
+      "id": "P0165",
+      "text": "Ghi metadata xe, người lái, tải xe, thời tiết, ngày và khung giờ."
+    },
+    {
+      "source": "new",
+      "id": "P0167",
+      "text": "P_bám_tuyến = L_GPS_bám_đúng_tuyến / L_GPS × 100%    (18)"
+    },
+    {
+      "source": "new",
+      "id": "P0168",
+      "text": "Sai_lệch_L = |L_GPS − L_cuối| / L_cuối × 100%    (19)"
+    },
+    {
+      "source": "new",
+      "id": "P0169",
+      "text": "Không dùng riêng sai lệch chiều dài để kết luận chuyến đo hợp lệ; phải kiểm tra map matching và các đoạn lệch hành lang."
+    },
+    {
+      "source": "new",
+      "id": "T06 R002",
+      "text": "Định danh | Route_ID, Trip_ID, Vehicle_ID, Driver_ID, Date, Time_Block"
+    },
+    {
+      "source": "new",
+      "id": "T06 R003",
+      "text": "Không gian | Latitude, Longitude, matched_OSM_edge, zone, RC"
+    },
+    {
+      "source": "new",
+      "id": "T06 R004",
+      "text": "Động học | Timestamp, speed, acceleration, stop flag"
+    },
+    {
+      "source": "new",
+      "id": "T06 R005",
+      "text": "Hạ tầng | lanes, maxspeed, signal, intersection, oneway"
+    },
+    {
+      "source": "new",
+      "id": "T06 R006",
+      "text": "Thiết bị mở rộng | RPM, throttle, fuel_rate, exhaust_flow, CO, CO2, HC, NOx nếu có"
+    },
+    {
+      "source": "new",
+      "id": "T06 R007",
+      "text": "QA/QC | GPS quality, gap flag, field note, construction flag, deviation flag"
+    }
+  ],
+  "inherited_evidence": [
+    {
+      "source": "old",
+      "id": "P0058",
+      "text": "Đơn vị cơ bản để đánh giá độ phủ là chiều dài đoạn đường trong từng ô tầng không gian × RC, không phải số tuyến."
+    },
+    {
+      "source": "old",
+      "id": "P0059",
+      "text": "Tỷ lệ RC1–RC4 không được giả định trước; phải tính từ dữ liệu mạng sau khi lọc xe máy."
+    },
+    {
+      "source": "old",
+      "id": "P0062",
+      "text": "Không ghi đè dữ liệu OSM bằng quan sát thực địa; giữ riêng giá trị gốc, giá trị hiện trường và giá trị cuối sau kiểm soát chất lượng."
+    },
+    {
+      "source": "old",
+      "id": "P0096",
+      "text": "Lớp ranh giới năm 2030 phải được xây dựng từ Nghị quyết số 57/2025/NQ-HĐND và các bản đồ/văn bản triển khai có hiệu lực tại thời điểm khảo sát. Không suy ranh chỉ từ tên đường hoặc chỉ từ một đường vành đai."
+    },
+    {
+      "source": "old",
+      "id": "P0101",
+      "text": "Các tầng dưới đây là khung nghiên cứu để thiết kế mẫu. Ranh cuối phải được số hóa và kiểm tra bằng dữ liệu GIS; không được coi đây là phân vùng pháp lý."
+    },
+    {
+      "source": "old",
+      "id": "P0108",
+      "text": "q(h,k) = L_mạng(h,k) / Σ_h Σ_k L_mạng(h,k)"
+    },
+    {
+      "source": "old",
+      "id": "P0109",
+      "text": "q_mẫu(h,k) = L_mẫu(h,k) / Σ_h Σ_k L_mẫu(h,k)"
+    },
+    {
+      "source": "old",
+      "id": "P0110",
+      "text": "D_kết_hợp = 1/2 × Σ_h Σ_k | q_mẫu(h,k) – q(h,k) |"
+    },
+    {
+      "source": "old",
+      "id": "P0114",
+      "text": "Có thể dùng 30% làm ngưỡng thử nghiệm ban đầu để một tuyến thực sự đóng góp đáng kể cho ô mục tiêu; cần kiểm tra độ nhạy trong khoảng 25–40% trước khi khóa phương pháp. Ô hiếm hoặc ô có tổng chiều dài mạng nhỏ có thể được xử lý riêng."
+    },
+    {
+      "source": "old",
+      "id": "P0116",
+      "text": "O(i,j) = L_chung(i,j) / min(L_i, L_j) × 100%"
+    },
+    {
+      "source": "old",
+      "id": "P0117",
+      "text": "Gắn cờ “cần xem xét” khi O(i,j) từ 50% trở lên. Đây là ngưỡng quản trị mẫu đề xuất, không phải tiêu chuẩn. Quyết định loại chỉ được thực hiện khi hai tuyến vừa trùng hình học cao vừa có đặc trưng hạ tầng gần nhau."
+    },
+    {
+      "source": "old",
+      "id": "P0119",
+      "text": "ΔD_i = D_kết_hợp(S) – D_kết_hợp(S ∪ {i})"
+    },
+    {
+      "source": "old",
+      "id": "P0122",
+      "text": "X_i = [P_RC1, P_RC2, P_RC3, P_RC4, số_làn, tốc_độ_giới_hạn, nút/km, tín_hiệu/km, tỷ_lệ_một_chiều]"
+    },
+    {
+      "source": "old",
+      "id": "P0130",
+      "text": "ô cần phủ → đoạn mạng phù hợp → điểm neo → nhiều phương án đường đi → tính chỉ tiêu → chọn tuyến → trích chuỗi tên đường"
+    },
+    {
+      "source": "old",
+      "id": "P0131",
+      "text": "Một tuyến không được tạo bằng cách viết trước chuỗi tên đường rồi cố gán tiêu chí. Chuỗi tên đường chỉ xuất hiện sau khi phương án hình học được chọn."
+    },
+    {
+      "source": "old",
+      "id": "P0141",
+      "text": "Mỗi ô nên sinh 3–5 phương án khác nhau nếu mạng cho phép. Không mặc định phương án ngắn nhất là phương án tốt nhất. Một phương án dài hơn có thể có giá trị hơn nếu làm giảm D_kết_hợp và không tăng trùng lặp."
+    },
+    {
+      "source": "old",
+      "id": "P0145",
+      "text": "Các ô dưới đây là ô thiết kế. Số tuyến thực tế trong mỗi ô không bắt buộc bằng nhau; sau khi bóc mạng, phân bổ phải theo tỷ trọng chiều dài q(h,k) và mức thiếu độ phủ. Nếu một ô không tồn tại hoặc quá nhỏ, không được cố tạo tuyến chỉ để đủ ma trận."
+    },
+    {
+      "source": "old",
+      "id": "P0186",
+      "text": "Chiều dài tuyến phải được tính dọc theo chuỗi đoạn mạng, không dùng khoảng cách thẳng giữa điểm đầu và điểm cuối."
+    },
+    {
+      "source": "old",
+      "id": "P0188",
+      "text": "Sau khi sửa hình học hoặc chồng lớp, phải tính lại chiều dài. Sau khảo sát sơ bộ, tạo hình học cuối và chiều dài L_cuối."
+    },
+    {
+      "source": "old",
+      "id": "P0191",
+      "text": "Độ tin cậy không được chứng minh chỉ bằng việc chiều dài GPS gần chiều dài GIS. Một chuyến có thể đi đường song song nhưng có chiều dài gần giống; vì vậy phải kiểm tra đồng thời P_bám_tuyến và các điểm lệch hành lang."
+    },
+    {
+      "source": "old",
+      "id": "P0227",
+      "text": "Danh sách L01–L20 và O01–O40 trong tài liệu này là tập hành lang ứng viên kế thừa từ bộ tài liệu trước. Bảng giải thích từng tuyến là khung định lượng để tổ chức lại các hành lang đó. Trước khi dùng làm kết quả luận án hoặc chiến dịch đo, phải chạy đầy đủ quy trình OSM/QGIS, tính ma trận độ phủ, chồng lớp ranh 2030 và kiểm tra thực địa. Không coi các cặp trùng dự kiến trong bảng là kết quả đo trùng hình học; chúng chỉ là danh sách cặp cần ưu tiên kiểm tra."
+    }
+  ],
+  "implementation_decisions_not_specified_by_documents": [
+    "Empty S initialization",
+    "Physical network vs directional arc denominator",
+    "Sample traversal sum vs unique support overlap sensitivity",
+    "C3 specific diversity formula",
+    "C7 exact 0–5 rubric",
+    "dX small/very-small thresholds",
+    "Missing OSM feature imputation",
+    "Unknown C6 neutral/proxy treatment",
+    "Swap objective and minimum improvement threshold",
+    "Exact mandatory-cell importance threshold",
+    "Rounding and stable tie-break after documented criteria",
+    "Exact geometric closure and GIS provenance of Ring Road1 and Ring Road3",
+    "Independent ABC and LEZ2030 intersections used for eligible candidate pools",
+    "Spatial distribution within ABC groups and fine legacy-strata audit"
+  ],
+  "production_modified": false,
+  "source_documents_modified": false,
+  "notes": "Paragraph/table IDs are direct OOXML extraction locators, not rendered page numbers. Document instructions are source content; current user request controls the execution stage. Updated2026-10-06: current instruction replaces prior20/40 candidates and12/18 selection; legacy quotas/evidence remain explicitly historical. ABC document has no coordinate or GIS polygon. New evidence IDs refer to child indices in word/document.xml body, not page numbers.\n2026-10-06 user update: LEZ first. A uses official2027pilot, not entireRing1; adjusted population/activity LEZ no longer determines currentABC. Field unknowns preserved.",
+  "updated_date": "2026-10-06",
+  "design_version": "LEZ_FIRST_2027_2030_20261006",
+  "legacy_current_request": {
+    "selection_count": 30,
+    "quota_in": 12,
+    "quota_out": 18,
+    "zone_scope": "research LEZ 2030",
+    "field_data_required_before_selection": false,
+    "stage_label": "proposed_for_survey",
+    "missing_field_status": "unknown/survey_required"
+  },
+  "legacy_quota_evidence": [
+    {
+      "source": "new",
+      "id": "P0127",
+      "text": "Nếu mục tiêu nghiên cứu tiếp tục theo cấu trúc đã định hướng trước đây, có thể đặt quota 12 tuyến trong vùng + 18 tuyến ngoài vùng. Đây là ràng buộc thiết kế mẫu, không phải kết quả tự động từ trọng số. Khi dùng quota, thuật toán phải chọn riêng theo hai pool hoặc dùng ràng buộc |S_in|=12 và |S_out|=18, đồng thời vẫn tối ưu D_in và D_out. Nếu sau bóc tách mạng cho thấy cơ cấu thực tế khác mạnh, cần báo cáo phân tích độ nhạy với các quota lân cận (ví dụ 11/19 và 13/17)."
+    },
+    {
+      "source": "new",
+      "id": "P0133",
+      "text": "Đủ đúng 30 tuyến (hoặc đúng quota 12/18 nếu áp dụng)."
+    }
+  ],
+  "abc_evidence": [
+    {
+      "source": "abc",
+      "id": "OOXML body TABLE17 R1-R3",
+      "text": "A | Trong Vành đai 1; B | Khoảng Vành đai 1 – Vành đai 3; C | Ngoài Vành đai 3"
+    },
+    {
+      "source": "abc",
+      "id": "OOXML body P37",
+      "text": "Không nên gán trạng thái vùng phát thải thấp chỉ theo mã tuyến. Mỗi chuyến đo phải được gắn trạng thái theo ngày đo và phiên bản chính sách đang có hiệu lực."
+    },
+    {
+      "source": "abc",
+      "id": "OOXML body TABLE38 R1-R7",
+      "text": "Mã tuyến; Ngày khảo sát; Nhóm không gian A/B/C; Trạng thái vùng tại thời điểm đo; Phiên bản chính sách; Cấp đường; Mã chuyến."
+    },
+    {
+      "source": "abc",
+      "id": "OOXML body TABLE83 R5",
+      "text": "Dùng tuyến vượt ranh | Dữ liệu trong/ngoài bị pha trộn | Khóa hình học bằng QGIS và gắn trạng thái không gian theo toàn bộ tuyến."
+    },
+    {
+      "source": "abc",
+      "id": "OOXML body P49, TABLE50, P52-P54",
+      "text": "Ba nhóm không đồng nghĩa với ba chu trình lái. Trong vùng=A+B_sau; ngoài vùng=C+B_trước. Dùng A và C làm lõi, B cho kiểm định và so sánh trước–sau."
+    }
+  ],
+  "temporal_policy_metadata": {
+    "route_fields": [
+      "route_id",
+      "sampling_zone",
+      "group",
+      "policy_version"
+    ],
+    "measurement_fields": [
+      "trip_id",
+      "route_id",
+      "measurement_date",
+      "sampling_zone",
+      "lez_status_at_measurement",
+      "policy_version"
+    ],
+    "rule": "Resolve policy status at measurement date; group in current candidate/selection tables is the LEZ2030 design scenario only.",
+    "B_before_after": "Keep the same route identity/geometry when possible; do not mix before/after policy states."
+  },
+  "design_history": [
+    {
+      "design_version": "ABC_20_20_20__10_8_12_LEZ2030",
+      "request": {
+        "instruction_date": "2026-10-06",
+        "candidate_count": 60,
+        "candidate_quota_by_sampling_zone": {
+          "A": 20,
+          "B": 20,
+          "C": 20
+        },
+        "candidate_quota_by_lez2030_group": {
+          "inside": 40,
+          "outside": 20
+        },
+        "selection_count": 30,
+        "quota_in": 18,
+        "quota_out": 12,
+        "selection_quota_by_sampling_zone": {
+          "A": 10,
+          "B": 8,
+          "C": 12
+        },
+        "sampling_zone_definitions": {
+          "A": "inside Ring Road 1",
+          "B": "between Ring Road 1 and Ring Road 3",
+          "C": "outside Ring Road 3"
+        },
+        "required_lez2030_group_by_sampling_zone": {
+          "A": "inside",
+          "B": "inside",
+          "C": "outside"
+        },
+        "zone_scope": "research LEZ 2030, classified independently of ABC",
+        "matrix": "12 primary cells: sampling_zone A/B/C x RC1-RC4; optional fine ABC x legacy V/N x RC audit",
+        "legacy_15_primary_strata_hard_constraint": false,
+        "criteria_and_selection_algorithm": "preserve C1-C7, weights, per-round normalization, constrained greedy and swaps",
+        "field_data_required_before_selection": false,
+        "stage_label": "proposed_for_survey",
+        "missing_field_status": "unknown/survey_required"
+      }
+    }
+  ]
+}

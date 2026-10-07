@@ -1,0 +1,28 @@
+{
+  "method_version": "ABC_fixed_quota_sensitivity_v1",
+  "purpose": "Pre-survey robustness, not field validation or automatic replacement of the published 30",
+  "weight_relative_change": 0.2,
+  "cell_thresholds": [0.25, 0.3, 0.4],
+  "overlap_review_thresholds": [0.4, 0.5, 0.6],
+  "lane_missing_component_shift": 1.0,
+  "speed_missing_component_shift_kmh": 10.0,
+  "lane_model_bounds": [1.0, 8.0],
+  "speed_model_bounds_kmh": [10.0, 90.0],
+  "C6_feasible_assumption_values": [1, 2, 3, 4, 5],
+  "C6_zero_policy": "exclude_candidate_in_simulated_availability_scenario",
+  "C6_random_runs_per_scaling": 16,
+  "combined_random_runs": 16,
+  "random_seed": 20261007,
+  "single_route_unavailability": "each_of_the_30_baseline_routes",
+  "quota_infeasibility_diagnostic": true,
+  "normalization_fit_population": "all_60_candidates_in_each_scenario",
+  "zscore_ddof": 0,
+  "constant_X_tolerance": 1e-12,
+  "notes": [
+    "Weight and cell/review ranges follow the research source; the lane/speed shock sizes, bounds and random scenario count are explicit analyst stress assumptions.",
+    "Random C6 1-5 scenarios assume routes are still feasible. C6=0 is tested separately by simulated exclusion; neither creates observations or changes gates.",
+    "Min-max and z-score apply to X for C5; criterion C1-C5 score normalization stays min-max per greedy round.",
+    "Quantile bins use canonical min-max ranks to prevent floating-point tie changes when only X scaling changes.",
+    "No quota or boundary perturbation: the user-fixed A10/B8/C12 design is retained."
+  ]
+}

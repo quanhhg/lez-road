@@ -1,0 +1,533 @@
+{
+  "schema_version": 1,
+  "method_version": "2030_sampling_v1",
+  "policy": "config/sampling_boundary_policy.json",
+  "source_snapshot_utc": "2026-10-01T00:00:00Z",
+  "boundary_admin_path": "data/processed/admin_units.gpkg",
+  "network_path": "data/processed/network.gpkg",
+  "graph_path": "data/processed/motorcycle_graph.json.gz",
+  "draft_zones_path": "data/processed/zones_draft.gpkg",
+  "population_input": "data/interim/sampling/population_admin.json",
+  "activity_input": "data/interim/sampling/activity_features.json",
+  "boundary_band_m": 1000,
+  "classification_weights": {
+    "population_density": 0.5,
+    "activity_density": 0.5
+  },
+  "score_threshold": 0.5,
+  "route_design": {
+    "status": "provisional_candidates_not_final_survey_parameters",
+    "topology": "open_3_anchors",
+    "urban_min_m": 2500,
+    "urban_max_m": 12000,
+    "outside_min_m": 5000,
+    "outside_max_m": 25000,
+    "target_cell_min_fraction": 0.3,
+    "max_corridor_similarity": 0.7,
+    "overlap_review_fraction": 0.5,
+    "attempts_per_target": 30,
+    "max_search_states": 250000,
+    "minimum_anchor_separation_m": 400,
+    "field_access_required_for_final": true,
+    "minimum_anchor_safety_verified": false
+  },
+  "targets": [
+    {
+      "route_id": "L01",
+      "stratum_id": "V1",
+      "rc_target": "RC2",
+      "target_cells": "V1×RC2; phụ V1×RC3",
+      "reference_overlap_group": "L02, L10, L15",
+      "required_features": "một chiều; tín hiệu; quyền lưu thông theo thời gian"
+    },
+    {
+      "route_id": "L02",
+      "stratum_id": "V1",
+      "rc_target": "RC1",
+      "target_cells": "V1×RC1; phụ V1×RC2",
+      "reference_overlap_group": "L01, L10",
+      "required_features": "số làn; nút lớn; tín hiệu"
+    },
+    {
+      "route_id": "L03",
+      "stratum_id": "V2",
+      "rc_target": "RC1",
+      "target_cells": "V2×RC1; phụ V2×RC2",
+      "reference_overlap_group": "L07, L17",
+      "required_features": "số làn; tốc độ giới hạn; tín hiệu"
+    },
+    {
+      "route_id": "L04",
+      "stratum_id": "V2",
+      "rc_target": "RC3",
+      "target_cells": "V2×RC3; phụ V2×RC2",
+      "reference_overlap_group": "L08, L18",
+      "required_features": "mật độ nút; dừng–khởi hành"
+    },
+    {
+      "route_id": "L05",
+      "stratum_id": "V3",
+      "rc_target": "RC1",
+      "target_cells": "V3×RC1; phụ V3×RC2",
+      "reference_overlap_group": "L06, L15, L20",
+      "required_features": "cấp đường; số làn; tín hiệu"
+    },
+    {
+      "route_id": "L06",
+      "stratum_id": "V3",
+      "rc_target": "RC1",
+      "target_cells": "V3×RC1; phụ V3×RC2",
+      "reference_overlap_group": "L05, L20",
+      "required_features": "điểm gần ranh; quyền xe máy; số làn"
+    },
+    {
+      "route_id": "L07",
+      "stratum_id": "V2",
+      "rc_target": "RC2",
+      "target_cells": "V2×RC2; phụ V2×RC1",
+      "reference_overlap_group": "L03, L17",
+      "required_features": "số làn; tốc độ; nút lớn"
+    },
+    {
+      "route_id": "L08",
+      "stratum_id": "V4",
+      "rc_target": "RC3",
+      "target_cells": "V4×RC3; phụ V4×RC1",
+      "reference_overlap_group": "L04, L18",
+      "required_features": "một chiều; mật độ nút"
+    },
+    {
+      "route_id": "L09",
+      "stratum_id": "V4",
+      "rc_target": "RC1",
+      "target_cells": "V4×RC1; phụ V4×RC2",
+      "reference_overlap_group": "L11, L19",
+      "required_features": "số làn; tín hiệu; nút giao"
+    },
+    {
+      "route_id": "L10",
+      "stratum_id": "V1",
+      "rc_target": "RC2",
+      "target_cells": "V1×RC2; phụ V1×RC1",
+      "reference_overlap_group": "L01, L02, L19",
+      "required_features": "mật độ tín hiệu; số làn"
+    },
+    {
+      "route_id": "L11",
+      "stratum_id": "V4",
+      "rc_target": "RC2",
+      "target_cells": "V4×RC2; phụ V4×RC3",
+      "reference_overlap_group": "L09, L18, L19",
+      "required_features": "nút; số làn; công trình"
+    },
+    {
+      "route_id": "L12",
+      "stratum_id": "V5",
+      "rc_target": "RC3",
+      "target_cells": "V5×RC3; phụ V5×RC2",
+      "reference_overlap_group": "L11, L14, L19",
+      "required_features": "cấp đường; tín hiệu"
+    },
+    {
+      "route_id": "L13",
+      "stratum_id": "V5",
+      "rc_target": "RC1",
+      "target_cells": "V5×RC1; phụ V5×RC2",
+      "reference_overlap_group": "L14",
+      "required_features": "cầu/đường gom; quyền xe máy"
+    },
+    {
+      "route_id": "L14",
+      "stratum_id": "V5",
+      "rc_target": "RC2",
+      "target_cells": "V5×RC2; phụ V5×RC3/RC4",
+      "reference_overlap_group": "L12, L13",
+      "required_features": "nút; tín hiệu; đường địa phương"
+    },
+    {
+      "route_id": "L15",
+      "stratum_id": "V3",
+      "rc_target": "RC2",
+      "target_cells": "V3×RC2; phụ V3×RC3",
+      "reference_overlap_group": "L01, L05, L20",
+      "required_features": "một chiều; mật độ nút"
+    },
+    {
+      "route_id": "L16",
+      "stratum_id": "V2",
+      "rc_target": "RC3",
+      "target_cells": "V2×RC3; phụ V2×RC1",
+      "reference_overlap_group": "L03, L05, L06",
+      "required_features": "chuyển đổi cấp đường"
+    },
+    {
+      "route_id": "L17",
+      "stratum_id": "V3",
+      "rc_target": "RC3",
+      "target_cells": "V3×RC3; phụ V3×RC1",
+      "reference_overlap_group": "L03, L07, L20",
+      "required_features": "tín hiệu; số làn; tốc độ"
+    },
+    {
+      "route_id": "L18",
+      "stratum_id": "V4",
+      "rc_target": "RC3",
+      "target_cells": "V4×RC3; phụ V4×RC1",
+      "reference_overlap_group": "L08, L11, L19",
+      "required_features": "nút; đường gom; quyền xe máy"
+    },
+    {
+      "route_id": "L19",
+      "stratum_id": "V4",
+      "rc_target": "RC2",
+      "target_cells": "V4×RC2; phụ V4×RC3",
+      "reference_overlap_group": "L09, L10, L11, L18",
+      "required_features": "tín hiệu; mật độ nút"
+    },
+    {
+      "route_id": "L20",
+      "stratum_id": "V3",
+      "rc_target": "RC2",
+      "target_cells": "V3×RC2; phụ V3×RC1",
+      "reference_overlap_group": "L05, L06, L15, L17",
+      "required_features": "điểm gần ranh; số làn; tốc độ"
+    },
+    {
+      "route_id": "O01",
+      "stratum_id": "N1",
+      "rc_target": "RC1",
+      "target_cells": "N1×RC1; phụ N1×RC2",
+      "reference_overlap_group": "O02, O05",
+      "required_features": "điểm cắt ranh; tốc độ; số làn"
+    },
+    {
+      "route_id": "O02",
+      "stratum_id": "N1",
+      "rc_target": "RC2",
+      "target_cells": "N1×RC2; phụ N1×RC1",
+      "reference_overlap_group": "O01, O05",
+      "required_features": "số làn; tín hiệu; đô thị mới"
+    },
+    {
+      "route_id": "O03",
+      "stratum_id": "N2",
+      "rc_target": "RC1",
+      "target_cells": "N2×RC1; phụ N2×RC2",
+      "reference_overlap_group": "O05, O06",
+      "required_features": "quyền xe máy; đường gom"
+    },
+    {
+      "route_id": "O04",
+      "stratum_id": "N2",
+      "rc_target": "RC2",
+      "target_cells": "N2×RC2; phụ N2×RC1",
+      "reference_overlap_group": "O06, O07",
+      "required_features": "tốc độ; nút; quyền xe máy"
+    },
+    {
+      "route_id": "O05",
+      "stratum_id": "N1",
+      "rc_target": "RC3",
+      "target_cells": "N1×RC3; phụ N1×RC2",
+      "reference_overlap_group": "O01, O02, O06",
+      "required_features": "cấp đường; công trình"
+    },
+    {
+      "route_id": "O06",
+      "stratum_id": "N2",
+      "rc_target": "RC4",
+      "target_cells": "N2×RC4; phụ N2×RC2",
+      "reference_overlap_group": "O04, O05, O07",
+      "required_features": "đường địa phương; nút"
+    },
+    {
+      "route_id": "O07",
+      "stratum_id": "N2",
+      "rc_target": "RC3",
+      "target_cells": "N2×RC3; phụ N2×RC2",
+      "reference_overlap_group": "O04, O06",
+      "required_features": "tốc độ; số làn; quyền tiếp cận cục bộ"
+    },
+    {
+      "route_id": "O08",
+      "stratum_id": "N3",
+      "rc_target": "RC2",
+      "target_cells": "N3×RC2; phụ N3×RC3",
+      "reference_overlap_group": "O09, O39",
+      "required_features": "cấp đường; nút"
+    },
+    {
+      "route_id": "O09",
+      "stratum_id": "N3",
+      "rc_target": "RC1",
+      "target_cells": "N3×RC1; phụ N3×RC3",
+      "reference_overlap_group": "O08, O39",
+      "required_features": "tốc độ; chạy đều; nút thưa"
+    },
+    {
+      "route_id": "O10",
+      "stratum_id": "N4",
+      "rc_target": "RC2",
+      "target_cells": "N4×RC2; phụ N4×RC3",
+      "reference_overlap_group": "O11, O40",
+      "required_features": "đô thị vệ tinh; tín hiệu"
+    },
+    {
+      "route_id": "O11",
+      "stratum_id": "N4",
+      "rc_target": "RC1",
+      "target_cells": "N4×RC1; phụ N4×RC3",
+      "reference_overlap_group": "O10, O40",
+      "required_features": "tốc độ; chạy đều"
+    },
+    {
+      "route_id": "O12",
+      "stratum_id": "N5",
+      "rc_target": "RC1",
+      "target_cells": "N5×RC1; phụ N5×RC2",
+      "reference_overlap_group": "O13, O23",
+      "required_features": "tốc độ; số làn; nút"
+    },
+    {
+      "route_id": "O13",
+      "stratum_id": "N5",
+      "rc_target": "RC1",
+      "target_cells": "N5×RC1; phụ N5×RC2",
+      "reference_overlap_group": "O12, O23, O39",
+      "required_features": "quyền xe máy; tốc độ"
+    },
+    {
+      "route_id": "O14",
+      "stratum_id": "N5",
+      "rc_target": "RC3",
+      "target_cells": "N5×RC3; phụ N5×RC2",
+      "reference_overlap_group": "O15, O22, O23",
+      "required_features": "cấp đường; nút; quyền tiếp cận cục bộ"
+    },
+    {
+      "route_id": "O15",
+      "stratum_id": "N5",
+      "rc_target": "RC4",
+      "target_cells": "N5×RC4; phụ N5×RC2",
+      "reference_overlap_group": "O14, O23",
+      "required_features": "đường địa phương; tín hiệu"
+    },
+    {
+      "route_id": "O16",
+      "stratum_id": "N7",
+      "rc_target": "RC1",
+      "target_cells": "N7×RC1; phụ N7×RC2",
+      "reference_overlap_group": "O17, O22",
+      "required_features": "tốc độ; nút; chạy đều"
+    },
+    {
+      "route_id": "O17",
+      "stratum_id": "N7",
+      "rc_target": "RC3",
+      "target_cells": "N7×RC3; phụ N7×RC1",
+      "reference_overlap_group": "O16, O24",
+      "required_features": "tốc độ; chuyển tiếp địa phương"
+    },
+    {
+      "route_id": "O18",
+      "stratum_id": "N6",
+      "rc_target": "RC1",
+      "target_cells": "N6×RC1; phụ N6×RC2",
+      "reference_overlap_group": "O19, O21",
+      "required_features": "điểm ngoài ranh; tốc độ"
+    },
+    {
+      "route_id": "O19",
+      "stratum_id": "N6",
+      "rc_target": "RC1",
+      "target_cells": "N6×RC1; phụ N6×RC2",
+      "reference_overlap_group": "O18, O20",
+      "required_features": "tốc độ; nút thưa"
+    },
+    {
+      "route_id": "O20",
+      "stratum_id": "N6",
+      "rc_target": "RC4",
+      "target_cells": "N6×RC4; phụ N6×RC2",
+      "reference_overlap_group": "O19, O21, O22",
+      "required_features": "cấp đường; quyền tiếp cận cục bộ"
+    },
+    {
+      "route_id": "O21",
+      "stratum_id": "N6",
+      "rc_target": "RC3",
+      "target_cells": "N6×RC3; phụ N6×RC2",
+      "reference_overlap_group": "O18, O20, O22",
+      "required_features": "quyền xe máy; nút; công trình"
+    },
+    {
+      "route_id": "O22",
+      "stratum_id": "N6",
+      "rc_target": "RC2",
+      "target_cells": "N6×RC2; phụ N6×RC3",
+      "reference_overlap_group": "O14, O21",
+      "required_features": "đường ngang; nút"
+    },
+    {
+      "route_id": "O23",
+      "stratum_id": "N5",
+      "rc_target": "RC2",
+      "target_cells": "N5×RC2; phụ N5×RC4",
+      "reference_overlap_group": "O12, O13, O14, O15",
+      "required_features": "đường địa phương/thu gom; mật độ nút"
+    },
+    {
+      "route_id": "O24",
+      "stratum_id": "N7",
+      "rc_target": "RC4",
+      "target_cells": "N7×RC4; phụ N7×RC2",
+      "reference_overlap_group": "O17",
+      "required_features": "đường nông thôn/địa phương; tốc độ"
+    },
+    {
+      "route_id": "O25",
+      "stratum_id": "N8",
+      "rc_target": "RC2",
+      "target_cells": "N8×RC2; phụ N8×RC3",
+      "reference_overlap_group": "O27, O28, O30",
+      "required_features": "xác minh ngoài ranh; nút"
+    },
+    {
+      "route_id": "O26",
+      "stratum_id": "N8",
+      "rc_target": "RC4",
+      "target_cells": "N8×RC4; phụ N8×RC2",
+      "reference_overlap_group": "O27, O29",
+      "required_features": "quyền tiếp cận cục bộ; nút; số làn"
+    },
+    {
+      "route_id": "O27",
+      "stratum_id": "N8",
+      "rc_target": "RC3",
+      "target_cells": "N8×RC3; phụ N8×RC4",
+      "reference_overlap_group": "O25, O26, O29",
+      "required_features": "đường địa phương/thu gom"
+    },
+    {
+      "route_id": "O28",
+      "stratum_id": "N8",
+      "rc_target": "RC2",
+      "target_cells": "N8×RC2; phụ N8×RC4",
+      "reference_overlap_group": "O25, O30",
+      "required_features": "ranh 2030; cấp đường"
+    },
+    {
+      "route_id": "O29",
+      "stratum_id": "N8",
+      "rc_target": "RC4",
+      "target_cells": "N8×RC4; phụ N8×RC3",
+      "reference_overlap_group": "O26, O27",
+      "required_features": "đường địa phương; nút"
+    },
+    {
+      "route_id": "O30",
+      "stratum_id": "N8",
+      "rc_target": "RC3",
+      "target_cells": "N8×RC3; phụ N8×RC2",
+      "reference_overlap_group": "O25, O28",
+      "required_features": "cấp đường; tốc độ"
+    },
+    {
+      "route_id": "O31",
+      "stratum_id": "N9",
+      "rc_target": "RC1",
+      "target_cells": "N9×RC1; phụ N9×RC3",
+      "reference_overlap_group": "O33, O38",
+      "required_features": "tốc độ; xe tải; nút"
+    },
+    {
+      "route_id": "O32",
+      "stratum_id": "N9",
+      "rc_target": "RC4",
+      "target_cells": "N9×RC4; phụ N9×RC2",
+      "reference_overlap_group": "O38",
+      "required_features": "đường thu gom/địa phương"
+    },
+    {
+      "route_id": "O33",
+      "stratum_id": "N9",
+      "rc_target": "RC2",
+      "target_cells": "N9×RC2; phụ N9×RC1",
+      "reference_overlap_group": "O31, O38",
+      "required_features": "tốc độ; quyền xe máy"
+    },
+    {
+      "route_id": "O34",
+      "stratum_id": "N10",
+      "rc_target": "RC1",
+      "target_cells": "N10×RC1; phụ N10×RC2",
+      "reference_overlap_group": "O35, O37",
+      "required_features": "loại trừ khu Nội Bài; tốc độ"
+    },
+    {
+      "route_id": "O35",
+      "stratum_id": "N10",
+      "rc_target": "RC3",
+      "target_cells": "N10×RC3; phụ N10×RC4",
+      "reference_overlap_group": "O34, O37",
+      "required_features": "đường địa phương/thu gom"
+    },
+    {
+      "route_id": "O36",
+      "stratum_id": "N10",
+      "rc_target": "RC4",
+      "target_cells": "N10×RC4; phụ N10×RC2",
+      "reference_overlap_group": "O35, O37",
+      "required_features": "xác minh không thuộc Nội Bài"
+    },
+    {
+      "route_id": "O37",
+      "stratum_id": "N10",
+      "rc_target": "RC2",
+      "target_cells": "N10×RC2; phụ N10×RC4",
+      "reference_overlap_group": "O34, O35, O36",
+      "required_features": "đường ven đô/nông thôn"
+    },
+    {
+      "route_id": "O38",
+      "stratum_id": "N9",
+      "rc_target": "RC3",
+      "target_cells": "N9×RC3; phụ N9×RC2",
+      "reference_overlap_group": "O31, O32, O33",
+      "required_features": "cấp đường; nút"
+    },
+    {
+      "route_id": "O39",
+      "stratum_id": "N3",
+      "rc_target": "RC1",
+      "target_cells": "N3×RC1; phụ N3×RC2",
+      "reference_overlap_group": "O08, O09, O13",
+      "required_features": "tốc độ; chạy đều"
+    },
+    {
+      "route_id": "O40",
+      "stratum_id": "N4",
+      "rc_target": "RC1",
+      "target_cells": "N4×RC1; phụ N4×RC2",
+      "reference_overlap_group": "O10, O11",
+      "required_features": "tốc độ; nút thưa"
+    }
+  ],
+  "remaining_admin_assignments": {
+    "Thiên Lộc": "N9",
+    "Hồng Hà": "N1",
+    "Hoàng Liệt": "N1",
+    "Yên Sở": "N1",
+    "Lĩnh Nam": "N8",
+    "Thanh Trì": "N6",
+    "Đại Thanh": "N6",
+    "Ngọc Hồi": "N6",
+    "Nam Phù": "N6",
+    "Phúc Thọ": "N2",
+    "Hát Môn": "N2",
+    "Liên Minh": "N2",
+    "Phúc Lộc": "N2"
+  },
+  "remaining_admin_assignment_status": "explicit_research_nearest_region_proposal_user_authorized_automation",
+  "cross_domain_assignment": "shared_edge_to_matching_domain_strata_else_nearest_explicit_stratum"
+}

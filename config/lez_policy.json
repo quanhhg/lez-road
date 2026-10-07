@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "policy_version": "LEZ2027_2030_LEZ_FIRST_v1",
+  "verified_as_of": "2026-10-06",
+  "metric_crs": "EPSG:3405",
+  "classification_basis": "dated_LEZ2027_pilot_and_LEZ2030_planned_ring3",
+  "allow_population_activity_boundary_adjustments": false,
+  "source_network": "data/processed/network.gpkg",
+  "source_layer": "segments",
+  "ring_config": "config/ring_boundaries.json",
+  "area_tolerance_m2": 0.1,
+  "sources": [
+    {
+      "source_id": "decision_3273_20260629",
+      "file": "data/raw/legal/decision_3273_20260629.pdf",
+      "path": "data/raw/legal/decision_3273_20260629.pdf",
+      "sha256": "7b74ca929c063962b7635d159213c7918e722e717c1e0a8432137cbf49fd922f",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Q%203273%20ngy%2029.6.2026-%20%20n%20vng%20pht%20thi%20thp.pdf",
+      "authority": "UBND thành phố Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "decision_3273_map_appendices",
+      "file": "data/raw/legal/decision_3273_map_appendices.pdf",
+      "path": "data/raw/legal/decision_3273_map_appendices.pdf",
+      "sha256": "7d514b302765f737c3d72291079d48d3114c7c9ed5ce43592a3731750b750403",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Ph%20lc%203237.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "lez_vd1_project_report",
+      "file": "data/raw/legal/lez_vd1_project_report.pdf",
+      "path": "data/raw/legal/lez_vd1_project_report.pdf",
+      "sha256": "9bb1b1644d73d5ff0f9643da0921104be30962bfa969512c3fb911901d687471",
+      "url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "resolution_57_2025",
+      "file": "data/raw/legal/resolution_57_2025.pdf",
+      "path": "data/raw/legal/resolution_57_2025.pdf",
+      "sha256": "f5f886b9c262890e2ffb51f8523f0b8629277ec46a6f6181beda88122a2dc377",
+      "url": "https://sqhx-hanoi.mediacdn.vn/91579363132710912/2026/1/12/nghi-quyet-57-ve-vung-phat-thai-thap-tren-dia-ban-thanh-pho-ha-noi-1768184676513793957970.pdf",
+      "authority": "HĐND thành phố Hà Nội",
+      "published_date": "2025-11-26"
+    }
+  ],
+  "local_sources": [
+    {
+      "source_id": "decision_3273_20260629",
+      "file": "data/raw/legal/decision_3273_20260629.pdf",
+      "path": "data/raw/legal/decision_3273_20260629.pdf",
+      "sha256": "7b74ca929c063962b7635d159213c7918e722e717c1e0a8432137cbf49fd922f",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Q%203273%20ngy%2029.6.2026-%20%20n%20vng%20pht%20thi%20thp.pdf",
+      "authority": "UBND thành phố Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "decision_3273_map_appendices",
+      "file": "data/raw/legal/decision_3273_map_appendices.pdf",
+      "path": "data/raw/legal/decision_3273_map_appendices.pdf",
+      "sha256": "7d514b302765f737c3d72291079d48d3114c7c9ed5ce43592a3731750b750403",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Ph%20lc%203237.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "lez_vd1_project_report",
+      "file": "data/raw/legal/lez_vd1_project_report.pdf",
+      "path": "data/raw/legal/lez_vd1_project_report.pdf",
+      "sha256": "9bb1b1644d73d5ff0f9643da0921104be30962bfa969512c3fb911901d687471",
+      "url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "resolution_57_2025",
+      "file": "data/raw/legal/resolution_57_2025.pdf",
+      "path": "data/raw/legal/resolution_57_2025.pdf",
+      "sha256": "f5f886b9c262890e2ffb51f8523f0b8629277ec46a6f6181beda88122a2dc377",
+      "url": "https://sqhx-hanoi.mediacdn.vn/91579363132710912/2026/1/12/nghi-quyet-57-ve-vung-phat-thai-thap-tren-dia-ban-thanh-pho-ha-noi-1768184676513793957970.pdf",
+      "authority": "HĐND thành phố Hà Nội",
+      "published_date": "2025-11-26"
+    }
+  ],
+  "official_sources": [
+    {
+      "source_id": "decision_3273_20260629",
+      "file": "data/raw/legal/decision_3273_20260629.pdf",
+      "path": "data/raw/legal/decision_3273_20260629.pdf",
+      "sha256": "7b74ca929c063962b7635d159213c7918e722e717c1e0a8432137cbf49fd922f",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Q%203273%20ngy%2029.6.2026-%20%20n%20vng%20pht%20thi%20thp.pdf",
+      "authority": "UBND thành phố Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "decision_3273_map_appendices",
+      "file": "data/raw/legal/decision_3273_map_appendices.pdf",
+      "path": "data/raw/legal/decision_3273_map_appendices.pdf",
+      "sha256": "7d514b302765f737c3d72291079d48d3114c7c9ed5ce43592a3731750b750403",
+      "url": "https://sonnmt.hanoi.gov.vn/images/Ph%20lc%203237.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "lez_vd1_project_report",
+      "file": "data/raw/legal/lez_vd1_project_report.pdf",
+      "path": "data/raw/legal/lez_vd1_project_report.pdf",
+      "sha256": "9bb1b1644d73d5ff0f9643da0921104be30962bfa969512c3fb911901d687471",
+      "url": "https://sonnmt.hanoi.gov.vn/images/BC%20%20n.pdf",
+      "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+      "published_date": "2026-06-29"
+    },
+    {
+      "source_id": "resolution_57_2025",
+      "file": "data/raw/legal/resolution_57_2025.pdf",
+      "path": "data/raw/legal/resolution_57_2025.pdf",
+      "sha256": "f5f886b9c262890e2ffb51f8523f0b8629277ec46a6f6181beda88122a2dc377",
+      "url": "https://sqhx-hanoi.mediacdn.vn/91579363132710912/2026/1/12/nghi-quyet-57-ve-vung-phat-thai-thap-tren-dia-ban-thanh-pho-ha-noi-1768184676513793957970.pdf",
+      "authority": "HĐND thành phố Hà Nội",
+      "published_date": "2025-11-26"
+    },
+    {
+      "source_id": "official_published_summary_20260630",
+      "url": "https://sonnmt.hanoi.gov.vn/index.php/tin-t-c/moi-tru-ng/21856-ha-n-i-cong-b-d-an-vung-phat-th-i-th-p-trong-vanh-dai-1-thanh-ph-ha-n-i-thi-di-m-t-ngay-01-7-2027",
+      "published_date": "2026-06-30",
+      "last_checked": "2026-10-06",
+      "url_slug_date_is_not_effective_date": true
+    }
+  ],
+  "statutory2027": {
+    "basis": "Decision3273/QD-UBND29/06/2026, projectreportsection2.2 and appendix1",
+    "effective_from": "2027-01-01",
+    "effective_to": "2027-12-31",
+    "scope": "KV1/KV2/KV3 in HoànKiếm+CửaNam, outerKV3 contour",
+    "reference_area_km2": 3.6,
+    "official_gis_verified": false,
+    "geometry_status": "official_map_informed_cached_osm_street_contour_proxy",
+    "whole_ring1": false,
+    "whole_ring1_effective_from": "2028-01-01"
+  },
+  "statutory2030": {
+    "basis": "57/2025/NQ-HDND Art3(8), Art11(1)(c)",
+    "effective_from": "2030-01-01",
+    "scope": "Ring3 inward,36namedwards/communes; plannedroadalignment interpretation",
+    "official_gis_verified": false,
+    "geometry_status": "cached_osm_planned_ring3_proxy_with_explicit_northern_closure",
+    "amendment_review_as_of": "2026-10-06",
+    "known_followup_instruments": [
+      "34/NQ-HDND15/06/2026",
+      "3273/QD-UBND29/06/2026"
+    ],
+    "amendment_search_status": "reviewed_official_publications_no_authenticated_replacement2030GIS_found"
+  },
+  "lez2027_pilot": {
+    "bbox_wgs84": [
+      105.837,
+      21.012,
+      105.869,
+      21.043
+    ],
+    "names": [
+      "Nguyễn Du",
+      "Phố Nguyễn Du",
+      "Đường Nguyễn Du",
+      "Hàn Thuyên",
+      "Phố Hàn Thuyên",
+      "Đường Hàn Thuyên",
+      "Trần Hưng Đạo",
+      "Phố Trần Hưng Đạo",
+      "Đường Trần Hưng Đạo",
+      "Trần Khánh Dư",
+      "Phố Trần Khánh Dư",
+      "Đường Trần Khánh Dư",
+      "Trần Quang Khải",
+      "Phố Trần Quang Khải",
+      "Đường Trần Quang Khải",
+      "Trần Nhật Duật",
+      "Phố Trần Nhật Duật",
+      "Đường Trần Nhật Duật",
+      "Hàng Đậu",
+      "Phố Hàng Đậu",
+      "Đường Hàng Đậu",
+      "Cửa Đông",
+      "Phố Cửa Đông",
+      "Đường Cửa Đông",
+      "Lý Nam Đế",
+      "Phố Lý Nam Đế",
+      "Đường Lý Nam Đế",
+      "Tôn Thất Thiệp",
+      "Phố Tôn Thất Thiệp",
+      "Đường Tôn Thất Thiệp",
+      "Điện Biên Phủ",
+      "Phố Điện Biên Phủ",
+      "Đường Điện Biên Phủ",
+      "Hàng Bông",
+      "Phố Hàng Bông",
+      "Đường Hàng Bông",
+      "Cửa Nam",
+      "Phố Cửa Nam",
+      "Đường Cửa Nam",
+      "Lê Duẩn",
+      "Phố Lê Duẩn",
+      "Đường Lê Duẩn",
+      "Lê Văn Hưu",
+      "Phố Lê Văn Hưu",
+      "Đường Lê Văn Hưu",
+      "Phan Đình Phùng",
+      "Phố Phan Đình Phùng",
+      "Đường Phan Đình Phùng"
+    ],
+    "maximum_component_snap_m": 180,
+    "area_bounds_km2": [
+      3.0,
+      4.3
+    ],
+    "reference_area_km2": 3.6,
+    "waypoints_wgs84": [
+      [
+        105.8414183,
+        21.0206551
+      ],
+      [
+        105.851603,
+        21.0182926
+      ],
+      [
+        105.855011,
+        21.0191224
+      ],
+      [
+        105.8584531,
+        21.0183662
+      ],
+      [
+        105.8618049,
+        21.0184092
+      ],
+      [
+        105.8605779,
+        21.0244154
+      ],
+      [
+        105.8553456,
+        21.0338854
+      ],
+      [
+        105.8499291,
+        21.0406957
+      ],
+      [
+        105.8471764,
+        21.0398976
+      ],
+      [
+        105.8459856,
+        21.0399317
+      ],
+      [
+        105.8449379,
+        21.0348636
+      ],
+      [
+        105.8447768,
+        21.0340917
+      ],
+      [
+        105.843611,
+        21.0337263
+      ],
+      [
+        105.8425706,
+        21.0292003
+      ],
+      [
+        105.8434703,
+        21.0283452
+      ],
+      [
+        105.8432287,
+        21.02833
+      ],
+      [
+        105.8415518,
+        21.0276316
+      ],
+      [
+        105.8414183,
+        21.0206551
+      ]
+    ],
+    "official_street_names": [
+      "Nguyễn Du",
+      "Hàn Thuyên",
+      "Trần Hưng Đạo",
+      "Trần Khánh Dư",
+      "Trần Quang Khải",
+      "Trần Nhật Duật",
+      "Hàng Đậu",
+      "Cửa Đông",
+      "Lý Nam Đế",
+      "Tôn Thất Thiệp",
+      "Điện Biên Phủ",
+      "Hàng Bông",
+      "Cửa Nam",
+      "Lê Duẩn"
+    ],
+    "reference_perimeter_m": 8300,
+    "boundary_uncertainty_buffer_m": 50,
+    "join_uncertainty_buffer_m": 200,
+    "maximum_waypoint_offset_m": 100,
+    "map_informed_connectors": [
+      {
+        "street": "Lê Văn Hưu",
+        "reason": "Cached Nguyễn Du and Hàn Thuyên street endpoints do notjoin; the southern pink contour in official appendixmap connects these corridors. Name is not in the14street text list."
+      },
+      {
+        "street": "Phan Đình Phùng",
+        "reason": "Cached Hàng Đậu and Lý Nam Đế endpoints require this connecting northernstreet section seen on appendixmap; name is not in the14street text list."
+      }
+    ],
+    "interpretation_issues": [
+      "Official report lists14street names but NguyễnDu→HànThuyên and HàngĐậu→LýNamĐế are not directlyadjacent in cachedOSM; explicitmap-informedconnecting streetsections included.",
+      "Named CửaĐông/HàngBông could be short junction links or internal contour details: absent trace names are reported, never silently declared verified.",
+      "50m boundary and200m straightjoin bands are conservative research exclusion parameters, not statutory tolerances."
+    ]
+  },
+  "historical_admin_extent_reference": {
+    "path": "data/processed/boundary_proposals/9c341f6489eba76e3066/lez_admin_proxy.gpkg",
+    "layer": "lez_admin_proxy",
+    "role": "comparison_only_notclassification"
+  },
+  "candidate_quota": {
+    "A": 20,
+    "B": 20,
+    "C": 20
+  },
+  "selection_quota": {
+    "A_inside": 10,
+    "B_inside": 8,
+    "C_outside": 12
+  },
+  "coverage_limitations": [
+    "Hanoi extent is the technicalOSM administrative boundary from2026-10-01, not authenticated officialGIS.",
+    "2027 map/textroadlists require additionalGISconfirmation; absentnames and straightjoins retained in report and conservative routingexclusion.",
+    "2030 Ring3 northernBacHong→QuangMinh missing alignment closed by explicitresearchstraightsegment;2km uncertaintyband excludesroutes.",
+    "Official2030 list36wards is a statutorydescription, not license to classify fullOSMwardextent as LEZ; differencefromRing3proxy exported forinspection.",
+    "Ring3 geometry includes cachedproposed/constructionalignment for2030scenario; such geometry is boundaryreference only and not motorcycle routepermission."
+  ],
+  "notes": [
+    "A is actual2027pilotproxy; fullRing1 polygon retained as2028reference, not defaultA.",
+    "B includesRing1remainder andRing2/Ring3intervening area under the2030scenario.",
+    "FreezeLEZ-firstpolygons before routegeneration; no population/activity reclassification or quota-driven boundarychanges.",
+    "A+B lies inside selected2030proxy;C is outside. Final30 quota is10A+8B+12C.",
+    "All finalaccess/stability/repeatability/safetyevidence remains pendingfieldverification."
+  ]
+}

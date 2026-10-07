@@ -1,0 +1,16 @@
+stratum_id,domain,definition,geometry_path,layer,selector_field,selector_values,source_id,status
+V1,inside,Lõi lịch sử – trung tâm,,,,,,needs_definition
+V2,inside,Tây nội đô – Đống Đa/Ba Đình,,,,,,needs_definition
+V3,inside,Tây Bắc – Cầu Giấy/Tây Hồ,,,,,,needs_definition
+V4,inside,Nam – Đông Nam nội đô,,,,,,needs_definition
+V5,inside,Đông – Long Biên và phần mở rộng còn lại,,,,,,needs_definition
+N1,outside,Ngay ngoài ranh giới phía Tây/Tây Nam,,,,,,needs_definition
+N2,outside,Hoài Đức – Đan Phượng,,,,,,needs_definition
+N3,outside,Quốc Oai – Thạch Thất – Hòa Lạc,,,,,,needs_definition
+N4,outside,Sơn Tây – Ba Vì,,,,,,needs_definition
+N5,outside,Chương Mỹ – Thanh Oai,,,,,,needs_definition
+N6,outside,Thường Tín – Phú Xuyên,,,,,,needs_definition
+N7,outside,Ứng Hòa – Mỹ Đức,,,,,,needs_definition
+N8,outside,Gia Lâm ngoài LEZ,,,,,,needs_definition
+N9,outside,Mê Linh,,,,,,needs_definition
+N10,outside,Sóc Sơn ngoài LEZ,,,,,,needs_definition

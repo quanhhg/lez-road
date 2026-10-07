@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__ · LEZ 2030 Hà Nội</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#203746;background:#f5f7f8;font-size:15px;--inside:#176cb1;--outside:#c45d17}
+*{box-sizing:border-box}body{margin:0}header{padding:24px 28px 15px;background:#fff;border-bottom:1px solid #dfe6e8}h1{font-size:27px;margin:0 0 9px;font-weight:700}p{margin:7px 0;line-height:1.5}a{color:#176cb1}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #245d99;outline-offset:3px}button{border:1px solid #c9d5db;border-radius:5px;background:white;color:#203746;padding:7px 11px}button:hover{background:#eef4f7}.legend{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:12px}.legend label{display:flex;gap:7px;align-items:center;cursor:pointer}.swatch{display:inline-block;width:27px;height:4px}.inside{color:var(--inside)}.outside{color:var(--outside)}.counts{color:#52656f}
+main{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:17px;padding:17px 24px}.map-section{min-width:0}.toolbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.map-wrap{position:relative;width:100%;height:clamp(650px,82vh,1280px);background:white;overflow:hidden;border:1px solid #d5dfe3;touch-action:none}svg{display:block;width:100%;height:100%;touch-action:none}.route{fill:none;stroke-width:2.6;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}.hit{fill:none;stroke:transparent;stroke-width:13;vector-effect:non-scaling-stroke;pointer-events:stroke;cursor:pointer}.route.dim{opacity:.2}.route.active{stroke-width:5.5}.mid{pointer-events:none}.label-layer{position:absolute;inset:0;pointer-events:none}.pin-label{position:absolute;display:flex;align-items:center;gap:5px;padding:4px 6px;border:0;border-left:3px solid currentColor;background:rgba(255,255,255,.94);border-radius:2px;pointer-events:auto;font-size:12px;line-height:16px;max-width:176px;height:26px;white-space:nowrap;box-shadow:0 1px 3px #142e361a}.pin-label .street{overflow:hidden;text-overflow:ellipsis;color:#29404b}.pin-label strong{font-size:12px}.pin-label.active{background:#eaf3fa;box-shadow:0 0 0 2px #294c73}.map-note{font-size:13px;color:#566873;margin-top:9px}.sidebar{min-width:0;background:#fff;padding:15px 17px;border:1px solid #d5dfe3}.sidebar h2{font-size:18px;margin:0 0 9px}.detail{padding:12px 0 15px;border-bottom:1px solid #dfe6e8;margin-bottom:12px}.detail h3{font-size:18px;margin:0 0 5px}.sequence{font-size:14px;line-height:1.6;max-height:245px;overflow:auto;margin-top:10px}.muted{color:#596c76;font-size:13px}.route-list{display:flex;flex-direction:column;gap:2px}.route-row{display:grid;grid-template-columns:39px minmax(0,1fr) 42px;gap:8px;align-items:start;text-align:left;border:0;border-bottom:1px solid #edf0f2;border-radius:0;padding:10px 3px;line-height:1.4}.route-row .title{color:#29404b;font-size:14px}.route-row .km{font-size:12px;text-align:right;color:#60737d}.route-row[aria-pressed=true]{background:#eaf3fa}.group-title{font-weight:bold;font-size:14px;margin:17px 0 5px}.downloads{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:12px 0 0}footer{padding:15px 28px 25px;color:#526973;font-size:13px;line-height:1.6}.hidden{display:none!important}
+@media(max-width:850px){main{grid-template-columns:1fr;padding:12px}.map-wrap{height:780px}.sidebar{max-width:100%}header{padding:18px}.route-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 12px}.group-title{grid-column:1/-1}.sidebar .detail{max-width:100%}}
+@media(max-width:500px){h1{font-size:22px}.map-wrap{height:690px}.route-list{display:flex}.toolbar button{padding:7px 9px}.pin-label{max-width:137px}.legend{gap:10px}.map-note{font-size:12px}}
+</style>
+</head>
+<body>
+<header><h1 id="heading"></h1><p class="counts" id="counts"></p>
+<div class="legend">
+<label><input id="inside" type="checkbox" checked><span class="swatch" style="background:var(--inside)"></span><span id="inside-count"></span></label>
+<label><input id="outside" type="checkbox" checked><span class="swatch" style="background:var(--outside)"></span><span id="outside-count"></span></label>
+<label><input id="names" type="checkbox" checked>Tên trên bản đồ</label>
+<label><input id="zone-A" type="checkbox" checked><span id="zone-A-count"></span></label>
+<label><input id="zone-B" type="checkbox" checked><span id="zone-B-count"></span></label>
+<label><input id="zone-C" type="checkbox" checked><span id="zone-C-count"></span></label>
+<span class="muted">Nền xanh nhạt: trong LEZ · nét tím: đường bao A/B/C · nét đứt: đối chiếu LEZ 2030</span>
+</div></header>
+<main>
+<section class="map-section" aria-label="Bản đồ các tuyến">
+<div class="toolbar"><button id="zoom-in" aria-label="Phóng to">+</button><button id="zoom-out" aria-label="Thu nhỏ">−</button><button id="whole">Toàn Hà Nội</button><button id="urban">Phóng to nhóm trong</button><button id="clear">Bỏ chọn tuyến</button></div>
+<div class="map-wrap" id="map-wrap"><svg id="map" role="img" aria-label="Bản đồ hình học các tuyến trong và ngoài phạm vi nghiên cứu LEZ 2030"></svg><div class="label-layer" id="labels"></div></div>
+<p class="map-note">Bấm tuyến hoặc tên trong danh sách để xem đầy đủ các đường đi qua. Cuộn để phóng to, kéo để dịch bản đồ. Chấm đánh dấu điểm giữa chiều dài tuyến; đường dẫn nối nhãn tới chấm.</p>
+<div class="downloads"><a id="png-link" download>Ảnh bản đồ PNG</a><a id="csv-link" download>Danh sách và tên đường đầy đủ CSV</a></div>
+</section>
+<aside class="sidebar" aria-label="Tên và thông tin các tuyến">
+<h2>Tên tuyến và đường đi qua</h2>
+<div class="detail" id="detail" aria-live="polite"><p class="muted">Chọn một tuyến trên bản đồ hoặc danh sách.</p></div>
+<p class="muted">Tên rút gọn dùng đường đầu/cuối có tên trong tuyến. Chuỗi đường đầy đủ giữ thứ tự theo dữ liệu OSM.</p>
+<div class="route-list" id="route-list"></div>
+</aside>
+</main>
+<footer>A: trong Vành đai 1; B: giữa Vành đai 1 và 3; C: ngoài Vành đai 3 trong Hà Nội. Nhóm trong/ngoài theo <strong>phạm vi nghiên cứu LEZ 2030 đã điều chỉnh</strong>, được phân loại độc lập với A/B/C. Hình học OSM đối chiếu chưa được xác minh là GIS chính thức. Các tuyến phục vụ lựa chọn trước khảo sát.<br>Nguồn hình học và tên: OpenStreetMap contributors (ODbL) · snapshot 01/10/2026 · EPSG:3405. Bản đồ dùng dữ liệu nhúng, không cần API key hoặc tải nền bản đồ.<br><span id="missing"></span></footer>
+<script id="map-data" type="application/json">__DATA__</script>
+<script>
+'use strict';
+const DATA=JSON.parse(document.getElementById('map-data').textContent),NS='http://www.w3.org/2000/svg';
+const svg=document.getElementById('map'),wrap=document.getElementById('map-wrap'),labels=document.getElementById('labels');
+const colors={inside:'#176cb1',outside:'#c45d17'},filters={inside:true,outside:true},zones={A:true,B:true,C:true};
+let selected=null,view=[0,0,DATA.width,DATA.height],drawScheduled=false;
+const nodes={};
+function node(tag,attrs,parent=svg){const el=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,v);parent.appendChild(el);return el}
+document.getElementById('heading').textContent=DATA.title+' · LEZ 2030 Hà Nội';
+document.getElementById('counts').textContent=DATA.counts.inside+' tuyến trong / '+DATA.counts.outside+' tuyến ngoài LEZ · '+Object.entries(DATA.zone_counts).map(([z,n])=>z+' '+n).join(' / ');
+for(const group of ['inside','outside'])document.getElementById(group+'-count').textContent=DATA.counts[group]+' tuyến '+(group==='inside'?'trong':'ngoài');
+for(const z of ['A','B','C'])document.getElementById('zone-'+z+'-count').textContent=DATA.zone_labels[z]+' ('+DATA.zone_counts[z]+')';
+document.getElementById('png-link').href=DATA.total+'_tuyen_LEZ2030.png';
+document.getElementById('csv-link').href=DATA.total+'_tuyen_danh_sach.csv';
+const missing=DATA.routes.filter(r=>!r.has_named_street).map(r=>r.route_id);
+document.getElementById('missing').textContent=missing.length?'Chưa có tên đường trong OSM: '+missing.join(', ')+'. Các mã này vẫn có hình học và vị trí thực tế trên bản đồ.':'Tất cả tuyến đều có ít nhất một đường được ghi tên trong OSM.';
+node('path',{d:DATA.paths.city,fill:'#f6f7f5',stroke:'#89979b','stroke-width':1,'vector-effect':'non-scaling-stroke','fill-rule':'evenodd'});
+node('path',{d:DATA.paths.inside,fill:'#e0edf6',stroke:'#99b3c1','stroke-width':.7,'vector-effect':'non-scaling-stroke','fill-rule':'evenodd'});
+node('path',{d:DATA.paths.admin,fill:'none',stroke:'#dbe1de','stroke-width':.55,'vector-effect':'non-scaling-stroke','pointer-events':'none'});
+node('path',{d:DATA.paths.roads,fill:'none',stroke:'#cbd4d9','stroke-width':.6,'vector-effect':'non-scaling-stroke','pointer-events':'none'});
+node('path',{d:DATA.paths.abc,fill:'none',stroke:'#6553a5','stroke-width':1,'vector-effect':'non-scaling-stroke','pointer-events':'none'});
+node('path',{d:DATA.paths.reference,fill:'none',stroke:'#9b6586','stroke-width':1.2,'stroke-dasharray':'6 4','vector-effect':'non-scaling-stroke','pointer-events':'none'});
+const routesGroup=node('g',{}),callouts=node('g',{'pointer-events':'none'}),dots=node('g',{});
+for(const r of DATA.routes){
+ const d='M'+r.points.map(p=>p.join(',')).join('L');
+ const line=node('path',{d,class:'route',stroke:colors[r.group],'data-route-id':r.route_id},routesGroup);
+ const hit=node('path',{d,class:'hit','data-route-id':r.route_id},routesGroup);
+ const title=node('title',{},hit);title.textContent=r.route_id+' · '+r.route_name;
+ const dot=node('circle',{cx:r.mid[0],cy:r.mid[1],r:3,fill:colors[r.group],stroke:'white','stroke-width':1.2,'vector-effect':'non-scaling-stroke',class:'mid'},dots);
+ nodes[r.route_id]={line,hit,dot};
+}
+function makeList(){const list=document.getElementById('route-list');for(const group of ['inside','outside']){
+ const h=document.createElement('div');h.className='group-title '+group;h.textContent=(group==='inside'?'Trong':'Ngoài')+' phạm vi nghiên cứu';list.appendChild(h);
+ for(const r of DATA.routes.filter(r=>r.group===group)){
+  const b=document.createElement('button');b.type='button';b.className='route-row '+group;b.dataset.routeId=r.route_id;b.setAttribute('aria-pressed','false');
+  const id=document.createElement('strong');id.textContent=r.route_id;const title=document.createElement('span');title.className='title';title.textContent=r.sampling_zone+' · '+r.route_name;
+  const km=document.createElement('span');km.className='km';km.textContent=r.length_km.toFixed(2).replace('.',',')+' km';
+  b.append(id,title,km);b.addEventListener('click',()=>choose(r.route_id,true));list.appendChild(b);
+ }
+}}
+function choose(id,focus=false){selected=id;const detail=document.getElementById('detail');detail.replaceChildren();
+ if(id){const r=DATA.routes.find(r=>r.route_id===id),h=document.createElement('h3'),p=document.createElement('p'),s=document.createElement('p');
+  filters[r.group]=true;document.getElementById(r.group).checked=true;zones[r.sampling_zone]=true;document.getElementById('zone-'+r.sampling_zone).checked=true;
+  h.textContent=r.route_id+' · '+r.route_name;h.className=r.group;s.className='sequence';s.textContent=r.street_sequence;
+  p.textContent=(r.group==='inside'?'Trong':'Ngoài')+' LEZ · '+DATA.zone_labels[r.sampling_zone]+' · '+r.rc_target+' · '+r.length_km.toFixed(2).replace('.',',')+' km';p.className='muted';detail.append(h,p,s);
+  if(focus){const xs=r.points.map(p=>p[0]),ys=r.points.map(p=>p[1]);const w=Math.max(125,Math.max(...xs)-Math.min(...xs)),h2=Math.max(160,Math.max(...ys)-Math.min(...ys));view=[(Math.min(...xs)+Math.max(...xs))/2-w*.7,(Math.min(...ys)+Math.max(...ys))/2-h2*.7,w*1.4,h2*1.4]}
+ }else{const p=document.createElement('p');p.className='muted';p.textContent='Chọn một tuyến trên bản đồ hoặc danh sách.';detail.appendChild(p)}
+ for(const b of document.querySelectorAll('.route-row'))b.setAttribute('aria-pressed',String(b.dataset.routeId===id));render();
+}
+function render(){svg.setAttribute('viewBox',view.join(' '));for(const r of DATA.routes){const n=nodes[r.route_id],shown=filters[r.group]&&zones[r.sampling_zone];n.line.style.display=n.hit.style.display=n.dot.style.display=shown?'':'none';n.line.classList.toggle('dim',!!selected&&r.route_id!==selected);n.line.classList.toggle('active',r.route_id===selected)}scheduleLabels()}
+function scheduleLabels(){if(!drawScheduled){drawScheduled=true;requestAnimationFrame(()=>{drawScheduled=false;placeLabels()})}}
+function point(x,y,m){const p=svg.createSVGPoint();p.x=x;p.y=y;return p.matrixTransform(m)}
+function placeLabels(){labels.replaceChildren();callouts.replaceChildren();const matrix=svg.getScreenCTM();if(!matrix)return;
+ for(const r of DATA.routes)nodes[r.route_id].dot.setAttribute('r',3/Math.hypot(matrix.a,matrix.b));
+ if(!document.getElementById('names').checked)return;
+ const bounds=wrap.getBoundingClientRect(),used=[];const routes=[...DATA.routes].sort((a,b)=>(b.route_id===selected)-(a.route_id===selected));
+ for(const r of routes){if(!filters[r.group]||!zones[r.sampling_zone])continue;const at=point(...r.mid,matrix),x=at.x-bounds.left,y=at.y-bounds.top;if(x<0||y<0||x>bounds.width||y>bounds.height)continue;
+  const width=Math.min(bounds.width<500?136:175,75+r.first_street.length*5.1),height=26;let best=null,bestCost=Infinity;
+  for(const radius of [18,38,65,100,145,205,280])for(const deg of [-45,45,135,-135,0,90,180,-90]){
+   const angle=deg*Math.PI/180,xx=Math.max(3,Math.min(bounds.width-width-3,x+radius*Math.cos(angle)-width/2)),yy=Math.max(3,Math.min(bounds.height-height-3,y+radius*Math.sin(angle)-height/2));
+   let overlap=0;for(const u of used)overlap+=Math.max(0,Math.min(xx+width,u.x+u.w)-Math.max(xx,u.x))*Math.max(0,Math.min(yy+height,u.y+u.h)-Math.max(yy,u.y));
+   const cost=overlap*10000+Math.hypot(xx+width/2-x,yy+height/2-y);if(cost<bestCost){best={x:xx,y:yy,w:width,h:height};bestCost=cost}
+  }
+  used.push(best);const button=document.createElement('button');button.type='button';button.className='pin-label '+r.group+(r.route_id===selected?' active':'');button.dataset.routeId=r.route_id;button.style.left=best.x+'px';button.style.top=best.y+'px';button.style.width=best.w+'px';button.title=r.route_id+' · '+r.route_name;
+  const strong=document.createElement('strong');strong.textContent=r.route_id;const text=document.createElement('span');text.className='street';text.textContent=r.first_street;button.append(strong,text);labels.appendChild(button);
+  const end=point(bounds.left+best.x+best.w/2,bounds.top+best.y+best.h/2,matrix.inverse());node('path',{d:'M'+r.mid.join(',')+'L'+end.x+','+end.y,fill:'none',stroke:colors[r.group],opacity:.55,'stroke-width':.8,'vector-effect':'non-scaling-stroke'},callouts);
+ }
+}
+function zoom(factor){const cx=view[0]+view[2]/2,cy=view[1]+view[3]/2,w=Math.max(30,Math.min(DATA.width*3,view[2]*factor)),h=view[3]*w/view[2];view=[cx-w/2,cy-h/2,w,h];render()}
+document.getElementById('zoom-in').onclick=()=>zoom(.75);document.getElementById('zoom-out').onclick=()=>zoom(1.33);
+document.getElementById('whole').onclick=()=>{view=[0,0,DATA.width,DATA.height];render()};document.getElementById('urban').onclick=()=>{view=[...DATA.inside_box];render()};document.getElementById('clear').onclick=()=>choose(null);
+for(const group of ['inside','outside'])document.getElementById(group).onchange=e=>{filters[group]=e.target.checked;render()};document.getElementById('names').onchange=scheduleLabels;
+for(const z of ['A','B','C'])document.getElementById('zone-'+z).onchange=e=>{zones[z]=e.target.checked;render()};
+labels.addEventListener('click',e=>{const b=e.target.closest('button[data-route-id]');if(b)choose(b.dataset.routeId,false)});
+let drag=null;svg.addEventListener('pointerdown',e=>{const matrix=svg.getScreenCTM();drag={x:e.clientX,y:e.clientY,view:[...view],inverse:matrix.inverse(),route:e.target.dataset.routeId||null,moved:false};svg.setPointerCapture(e.pointerId)});
+svg.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>4)drag.moved=true;if(drag.moved){const inv=drag.inverse;view=[drag.view[0]-(inv.a*dx+inv.c*dy),drag.view[1]-(inv.b*dx+inv.d*dy),drag.view[2],drag.view[3]];render()}});
+svg.addEventListener('pointerup',()=>{if(drag&&!drag.moved&&drag.route)choose(drag.route,false);drag=null});svg.addEventListener('pointercancel',()=>{drag=null});
+svg.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY>0?1.12:.88)},{passive:false});
+new ResizeObserver(scheduleLabels).observe(wrap);makeList();render();window.MAP_DATA=DATA;window.MAP_READY=true;
+</script>
+</body></html>

@@ -1,0 +1,16 @@
+{
+  "source_id": "decision_3273_20260629",
+  "url": "https://sonnmt.hanoi.gov.vn/images/Q%203273%20ngy%2029.6.2026-%20%20n%20vng%20pht%20thi%20thp.pdf",
+  "authority": "UBND thành phố Hà Nội",
+  "type": "official_decision",
+  "published_date": "2026-06-29",
+  "requested_url": "https://sonnmt.hanoi.gov.vn/images/Q%203273%20ngy%2029.6.2026-%20%20n%20vng%20pht%20thi%20thp.pdf",
+  "captured_at": "2026-10-03T16:04:41.422731+00:00",
+  "gis_geometry_extracted": false,
+  "status": "captured",
+  "final_url": "https://sonnmt.hanoi.gov.vn/images/Q%203273%20ngy%2029.6.2026-%20%20n%20vng%20pht%20thi%20thp.pdf",
+  "http_status": 200,
+  "sha256": "7b74ca929c063962b7635d159213c7918e722e717c1e0a8432137cbf49fd922f",
+  "local_file": "work/data/raw/legal/decision_3273_20260629.pdf",
+  "bytes": 1089116
+}

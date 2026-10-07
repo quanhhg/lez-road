@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "method_version": "field_workflow_evidence_v1",
+  "selection_report": "reports/selection/latest_selection_30.json",
+  "selection_config": "config/selection_30.json",
+  "sampling_report": "reports/sampling/latest_sampling_abc.json",
+  "output_directory": "data/processed/field_workflow",
+  "measurement_incoming": "data/measurements/incoming",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "research_membership_is_enforcement": false,
+  "quota": {
+    "A_inside": 10,
+    "B_inside": 8,
+    "C_outside": 12
+  },
+  "gates": {
+    "G1": {
+      "fields": [
+        "G1"
+      ],
+      "minimum_distinct_dates": 1,
+      "question": "Kiểm tra quyền xe máy trên toàn hành lang, đúng chiều/rẽ và khung giờ đo; ghi biển báo và căn cứ có hiệu lực."
+    },
+    "G4": {
+      "fields": [
+        "G4"
+      ],
+      "minimum_distinct_dates": 1,
+      "question": "Tuyến có phụ thuộc công trình hoặc phân luồng tạm không? Ghi vị trí và khoảng thời gian ảnh hưởng."
+    },
+    "G5": {
+      "fields": [
+        "G5"
+      ],
+      "minimum_distinct_dates": 2,
+      "question": "Đối chiếu ít nhất hai ngày khảo sát để xác nhận chạy lặp cùng hành lang và khung giờ; giữ bằng chứng từng ngày."
+    },
+    "G6": {
+      "fields": [
+        "G6_start",
+        "G6_end"
+      ],
+      "minimum_distinct_dates": 1,
+      "question": "Xác nhận riêng điểm đầu và điểm cuối: chỗ dừng, thao tác thiết bị và quay đầu nếu cần."
+    }
+  },
+  "c6": {
+    "rubric_version": "source_T09_C6_0_5_v1",
+    "source": "data/raw/research/source_requirements.json, C6, T09 R002-R007",
+    "supporting_fields": [
+      "C6_safety",
+      "C6_repeatability",
+      "C6_gps",
+      "C6_works",
+      "C6_permission"
+    ],
+    "support_values": [
+      "no_limitation",
+      "minor",
+      "moderate",
+      "multiple",
+      "severe",
+      "infeasible"
+    ],
+    "score_descriptions": {
+      "5": "Điểm đầu/cuối an toàn; dễ lặp; GPS ổn định; không có công trình đáng kể; không còn quyền lưu thông chưa rõ.",
+      "4": "Một hạn chế nhỏ không ảnh hưởng chất lượng đo.",
+      "3": "Rủi ro trung bình, cần tổ chức đo hoặc chọn thời gian.",
+      "2": "Nhiều bất tiện; chỉ giữ nếu đóng góp độ phủ cao.",
+      "1": "Khó triển khai lặp hoặc dữ liệu dễ sai; cần dự phòng.",
+      "0": "Không khả thi; đề xuất loại hoặc đổi tuyến."
+    },
+    "automatic_score": false,
+    "score_requires_all_supporting_fields": true,
+    "only_apply_after_mandatory_gates_pass": true
+  },
+  "time_blocks": [
+    {
+      "time_block": "morning_peak",
+      "local_start": "07:00",
+      "local_end": "09:00",
+      "status": "proposed_research_schedule"
+    },
+    {
+      "time_block": "day_off_peak",
+      "local_start": "10:00",
+      "local_end": "12:00",
+      "status": "proposed_research_schedule"
+    },
+    {
+      "time_block": "evening_peak",
+      "local_start": "17:00",
+      "local_end": "19:00",
+      "status": "proposed_research_schedule"
+    }
+  ],
+  "repeat_schedule": {
+    "proposed_repeat_count": 2,
+    "status": "planning_parameter_not_collected_trips"
+  },
+  "desk_priority": {
+    "formula": "mean(lanes_missing_fraction,maxspeed_missing_fraction)+selection_instability+unknown_C6_interval_width/10",
+    "purpose": "prioritize_verification_only_not_a_selection_score"
+  },
+  "evidence_types": [
+    "field_photo",
+    "field_video",
+    "field_note",
+    "device_log",
+    "official_document",
+    "desk_image",
+    "desk_note"
+  ],
+  "field_evidence_types": [
+    "field_photo",
+    "field_video",
+    "field_note",
+    "device_log"
+  ],
+  "evidence_sources": [
+    "field",
+    "desk"
+  ],
+  "observation_statuses": [
+    "observed",
+    "unknown",
+    "pending"
+  ],
+  "policy_status_values": [
+    "unknown",
+    "inside",
+    "outside"
+  ],
+  "field_units": {
+    "lanes": "count",
+    "maxspeed": "km/h",
+    "junction_count": "count",
+    "signal_count": "count",
+    "oneway": "boolean",
+    "C6": "score_0_to_5"
+  },
+  "unknown_policy": "blank_value_until_observed; never copy OSM/model values into observations",
+  "geometry_update_policy": "observed_attributes_in_versioned_overlay; block_geometry_direction_conflicts_until_rebuilt_graph_is_verified",
+  "final_lock_policy": "automatic_immutable_technical_snapshot_only_after_exact_quota_and_complete_dated_gates_C6_and_policy_evidence"
+}

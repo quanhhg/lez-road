@@ -1,0 +1,16 @@
+{
+  "source_id": "decision_3273_map_appendices",
+  "url": "https://sonnmt.hanoi.gov.vn/images/Ph%20lc%203237.pdf",
+  "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+  "type": "official_published_appendices",
+  "note": "URL filename is recorded verbatim from the official publication.",
+  "requested_url": "https://sonnmt.hanoi.gov.vn/images/Ph%20lc%203237.pdf",
+  "captured_at": "2026-10-03T16:04:44.695284+00:00",
+  "gis_geometry_extracted": false,
+  "status": "captured",
+  "final_url": "https://sonnmt.hanoi.gov.vn/images/Ph%20lc%203237.pdf",
+  "http_status": 200,
+  "sha256": "7d514b302765f737c3d72291079d48d3114c7c9ed5ce43592a3731750b750403",
+  "local_file": "work/data/raw/legal/decision_3273_map_appendices.pdf",
+  "bytes": 1319501
+}

@@ -1,0 +1,16 @@
+{
+  "source_id": "hanoi_lez_approved_20260630",
+  "url": "https://sonnmt.hanoi.gov.vn/index.php/tin-t-c/moi-tru-ng/21856-ha-n-i-cong-b-d-an-vung-phat-th-i-th-p-trong-vanh-dai-1-thanh-ph-ha-n-i-thi-di-m-t-ngay-01-7-2027",
+  "authority": "Sở Nông nghiệp và Môi trường Hà Nội",
+  "published_date": "2026-06-30",
+  "type": "official_publication",
+  "note": "The publication refers to map attachments to Decision 3273/QD-UBND. A text article is not a GIS polygon.",
+  "requested_url": "https://sonnmt.hanoi.gov.vn/index.php/tin-t-c/moi-tru-ng/21856-ha-n-i-cong-b-d-an-vung-phat-th-i-th-p-trong-vanh-dai-1-thanh-ph-ha-n-i-thi-di-m-t-ngay-01-7-2027",
+  "captured_at": "2026-10-03T15:38:08.350343+00:00",
+  "geometry_available": false,
+  "status": "captured",
+  "final_url": "https://sonnmt.hanoi.gov.vn/index.php/tin-t-c/moi-tru-ng/21856-ha-n-i-cong-b-d-an-vung-phat-th-i-th-p-trong-vanh-dai-1-thanh-ph-ha-n-i-thi-di-m-t-ngay-01-7-2027",
+  "http_status": 200,
+  "sha256": "d6f519cc77a036838962c17beb4ab8bb8a31c3da9cf0fa868927ecf153534fe0",
+  "local_file": "work/data/raw/legal/hanoi_lez_approved_20260630.html"
+}

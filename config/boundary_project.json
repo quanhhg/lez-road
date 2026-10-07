@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "snapshot_utc": "2026-10-01T00:00:00Z",
+  "area_tolerance_m2": 1.0,
+  "hanoi_source": {
+    "path": "maps/hanoi_tiles/hanoi_boundary.geojson",
+    "status": "technical_osm",
+    "source_id": "osm_relation_1903516",
+    "scope_confirmed": false
+  },
+  "lez_source": {
+    "path": null,
+    "layer": null,
+    "status": "needs_input",
+    "source_id": null,
+    "research_scope_note": "Resolve the LEZ 2030 study definition against approved source maps; do not infer a polygon from a ring-road name."
+  },
+  "strata_mapping": "config/strata_mapping.csv"
+}

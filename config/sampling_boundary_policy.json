@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-10-05",
+  "status": "implemented_provisional_research_scope",
+  "authorization": "User permits flexible research classification around the official LEZ boundary; prioritizes inner-city proximity, population density and activity; requests 20 inside and 40 outside candidate routes.",
+  "legal_reference": {
+    "scope_id": "hanoi_LEZ_2030_resolution_57_2025",
+    "scope_selection_status": "user_selected_2030",
+    "effective_from": "2030-01-01",
+    "effective_to": null,
+    "basis": "57/2025/NQ-HDND Article 3(8) and Article 11(1)(c)",
+    "source_file": "data/raw/legal/resolution_57_2025.pdf",
+    "source_pages": [
+      3,
+      9
+    ],
+    "source_sha256": "f5f886b9c262890e2ffb51f8523f0b8629277ec46a6f6181beda88122a2dc377",
+    "geometry_path": "data/processed/boundary_proposals/9c341f6489eba76e3066/lez_admin_proxy.gpkg",
+    "geometry_layer": "lez_admin_proxy",
+    "geometry_status": "technical_osm_admin_extent_proxy_not_verified_official_gis",
+    "immutable_legal_boundary": true,
+    "note": "36-unit statutory name reference mapped to OSM administrative geometry; ring-road/approved map interpretation still requires independent GIS confirmation."
+  },
+  "alternative_legal_reference": {
+    "scope_id": "hanoi_pilot_2026_KV1_KV2",
+    "scope_selection_status": "provisional_from_latest_current_scope_request",
+    "effective_from": "2026-07-01",
+    "effective_to": "2026-12-31",
+    "basis": "3273/QD-UBND dated 2026-06-29",
+    "source_file": "data/raw/legal/decision_3273_map_appendices.pdf",
+    "source_pages": [
+      1,
+      2
+    ],
+    "source_sha256": "7d514b302765f737c3d72291079d48d3114c7c9ed5ce43592a3731750b750403",
+    "description_file": "data/raw/legal/lez_vd1_project_report.pdf",
+    "description_pages": [
+      18,
+      22
+    ],
+    "geometry_path": null,
+    "geometry_status": "official_map_available_verified_gis_missing",
+    "immutable_legal_boundary": true,
+    "note": "Historical 2026 pilot; not the selected research scenario."
+  },
+  "sampling_scope": {
+    "label_inside": "inside_research_sampling_scope",
+    "label_outside": "outside_research_sampling_scope",
+    "official_membership_kept_separately": true,
+    "adjustments_allowed_only_near_boundary": true,
+    "adjustment_unit": "explicit_polygon_or_polygon_part_not_entire_admin_unit_by_default",
+    "one_assignment_per_spatial_unit": true,
+    "boundary_band": {
+      "method": "distance_from_technical_2030_reference_boundary_in_metric_crs",
+      "distance_m": 1000,
+      "status": "provisional_research_parameter",
+      "note": "Only polygon parts within this metric band may change group; 1 km is a declared research starting value, not a statutory boundary or confirmed survey tolerance.",
+      "sensitivity_distances_m": [
+        500,
+        1000,
+        1500
+      ]
+    },
+    "inside_priority": [
+      "proximity_and_connection_to_inner_city",
+      "population_density_with_source_year",
+      "activity_intensity_with_documented_indicator"
+    ],
+    "weights": {
+      "population_density": 0.5,
+      "activity_density": 0.5
+    },
+    "missing_evidence_policy": "retain_pending_do_not_impute_zero_or_invent_density",
+    "do_not_treat_osm_road_density_as_population": true,
+    "require_reason_and_before_after_membership": true,
+    "require_area_and_length_change_report": true,
+    "keep_sampling_scope_version": true,
+    "classification": {
+      "method": "mean_midrank_percentile_population_and_activity",
+      "inside_score_at_least": 0.5,
+      "missing_input_policy": "keep_reference_membership_and_mark_pending",
+      "fixed_outside_band": true,
+      "rank_population_scope": "boundary_admin_units",
+      "rank_activity_scope": "boundary_polygon_parts",
+      "quota_policy": "generate_distinct_candidates_after_freezing_scope_no_relabeling_per_route"
+    }
+  },
+  "candidate_route_quota": {
+    "unit": "distinct_candidate_route_geometry",
+    "inside": 20,
+    "outside": 40,
+    "total": 60,
+    "require_continuity_and_direction": true,
+    "require_motorcycle_access_review": true,
+    "route_purity_basis": "research_sampling_scope",
+    "official_inside_length_fraction_kept": true,
+    "do_not_duplicate_geometry_to_fill_quota": true,
+    "if_infeasible": "report_shortfall_and_reason_no_false_completion"
+  },
+  "final_measurement_selection": {
+    "total": 30,
+    "note": "The candidate quota 20/40 does not automatically become a quota for the final 30 measurement routes."
+  },
+  "required_outputs": [
+    "official_LEZ_reference_layer_with_date_and_provenance",
+    "adjusted_research_sampling_scope_layer",
+    "boundary_adjustments_with_metrics_sources_and_reasons",
+    "route_membership_by_both_official_and_sampling_scope",
+    "candidate_quota_and_overlap_report"
+  ],
+  "automatic_activation": true,
+  "activation_scope": "new_research_sampling_outputs_only; statutory reference and raw OSM remain immutable"
+}

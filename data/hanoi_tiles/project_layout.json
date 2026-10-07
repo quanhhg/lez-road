@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "workspace_root": "../..",
+  "files": {
+    "completion_audit.json": "reports/overpass/completion_audit.json",
+    "download_issues.csv": "reports/overpass/download_issues.csv",
+    "download_summary.json": "reports/overpass/download_summary.json",
+    "final_code_checks.json": "reports/overpass/final_code_checks.json",
+    "geometry_integration_checks.json": "reports/overpass/geometry_integration_checks.json",
+    "implementation_baseline.json": "reports/overpass/implementation_baseline.json",
+    "latest_run.json": "reports/overpass/latest_run.json",
+    "notebook_checks.json": "reports/overpass/notebook_checks.json",
+    "notebook_download_checks.json": "reports/overpass/notebook_download_checks.json",
+    "pre_download_checks.json": "reports/overpass/pre_download_checks.json",
+    "qa_report.json": "reports/overpass/qa_report.json",
+    "retry_selection.json": "reports/overpass/retry_selection.json",
+    "split_checks.json": "reports/overpass/split_checks.json",
+    "download_tiles.geojson": "maps/hanoi_tiles/download_tiles.geojson",
+    "hanoi_boundary.geojson": "maps/hanoi_tiles/hanoi_boundary.geojson",
+    "hanoi_download_grid.gpkg": "maps/hanoi_tiles/hanoi_download_grid.gpkg",
+    "hanoi_download_grid.png": "maps/hanoi_tiles/hanoi_download_grid.png",
+    "hanoi_download_grid.tmp.gpkg": "maps/hanoi_tiles/hanoi_download_grid.tmp.gpkg",
+    "data/map_geometry.json": "maps/hanoi_tiles/map_geometry.json",
+    "relocation_report.json": "reports/overpass/relocation_report.json",
+    "relocation_preview_checks.json": "reports/overpass/relocation_preview_checks.json",
+    "relocation_geometry_checks.json": "reports/overpass/relocation_geometry_checks.json",
+    "final_relocation_checks.json": "reports/overpass/final_relocation_checks.json"
+  },
+  "directories": {
+    "runs": "reports/overpass/runs"
+  }
+}

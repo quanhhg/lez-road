@@ -1,0 +1,2 @@
+trip_id,route_id,vehicle_id,driver_id,started_at,ended_at,time_block,measurement_date,sampling_zone,lez_status_at_measurement,policy_version,route_version,source_bundle_sha256
+SYNTHETIC_DEMO_T001,A01,TEST_VEHICLE,TEST_DRIVER,2026-10-06T08:00:00+07:00,2026-10-06T08:00:30+07:00,synthetic_test,2026-10-06,A,unknown,LEZ2027_2030_LEZ_FIRST_v1,651f62df52e08fdf9e5f0047f82ee574f3788f374d21380c7bc413e5d4fb5f78,33d4badd0b534368b846d47633fa7ee7f17adc109ff041e07ac11be281852766
