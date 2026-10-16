@@ -56,7 +56,7 @@ Trạng thái gồm `matched`, `ambiguous`, `opposite_direction`, `off_route`, `
 
 Với hai điểm liên tiếp hợp lệ, tốc độ khoảng bằng trung bình hai tốc độ đầu/cuối; quãng đường tốc độ bằng tốc độ khoảng đổi sang m/s nhân thời gian. Tốc độ trung bình dùng quãng đường tích phân chia thời gian tốc độ hợp lệ. Khoảng có tốc độ trung bình ≤1 km/h là idle; khoảng còn lại là moving. Tốc độ moving loại phần quãng đường idle và chia thời gian moving.
 
-Gia tốc bằng chênh lệch tốc độ m/s chia thời gian s. Khi moving: gia tốc >0,1 m/s² là tăng tốc; <−0,1 là giảm tốc; khoảng ở giữa là cruise. Thời gian idle + moving bằng thời gian tốc độ hợp lệ; tăng tốc + giảm tốc + cruise bằng moving. Gia tốc vượt 8 m/s² bị gắn lỗi và loại khỏi khoảng tích phân. Trung bình gia tốc/giảm tốc là trung bình các khoảng tương ứng, có đơn vị m/s²; không phải gia tốc của toàn chuyến.
+Gia tốc bằng chênh lệch tốc độ m/s chia thời gian s. Khi moving: gia tốc >0,1 m/s² là tăng tốc; <−0,1 là giảm tốc; khoảng ở giữa là cruise. Thời gian idle + moving bằng thời gian tốc độ hợp lệ; tăng tốc + giảm tốc + cruise bằng moving. Gia tốc vượt 8 m/s² bị gắn lỗi và loại khỏi khoảng tích phân. Trung bình gia tốc/giảm tốc là trung bình có trọng số thời gian của các khoảng tương ứng, có đơn vị m/s²; không phải gia tốc của toàn chuyến.
 
 Khoảng cách GPS dùng khoảng cách cầu giữa điểm hợp lệ; xuất riêng với quãng đường tích phân tốc độ. Khoảng cách ghép tuyến dùng chênh lệch vị trí dọc tuyến khi hai điểm đều ghép rõ và tiến theo hướng. Không trộn ba nguồn khoảng cách.
 
@@ -77,3 +77,13 @@ API Python: `preflight(project, config, input_dir)`, `prepare(project, config, o
 Bộ điều phối chuyển sang `selection_report` của snapshot khảo sát kỹ thuật khi đã đủ điều kiện. Khi dùng module riêng, truyền config có `selection_report` nếu muốn đọc snapshot đó; mặc định dùng bộ 30 đề xuất.
 
 `operating_summary.json/csv` tổng hợp mô tả theo tuyến, A/B/C và khung giờ: tốc độ bằng tổng quãng đường tích phân chia tổng thời gian tốc độ hợp lệ; coverage dùng toàn thời gian khai báo của chuyến có metadata hợp lệ. Dòng metadata lỗi bị loại khỏi tổng. Không lấy trung bình giản đơn các tốc độ chuyến hoặc gọi kết quả là trung bình đại diện toàn Hà Nội.
+
+## Thông tin bổ sung và tiến độ T3
+
+Biểu mẫu chuyến mới có mã thiết bị, hướng chạy, loại ngày/kiểm lịch, thời tiết, sự kiện và giai đoạn đo. Bộ nhập cơ bản vẫn đọc được CSV cũ; T3 không đếm chuyến thiếu các thông tin này là tổ hợp đã đo hợp lệ. Không tự bổ sung giá trị quan sát vào bản nguồn. Sau `real_trip_qc`, bộ điều phối gọi `survey_coverage` để đối chiếu đúng phiên bản nguồn và chất lượng. Notebook 08 cũng hiển thị bước này ngay sau xử lý dữ liệu thực. Đọc [cách điền và xem T3](SURVEY_COVERAGE.md).
+
+## T5 - Chỉ tiêu vận hành mở rộng
+
+Đã bổ sung RPA/PKE theo SI, SAFD theo tỷ trọng thời gian và nhật ký từng khoảng. Gia tốc dương/âm trung bình dùng trọng số thời gian, hỗ trợ khoảng lấy mẫu không đều. Tổng hợp theo tuyến/vùng/khung giờ/loại ngày và tách giai đoạn đo; không lấy trung bình giản đơn các tỷ số chuyến. Cấu hình và công thức: [T5](OPERATING_METRICS.md).
+
+Mỗi bundle còn có `safd_by_trip.csv/json`, `safd_by_group.csv/json`, `kinematic_intervals.csv`, `operating_protocol.json`. Đầu vào trống vẫn báo chờ; không ghi số 0 giả cho RPA/PKE. Cách tính dùng khoảng tốc độ hợp lệ và không làm trơn hoặc nối khoảng trống. Với mô hình tuyến tính và ngưỡng dương 0, PKE=2×RPA; điều này cần được xét khi xây T6 sau này.

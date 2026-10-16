@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "method_version": "route_constrained_trip_qc_v1",
+  "schema_version": 2,
+  "method_version": "route_constrained_trip_qc_v2_T5",
   "input_directory": "data/measurements/incoming",
   "trips_filename": "trips.csv",
   "points_filename": "gps_points.csv",
@@ -27,16 +27,144 @@
     "grid_cell_size_m": 80.0
   },
   "required_trip_fields": [
-    "trip_id", "route_id", "vehicle_id", "driver_id", "started_at", "ended_at",
-    "time_block", "measurement_date", "sampling_zone", "lez_status_at_measurement", "policy_version",
-    "route_version", "source_bundle_sha256"
+    "trip_id",
+    "route_id",
+    "vehicle_id",
+    "driver_id",
+    "started_at",
+    "ended_at",
+    "time_block",
+    "measurement_date",
+    "sampling_zone",
+    "lez_status_at_measurement",
+    "policy_version",
+    "route_version",
+    "source_bundle_sha256"
   ],
-  "required_point_fields": ["trip_id", "timestamp", "latitude", "longitude", "speed", "speed_unit"],
-  "accepted_speed_units": {"km/h": 1.0, "kmh": 1.0, "kph": 1.0, "m/s": 3.6},
-  "valid_lez_statuses": ["unknown", "inside", "outside"],
+  "required_point_fields": [
+    "trip_id",
+    "timestamp",
+    "latitude",
+    "longitude",
+    "speed",
+    "speed_unit"
+  ],
+  "accepted_speed_units": {
+    "km/h": 1.0,
+    "kmh": 1.0,
+    "kph": 1.0,
+    "m/s": 3.6
+  },
+  "valid_lez_statuses": [
+    "unknown",
+    "inside",
+    "outside"
+  ],
   "notes": [
     "Thresholds are configurable QC/design choices, not observed Hanoi performance.",
     "Policy version and zone refer to the current research route snapshot; measurement LEZ status is recorded separately.",
     "No microtrip segmentation or driving-cycle construction is implemented."
-  ]
+  ],
+  "operating_metrics": {
+    "version": "T5_linear_interval_SI_v1",
+    "status": "proposed",
+    "interval_model": "linear_speed_constant_acceleration",
+    "positive_acceleration_threshold_m_s2": 0.0,
+    "distance_epsilon_m": 1e-09,
+    "pke_definition": "positive_delta_speed_squared_no_half",
+    "speed_edges_kmh": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60,
+      65,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95,
+      100,
+      105,
+      110,
+      115,
+      120,
+      125,
+      130,
+      135,
+      140,
+      145,
+      150,
+      155,
+      160,
+      165,
+      170,
+      175,
+      180
+    ],
+    "acceleration_edges_m_s2": [
+      -8.0,
+      -7.5,
+      -7.0,
+      -6.5,
+      -6.0,
+      -5.5,
+      -5.0,
+      -4.5,
+      -4.0,
+      -3.5,
+      -3.0,
+      -2.5,
+      -2.0,
+      -1.5,
+      -1.0,
+      -0.5,
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0,
+      4.5,
+      5.0,
+      5.5,
+      6.0,
+      6.5,
+      7.0,
+      7.5,
+      8.0
+    ],
+    "sources": [
+      {
+        "title": "TRL PPR354: A Reference Book of Driving Cycles, Version 3",
+        "url": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/4247/ppr-354.pdf",
+        "location": "Appendix B: Definitions of Art.Kinema parameters, Dynamics oriented, RPA/PKE",
+        "use": "RPA/PKE definitions; our explicitly documented SI interval integration is a project numerical convention."
+      },
+      {
+        "title": "Nguyen et al. (2022), A study on the determination of the real-world driving characteristics of motorcycles in Hanoi",
+        "url": "https://doi.org/10.47869/tcsj.73.4.6",
+        "location": "Tables 2–3, pp. 417–419",
+        "use": "Motorcycle operating parameters and PKE convention; not a validation of this project sampling design."
+      }
+    ],
+    "design_notes": [
+      "SAFD 5 km/h by 0.5 m/s2 bins are a versioned project proposal, not attributed to Nguyen (2024).",
+      "Use all valid speed intervals including stationary intervals; do not fill gaps or smooth raw data.",
+      "RPA and PKE share one valid-distance denominator. With this linear model and zero threshold PKE equals twice RPA.",
+      "Measurements and protocol approval remain separate from successful software checks."
+    ]
+  }
 }

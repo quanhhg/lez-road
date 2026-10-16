@@ -30,7 +30,7 @@ class AutomationSensitivityTests(unittest.TestCase):
         self.work=Path(self.temp.name).resolve()
         self.addCleanup(self.temp.cleanup)
 
-    def run_with_mocks(self, sensitivity_result=None, sensitivity_error=None, force=False, instructions_error=None):
+    def run_with_mocks(self, sensitivity_result=None, sensitivity_error=None, force=False, instructions_error=None, coverage_error=None, locked=False):
         calls=[];messages=[]
         def callback(name,result):
             def fn(*args,**kwargs):
@@ -39,6 +39,8 @@ class AutomationSensitivityTests(unittest.TestCase):
                     raise sensitivity_error
                 if name=='instructions' and instructions_error:
                     raise instructions_error
+                if name=='coverage' and coverage_error:
+                    raise coverage_error
                 return copy.deepcopy(result)
             return fn
         with ExitStack() as stack:
@@ -51,10 +53,11 @@ class AutomationSensitivityTests(unittest.TestCase):
                 ('lez.field_workflow.prepare','field_templates',{'directory':str(self.work/'field')}),
                 ('lez.field_workflow.status','field_status',{'status':'awaiting_field_observations'}),
                 ('lez.field_workflow.build_update_plan','update_plan',{'status':'proposed_update_plan'}),
-                ('lez.survey_revision.run','revision',{'status':'awaiting_field_observations','surveyed_set_locked':False}),
+                ('lez.survey_revision.run','revision',{'status':'awaiting_field_observations','surveyed_set_locked':locked}),
                 ('lez.trip_processing.prepare','corridors',{'status':'prepared'}),
                 ('lez.route_instructions.run','instructions',{'status':'exported_pending_field_review','route_count':30,'instruction_count':123}),
-                ('lez.trip_processing.run','trips',{'status':'awaiting_measurements','trip_count':0}),
+                ('lez.trip_processing.run','trips',{'status':'awaiting_measurements','trip_count':0,'operating_metrics_status':'awaiting_measurements','operating_metrics_version':'T5_linear_interval_SI_v1'}),
+                ('lez.survey_coverage.run','coverage',{'status':'awaiting_measurements','observed_cells':0,'planned_cells':180,'design_status':'proposed'}),
                 ('lez.trip_processing.load_config','trip_config',{})]
             mocks={name:stack.enter_context(patch(target,side_effect=callback(name,result))) for target,name,result in targets}
             try:
@@ -78,6 +81,8 @@ class AutomationSensitivityTests(unittest.TestCase):
         self.assertIs(mocks['sensitivity'].call_args.kwargs['force'],False)
         self.assertEqual(result,automation.status(self.work))
         self.assertEqual(result['measured_trips'],0)
+        self.assertEqual(result['operating_metrics_status'],'awaiting_measurements')
+        self.assertEqual(result['operating_metrics_version'],'T5_linear_interval_SI_v1')
 
     def test_force_option_is_forwarded_to_sensitivity(self):
         result,_,mocks,_=self.run_with_mocks(force=True)
@@ -102,6 +107,31 @@ class AutomationSensitivityTests(unittest.TestCase):
         self.assertEqual(report['status'],'failed')
         self.assertIn('directed_trip_corridors',report['steps'])
         self.assertNotIn('trips',calls)
+
+    def test_T3_runs_after_QC_with_current_route_config(self):
+        result,calls,mocks,_=self.run_with_mocks()
+        self.assertLess(calls.index('trips'),calls.index('coverage'))
+        self.assertEqual(result['survey_cells_with_valid_trips'],0)
+        self.assertEqual(result['survey_planned_cells'],180)
+        self.assertIn('survey_coverage',result['step_seconds'])
+        self.assertIn('survey_design_targets_confirmation',result['pending'])
+        self.assertIs(mocks['coverage'].call_args.kwargs['trip_report'],result['steps']['real_trip_qc'])
+
+    def test_T3_and_T2_follow_the_same_frozen_route_snapshot(self):
+        result,_,mocks,_=self.run_with_mocks(locked=True)
+        self.assertIsInstance(result,dict)
+        expected='reports/field/latest_survey_revision.json'
+        self.assertEqual(mocks['instructions'].call_args.kwargs['selection_report'],expected)
+        self.assertEqual(mocks['coverage'].call_args.kwargs['selection_report'],expected)
+        self.assertEqual(mocks['coverage'].call_args.kwargs['trip_config']['selection_report'],expected)
+
+    def test_T3_failure_keeps_QC_and_completed_outputs(self):
+        result,_,_,_=self.run_with_mocks(coverage_error=ValueError('corrupt QC bundle'))
+        self.assertIsInstance(result,ValueError)
+        report=automation.status(self.work)
+        self.assertEqual(report['active_step'],'survey_coverage')
+        self.assertEqual(report['status'],'failed')
+        self.assertIn('real_trip_qc',report['steps'])
 
     def test_unresolved_scenario_stops_before_maps_and_preserves_completed_steps(self):
         value=sensitivity();value.update(status='completed_with_unresolved_scenarios',completed_scenarios=112,
@@ -158,6 +188,7 @@ class AutomationSensitivityTests(unittest.TestCase):
             stack.enter_context(patch('lez.trip_processing.load_config',return_value={}))
             stack.enter_context(patch('lez.field_workflow.config',return_value={}))
             stack.enter_context(patch('lez.route_instructions.configuration',return_value={}))
+            stack.enter_context(patch('lez.survey_coverage.configuration',return_value={'survey_design':{'version':'T3_test','status':'proposed'}}))
             protocol=stack.enter_context(patch('lez.selection_sensitivity.protocol',return_value={'method_version':'sensitivity_v1'}))
             frozen=stack.enter_context(patch('lez.selection_sensitivity.preflight_sensitivity',side_effect=AssertionError('fresh work has no selection yet')))
             result=automation.preflight(self.work)

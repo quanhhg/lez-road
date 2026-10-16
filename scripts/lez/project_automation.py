@@ -10,7 +10,7 @@ if not __package__:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     __package__ = 'lez'
 from .common import WORK, atomic_json, file_hash, input_path, now, relative
-VERSION='LEZ_FIRST_AUTOMATION_v3_T2'
+VERSION='LEZ_FIRST_AUTOMATION_v5_T5'
 REPORT='reports/automation/latest_project_automation.json'
 
 
@@ -22,6 +22,7 @@ def preflight(work=WORK):
     from .field_workflow import config as field_config
     from .selection_sensitivity import protocol as sensitivity_protocol
     from .route_instructions import configuration as instructions_configuration
+    from .survey_coverage import configuration as survey_configuration
     work=Path(work).resolve()
     sampling=configuration(work);selection=selection_configuration(work)
     policy=json.loads((work/'config/lez_policy.json').read_text())
@@ -45,11 +46,15 @@ def preflight(work=WORK):
         states=Counter(r['status'] for r in csv.DictReader(stream) if r['status']!='split')
     if set(states)!={'done'}:raise ValueError('OSM source tiles are not all completed: '+str(states))
     result=sampling_preflight(work)
-    load_config(work);field_config(work);instructions_configuration(work)
+    trip=load_config(work);field_config(work);instructions_configuration(work)
+    survey=survey_configuration(work)
     sensitivity=sensitivity_protocol(work)
     return dict(result,status='ready',method_version=VERSION,source_tile_states=dict(states),
                 policy_version=policy['policy_version'],raw_source_audit=relative(work/'reports/overpass/completion_audit.json',work),
                 raw_osm_modified=False,driving_cycle_constructed=False,
+                operating_metrics_version=trip.get('operating_metrics',{}).get('version'),
+                survey_design_version=survey['survey_design']['version'],
+                survey_design_status=survey['survey_design']['status'],
                 sensitivity_method_version=sensitivity['method_version'],
                 sensitivity_config=relative(work/'config/selection_sensitivity.json',work))
 
@@ -100,6 +105,7 @@ def run(work=WORK, *, force=False, progress=print, observations=None, input_dir=
     from .trip_processing import prepare as prepare_trips, run as process_trips, load_config
     from .survey_revision import run as revise_survey
     from .route_instructions import run as export_instructions
+    from .survey_coverage import run as assess_coverage
     work=Path(work).resolve();check=preflight(work);timer=time.monotonic()
     report={'status':'running','method_version':VERSION,'started_at':now(),'policy_version':check['policy_version'],
             'steps':{},'step_seconds':{},'network_calls':0,'raw_osm_modified':False,'driving_cycle_constructed':False,
@@ -132,10 +138,18 @@ def run(work=WORK, *, force=False, progress=print, observations=None, input_dir=
         instructions=step('route_instructions',lambda:export_instructions(
             work,selection_report=trip_config.get('selection_report'),force=force,progress=progress))
         trips=step('real_trip_qc',lambda:process_trips(work,config=trip_config,input_dir=input_dir))
+        coverage=step('survey_coverage',lambda:assess_coverage(work,
+            trip_config=trip_config,selection_report=trip_config.get('selection_report'),
+            input_dir=input_dir,trip_report=trips))
         report.update(status='automated_pre_survey_complete_awaiting_field_evidence',finished_at=now(),
                       active_step=None,elapsed_seconds=time.monotonic()-timer,
                       candidate_routes=pool['candidates']['created_routes'],selected_routes=len(selected['selected_route_ids']),
                       measured_trips=trips.get('trip_count',0),
+                      operating_metrics_status=trips.get('operating_metrics_status','not_run'),
+                      operating_metrics_version=trips.get('operating_metrics_version'),
+                      survey_coverage_status=coverage['status'],
+                      survey_cells_with_valid_trips=coverage['observed_cells'],
+                      survey_planned_cells=coverage['planned_cells'],
                       route_instruction_routes=instructions['route_count'],
                       route_instruction_steps=instructions['instruction_count'],
                       sensitivity_scenarios=sensitivity['total_scenarios'],
@@ -146,6 +160,8 @@ def run(work=WORK, *, force=False, progress=print, observations=None, input_dir=
         if not revision.get('surveyed_set_locked'): report['pending'].append('dated_G1_G4_G5_G6_and_C6_evidence')
         if not trips.get('trips_with_valid_speed_intervals',0): report['pending'].append('real_GPS_speed_time_measurements')
         elif trips.get('status')!='processed': report['pending'].append('measurement_QC_flags_review')
+        if coverage['design_status'] != 'approved': report['pending'].append('survey_design_targets_confirmation')
+        if coverage['status'] != 'coverage_targets_met_pending_T6': report['pending'].append('survey_coverage_incomplete')
         if revision.get('surveyed_set_locked') and trips.get('trips_with_valid_speed_intervals',0)>0:
             report['status']='automated_processing_complete_pending_evidence_QA_review'
         atomic_json(work/REPORT,report);return report

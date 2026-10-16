@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "method_version": "field_workflow_evidence_v1",
+  "schema_version": 2,
+  "method_version": "field_workflow_evidence_v2_T3",
   "selection_report": "reports/selection/latest_selection_30.json",
   "selection_config": "config/selection_30.json",
   "sampling_report": "reports/sampling/latest_sampling_abc.json",
@@ -141,5 +141,43 @@
   },
   "unknown_policy": "blank_value_until_observed; never copy OSM/model values into observations",
   "geometry_update_policy": "observed_attributes_in_versioned_overlay; block_geometry_direction_conflicts_until_rebuilt_graph_is_verified",
-  "final_lock_policy": "automatic_immutable_technical_snapshot_only_after_exact_quota_and_complete_dated_gates_C6_and_policy_evidence"
+  "final_lock_policy": "automatic_immutable_technical_snapshot_only_after_exact_quota_and_complete_dated_gates_C6_and_policy_evidence",
+  "survey_design": {
+    "version": "T3_weekday_weekend_proposal_v1",
+    "status": "proposed",
+    "planned_day_types": [
+      "weekday",
+      "weekend"
+    ],
+    "coverage_targets": {
+      "minimum_valid_trips_per_cell": null,
+      "minimum_distinct_dates_per_cell": null
+    },
+    "quality_rules": {
+      "status": "proposed_configurable_QC_not_a_scientific_sample_size",
+      "minimum_speed_time_fraction": 0.9,
+      "minimum_gps_time_fraction": 0.9,
+      "minimum_matched_time_fraction": 0.9,
+      "minimum_route_length_fraction": 0.9
+    },
+    "weather_values": [
+      "dry",
+      "light_rain",
+      "heavy_rain",
+      "other",
+      "unknown"
+    ],
+    "event_values": [
+      "none_reported",
+      "unusual_event",
+      "unknown"
+    ],
+    "calendar_overrides": {},
+    "calendar_policy": "Explicit local-date declaration; checked=yes means recorder checked the calendar. No automatic public-holiday lookup; sourced overrides supported.",
+    "condition_policy": "Record weather/events separately; no implicit exclusion by weather/event. Pilot trips and unplanned day types do not fill main design cells.",
+    "notes": [
+      "Two planning repetitions do not set mandatory sample size or replace G5 evidence on at least two dates.",
+      "Coverage is distinct from T6 stability/data-sufficiency assessment. Targets remain null until design is confirmed."
+    ]
+  }
 }

@@ -134,7 +134,8 @@ def source_bundle(work, cfg):
         raise ValueError("Candidate walk IDs differ from classification")
     fingerprint = hashlib.sha256(json.dumps({"report": sha(report_path),
         "classification": sha(classification), "walks": sha(walk_path),
-        "config": cfg, "workflow_code": sha(__file__)}, sort_keys=True).encode()).hexdigest()[:20]
+        "config": cfg, "workflow_code": sha(__file__),
+        "survey_design_code": sha(Path(__file__).with_name("survey_coverage.py"))}, sort_keys=True).encode()).hexdigest()[:20]
     return {"report": report, "report_path": report_path, "directory": directory,
             "candidates": candidates, "selected_ids": selected_ids,
             "walks": walks, "parent_dir": parent_dir, "fingerprint": fingerprint}
@@ -226,7 +227,10 @@ def desk_priorities(bundle, cfg):
 
 def prepare(work=WORK, output=None, config_path=None):
     work = Path(work).resolve()
-    cfg = config(work, config_path)
+    if str(Path(__file__).resolve().parents[1]) not in sys.path:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from lez.survey_coverage import configuration as survey_configuration, ensure_trip_template, schedule_rows
+    cfg = survey_configuration(work, config(work, config_path))
     bundle = source_bundle(work, cfg)
     output = Path(output).resolve() if output else resolve(work, cfg["output_directory"]) / bundle["fingerprint"]
     output.mkdir(parents=True, exist_ok=True)
@@ -274,16 +278,17 @@ def prepare(work=WORK, output=None, config_path=None):
             "imputed_length_fraction": "", "is_field_observation": False})
     write_csv(output / "attributes_osm.csv", osm)
     write_csv(output / "attributes_models.csv", models)
-    for name, fields in (("field_observations.csv", OBS_FIELDS), ("trip_registry.csv", TRIP_FIELDS), ("gps_points.csv", POINT_FIELDS)):
+    for name, fields in (("field_observations.csv", OBS_FIELDS), ("gps_points.csv", POINT_FIELDS)):
         # Re-running preparation must never erase actual observations or trips.
         if not (output / name).exists():
             write_csv(output / name, [], fields)
+    template_updates = [ensure_trip_template(output / "trip_registry.csv", TRIP_FIELDS)]
     incoming = resolve(work, cfg["measurement_incoming"])
     # With an explicit staging output, all writes remain beneath that output.
     incoming = output / "measurement_incoming" if output.is_relative_to(work) is False else incoming
-    for name, fields in (("trips.csv", TRIP_FIELDS), ("gps_points.csv", POINT_FIELDS)):
-        if not (incoming / name).exists():
-            write_csv(incoming / name, [], fields)
+    template_updates.append(ensure_trip_template(incoming / "trips.csv", TRIP_FIELDS))
+    if not (incoming / "gps_points.csv").exists():
+        write_csv(incoming / "gps_points.csv", [], POINT_FIELDS)
     selected = [r for r in registry if r["selected"]]
     checklist = []
     questions = []
@@ -314,24 +319,19 @@ def prepare(work=WORK, output=None, config_path=None):
                 "answer": "", "observed_at": "", "evidence_uri": ""})
     write_csv(output / "survey_checklist.csv", checklist)
     write_csv(output / "evidence_questionnaires.csv", questions)
-    schedule = []
-    for r in selected:
-        for block in cfg["time_blocks"]:
-            for repeat in range(1, cfg["repeat_schedule"]["proposed_repeat_count"] + 1):
-                schedule.append({"route_id": r["route_id"], "sampling_zone": r["sampling_zone"],
-                    "lez2030_group": r["lez2030_group"], "policy_version": r["policy_version"],
-                    "trip_id": "", "vehicle_id": "", "driver_id": "", "measurement_date": "",
-                    "lez_status_at_measurement": "", "time_block": block["time_block"],
-                    "route_version": r["route_version"], "source_bundle_sha256": r["source_bundle_sha256"],
-                    "proposed_local_start": block["local_start"], "proposed_local_end": block["local_end"],
-                    "planned_repeat": repeat, "status": "schedule_template_not_measured"})
-    write_csv(output / "trip_schedule_template.csv", schedule)
+    schedule = schedule_rows(selected, cfg)
+    # A researcher may have filled dates/resources in their local schedule.
+    # Re-running preparation never overwrites that work.
+    if not (output / "trip_schedule_template.csv").exists():
+        write_csv(output / "trip_schedule_template.csv", schedule)
     write_csv(output / "desk_review_priority.csv", desk_priorities(bundle, cfg))
     write_json(output / "C6_rubric.json", cfg["c6"])
     manifest = {"status": "prepared_awaiting_field_observations", "method_version": cfg["method_version"],
         "fingerprint": bundle["fingerprint"], "created_at": (read_json(output / "manifest.json").get("created_at") if (output / "manifest.json").exists() else datetime.now(timezone.utc).isoformat()),
         "work": str(work), "directory": str(output), "candidate_routes": len(registry),
         "selected_routes": len(selected), "quota": cfg["quota"], "measured_trips_created": 0,
+        "proposed_schedule_rows": len(schedule), "proposed_coverage_cells": len(selected) * len(cfg["time_blocks"]) * len(cfg["survey_design"]["planned_day_types"]),
+        "survey_design_status": cfg["survey_design"]["status"], "trip_template_updates": template_updates,
         "field_observations_created": 0, "measurement_verified": False, "surveyed_set_locked": False,
         "incoming_directory": str(incoming), "source_selection_report": str(bundle["report_path"]),
         "source_selection_report_sha256": sha(bundle["report_path"]),

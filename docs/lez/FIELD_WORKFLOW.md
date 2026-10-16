@@ -10,7 +10,7 @@ Mở `work/notebooks/07_field_workflow.ipynb`. `field_workflow.prepare(WORK)` t�
 | field_observations.csv | Ledger quan sát ban đầu chỉ có header |
 | survey_checklist.csv, evidence_questionnaires.csv | Câu hỏi và bằng chứng cần thu |
 | desk_review_priority.csv | Ưu tiên kiểm làn/tốc độ/C6/độ nhạy; không thêm trọng số chọn tuyến |
-| trip_schedule_template.csv | 30 tuyến ×3 khung giờ ×2 lượt dự kiến =180 dòng kế hoạch |
+| trip_schedule_template.csv | 30 tuyến ×3 khung giờ ×2 loại ngày ×2 lượt dự kiến =360 dòng kế hoạch |
 | trip_registry.csv, gps_points.csv | Mẫu schema chuyến/điểm, chưa phải dữ liệu đo |
 
 Tạo CSV nhập theo header ledger. Một dòng là một giá trị/đánh giá có ngày, người ghi, bằng chứng và phạm vi. `evidence_source=field` cần bằng chứng thực địa; `desk` được giữ riêng và không làm G thực địa passed. `unknown/pending` phải để value trống. ID trùng đúng nội dung được bỏ qua; ID trùng khác nội dung bị từ chối. Batch lỗi chưa nhập vào ledger; lỗi xuất `last_import_validation.json`. Bản nhập hợp lệ được lưu nguyên byte trong imports.
@@ -39,3 +39,9 @@ Revision tính làn/tốc độ theo chiều dài các phần đã đi, giữ OS
 Nguồn OSM, graph và hình học gốc không bị sửa. Sai chiều/rẽ/hình học được chặn đến khi có graph mới được kiểm; mô tả tự do không đủ để tự vẽ đường hay suy hạn chế rẽ mới. Thuộc tính đo nằm trong bundle `survey_revision/<hash>`, gồm overlay, bằng chứng từng phần, tuyến bị chặn, bộ chọn mới và lịch sử thuật toán.
 
 Chỉ khi cả 30 đủ G/C6/bằng chứng chính sách theo ngày, revision công bố snapshot `surveyed_technical_set_frozen`; vẫn `official_gis_verified=false`. Đây là khóa phiên bản kỹ thuật để truy vết, không xác nhận quyền pháp lý từ một giá trị proxy. Bộ điều phối chuyển xử lý chuyến sang snapshot đó, giữ hợp đồng phiên bản của graph/tuyến trong cùng chiến dịch. Còn thiếu dữ liệu thì `reselected_awaiting_field_evidence` hoặc `awaiting_field_observations`.
+
+## T3 - Lịch và tiến độ tổ hợp
+
+Đã bổ sung ngày thường/cuối tuần, mã thiết bị, hướng chạy, kiểm tra lịch ngày lễ, thời tiết, sự kiện và nhãn đo thử/khảo sát chính. Bộ hiện tại có 180 tổ hợp và 360 lượt dự kiến; số lượt dự kiến không phải cỡ mẫu bắt buộc. Tệp chuyến trống được thêm cột; tệp đã có dữ liệu được giữ nguyên và báo những cột thiếu. Lịch đã tạo không bị ghi đè khi chuẩn bị lại.
+
+Module `work/scripts/lez/survey_coverage.py` chỉ đếm chuyến thực đủ metadata và qua kiểm tra GPS có hướng, đúng snapshot. Notebook 07 mục 7 và notebook 09 mục 8 hiển thị tổ hợp đã đo/còn thiếu cùng lý do từng chuyến. Mục tiêu số chuyến/ngày mỗi tổ hợp vẫn chưa chốt; G5, bằng chứng G/C6 và T6 được đánh giá riêng. Xem [hướng dẫn T3](SURVEY_COVERAGE.md).

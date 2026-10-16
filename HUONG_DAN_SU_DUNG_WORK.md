@@ -130,6 +130,8 @@ Trong `tiles.csv`, `query_file` và `response_dir` được tính tương đối
 | `lez/selection_30.py`, `selection_metrics.py`, `selection_gates.py` | Kiểm điều kiện, tính biến/điểm, chọn 30 và dự phòng |
 | `lez/export_route_maps.py` | Xuất bản đồ có tên đường cho 30/60 tuyến |
 | `lez/route_instructions.py` | T2: chỉ dẫn chạy, sơ đồ, GPX và điểm cần rà soát |
+| `lez/survey_coverage.py` | T3: lịch theo loại ngày, điều kiện đo và tiến độ tổ hợp |
+| `lez/operating_metrics.py` | T5: RPA/PKE, phân bố tốc độ–gia tốc và tổng hợp có trọng số |
 | `setup/setup_pyqgis_kernel.py` | Tạo runtime và đăng ký kernel PyQGIS |
 
 Người sử dụng thông thường chạy notebook hoặc CLI đã hướng dẫn, không cần chạy riêng từng module nội bộ như `network.py` hay `selection_metrics.py`.
@@ -668,6 +670,18 @@ python3 scripts/lez/route_instructions.py status
 
 Chi tiết đầu vào, đầu ra, tiếp tục và phiên bản: [work/docs/lez/ROUTE_INSTRUCTIONS.md](docs/lez/ROUTE_INSTRUCTIONS.md).
 
+### 8.4. T3 - Tổ chức và theo dõi khảo sát
+
+Notebook 09 mục 8 đọc lịch, tiến độ và lý do từng chuyến chưa được đếm. Có 180 tổ hợp tuyến × khung giờ × ngày thường/cuối tuần; lịch hai lượt tạo 360 dòng đề xuất. Mục tiêu số chuyến/ngày mỗi tổ hợp vẫn để trống đến khi chốt thiết kế.
+
+Chuẩn bị biểu mẫu bằng notebook 07 mục 1; ghi mã thiết bị, hướng chạy, loại ngày đã kiểm lịch, thời tiết, sự kiện và nhãn đo thử/khảo sát chính. Tệp đã có dữ liệu không tự bị viết lại để thêm cột. Sau khi nhập chuyến/GPS, chạy notebook 08 hoặc notebook 09 mục 2 rồi xem T3; dữ liệu chưa đủ chất lượng hoặc còn thiếu thông tin vẫn được giữ và báo lý do. G1/G4/G5/G6/C6 không tự đạt từ bảng này.
+
+Xem [work/docs/lez/SURVEY_COVERAGE.md](docs/lez/SURVEY_COVERAGE.md). T3 theo dõi các tổ hợp khảo sát; đánh giá hội tụ và mức đủ dữ liệu thuộc T6.
+
+### 8.5. T5 - Mở rộng chỉ tiêu vận hành
+
+Notebook 09 mục 9 chạy RPA/PKE và SAFD từ cùng nguồn chuyến/GPS của bước kiểm tra dữ liệu thực; notebook 08 cũng có phần xem T5. Dùng trọng số thời gian/quãng đường đúng mẫu số, tách đo thử và khảo sát chính; không điền số đo từ OSM. Cấu hình công thức và lưới nằm ở `work/config/trip_processing.json`, phần `operating_metrics`, hiện ghi là đề xuất. Đầu vào trống vẫn chờ dữ liệu; năm ví dụ giả chỉ kiểm tra cách tính. Xem [work/docs/lez/OPERATING_METRICS.md](docs/lez/OPERATING_METRICS.md).
+
 ## 9. Hiểu các biến, điều kiện và điểm chọn tuyến
 
 ### 9.1. RC, chiều dài và độ phủ
@@ -835,7 +849,7 @@ Hiện chưa có một notebook tự nhập bản checklist quan sát để tự
 
 1. Khảo sát tuyến/neo, xác minh quyền đi, công trình, khả năng lặp, an toàn; cập nhật C6 và thuộc tính còn thiếu.
 2. Tính lại lựa chọn khi chứng cứ buộc phải đổi tuyến, rồi khóa bộ và phiên bản chính sách.
-3. Thiết kế lịch đo, số lượt, khung giờ, thiết bị và quy trình đo theo chuyên đề.
+3. Chốt mục tiêu số chuyến/ngày của lịch T3, phân công ngày/xe/người lái/thiết bị và tổ chức đo thử ngoài thực địa theo chuyên đề.
 4. Thu chuỗi tốc độ–thời gian/GPS, giữ file gốc; ghi `trip_id`, `route_id`, thời gian đo, ABC, trạng thái LEZ ở ngày đo và `policy_version`.
 5. Kiểm/làm sạch chuyến, map matching khi cần, tính chỉ tiêu vận hành thực đo.
 6. Xây dựng, kiểm định hai chu trình lái và hoàn thiện báo cáo nghiên cứu.

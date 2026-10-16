@@ -22,6 +22,7 @@ Các bước chạy tuần tự:
 8. Cập nhật thuộc tính trong overlay riêng; chấm lại, loại tuyến lỗi và chọn lại với đúng A10/B8/C12. Tính lại toàn bộ chỉ tiêu. Tạo snapshot khảo sát kỹ thuật khi đủ bằng chứng.
 9. Kiểm hành lang cung có hướng; xuất T2: phiếu chạy từng tuyến, chỉ dẫn, GPX và sơ đồ. Dùng đúng bộ đề xuất hoặc snapshot khảo sát được khóa ở bước 8.
 10. Nhập GPS/tốc độ, chuẩn hóa đơn vị, kiểm lỗi, ghép đúng tuyến và tính chỉ tiêu vận hành.
+11. T3 đối chiếu dữ liệu thực với tuyến × khung giờ × loại ngày; xuất lịch, tổ hợp thiếu và lý do chuyến chưa được đếm.
 
 Khi chưa có quan sát/chuyến đo, kết quả là `automated_pre_survey_complete_awaiting_field_evidence`. Các bước nhập, cập nhật, kiểm GPS đã có mã nhưng chưa thể tạo kết quả thực địa. Lịch dự kiến không được đếm là chuyến thực.
 
@@ -45,3 +46,7 @@ Notebook 09 có mục 4 để xem số kịch bản, nhóm thử, bảng so sán
 Phân tích hiện tại dùng pool 60 và bộ 30 đề xuất trước khảo sát, giữ quota A10/B8/C12. Quy trình cập nhật sau khảo sát vẫn chạy riêng ở bước sau; độ nhạy này chưa đại diện cho bộ tuyến đã cập nhật bằng dữ liệu thực địa. Xem [SENSITIVITY.md](SENSITIVITY.md).
 
 T2 lưu báo cáo `work/reports/routes/latest_route_instructions.json` và trang mở nhanh `work/maps/route_instructions/index.html`. Bước `route_instructions` có thời gian/trạng thái riêng; lỗi nguồn hoặc cache chặn bước sau. Đọc [ROUTE_INSTRUCTIONS.md](ROUTE_INSTRUCTIONS.md) để chạy T2 riêng.
+
+T3 là bước `survey_coverage` sau `real_trip_qc`, dùng cùng snapshot và thư mục dữ liệu đo. Notebook 09 mục 8 chạy/xem riêng. Hiện có 180 tổ hợp, 360 lượt dự kiến, còn chờ dữ liệu và xác nhận mục tiêu số chuyến/ngày. Chuyến có dữ liệu nhưng thiếu thông tin hoặc chất lượng chưa đạt bộ lọc đề xuất vẫn được giữ, chưa làm tăng số tổ hợp đã đo. Báo cáo tổng có `survey_coverage_status`, `survey_cells_with_valid_trips`, `survey_planned_cells`; thiếu tổ hợp hay chưa chốt thiết kế vẫn được ghi trong `pending`. Xem [T3](SURVEY_COVERAGE.md).
+
+T5 được tính trong bước `real_trip_qc`, gồm RPA/PKE/SAFD, tổng hợp có trọng số và nhật ký từng khoảng. Preflight kiểm cả cấu hình công thức/lưới. Báo cáo điều phối có `operating_metrics_status` và `operating_metrics_version`. Notebook 09 mục 9 chạy/xem riêng và kiểm tra công thức bằng ví dụ giả; nguồn thực trống vẫn báo chờ. Xem [T5](OPERATING_METRICS.md).

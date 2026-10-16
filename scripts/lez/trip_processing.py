@@ -24,7 +24,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-VERSION = "route_constrained_trip_qc_v1"
+if not __package__:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from lez import operating_metrics as kinematics
+
+VERSION = "route_constrained_trip_qc_v2_T5"
 WORK = Path(__file__).resolve().parents[2] if Path(__file__).parent.name == "lez" else Path(__file__).resolve().parent
 
 
@@ -107,6 +111,7 @@ def load_config(project=WORK, config=None):
     if m["metric_crs"] != "EPSG:3405":
         raise ValueError("Current source network requires EPSG:3405")
     ZoneInfo(cfg["measurement_timezone"])
+    kinematics.protocol(cfg)
     return cfg
 
 
@@ -498,26 +503,29 @@ def match_points(points, trips, corridors, cfg):
     return output
 
 
-def operating_metrics(trips, points, cfg):
+def operating_metrics(trips, points, cfg, *, details=None):
     """Interval integrals exclude gaps/errors; denominators explicitly exported."""
     grouped = defaultdict(list)
     for p in points: grouped[p.get("trip_id")].append(p)
     results = []
     for t in trips:
         rows = grouped.get(t.get("trip_id"), []); previous = None
+        extra = kinematics.compute(rows, cfg)
+        if details is not None: details.append(extra)
         gps_distance = speed_distance = gps_time = speed_time = idle = moving = accel = decel = cruise = matched_distance = matched_time = 0.0
         accelerations, speeds, deviations = [], [], []
         interval_count = 0
-        for p in rows:
+        for index, p in enumerate(rows):
             dt = p["interval_s"]
             if p["speed_valid"] and p["speed_kmh"] is not None: speeds.append(p["speed_kmh"])
             if p.get("route_deviation_m") is not None: deviations.append(p["route_deviation_m"])
             if p["gps_interval_valid"] and p["gps_interval_distance_m"] is not None:
                 gps_distance += p["gps_interval_distance_m"]; gps_time += dt
-            if p["speed_interval_valid"] and previous:
-                speed_time += dt; interval_count += 1
-                v = (previous["speed_kmh"] + p["speed_kmh"]) / 2
-                speed_distance += v / 3.6 * dt
+            interval = extra["used_intervals"].get(index)
+            if interval is not None:
+                speed_time += interval["duration_s"]; interval_count += 1
+                v = interval["mean_speed_kmh"]
+                speed_distance += interval["distance_m"]
                 # State uses interval mean speed; half-idle transitions remain moving.
                 if v <= cfg["idle_speed_kmh"]: idle += dt
                 else:
@@ -535,6 +543,8 @@ def operating_metrics(trips, points, cfg):
         observed_span = (rows[-1]["_time"] - rows[0]["_time"]).total_seconds() if rows and rows[-1]["_time"] and rows[0]["_time"] and rows[-1]["_time"] >= rows[0]["_time"] else None
         result = {"trip_id": t.get("trip_id"), "route_id": t.get("route_id"), "metadata_valid": t["valid"],
             "sampling_zone": t.get("sampling_zone"), "policy_version": t.get("policy_version"), "measurement_date": t.get("measurement_date"),
+            "trip_source_row": t.get("source_row"), "day_type": t.get("day_type") or "unknown",
+            "collection_stage": t.get("collection_stage") or "unknown", "device_id": t.get("device_id"),
             "time_block": t.get("time_block"), "lez_status_at_measurement": t.get("lez_status_at_measurement"),
             "route_version": t.get("route_version"), "source_bundle_sha256": t.get("source_bundle_sha256"),
             "point_count": len(rows), "valid_speed_point_count": len(speeds), "valid_gps_point_count": sum(p["gps_valid"] for p in rows),
@@ -548,8 +558,6 @@ def operating_metrics(trips, points, cfg):
             "maximum_valid_speed_kmh": max(speeds) if speeds else None,
             "idle_time_s": idle, "moving_time_s": moving, "idle_fraction_valid_speed_time": idle / speed_time if speed_time else None,
             "acceleration_time_s": accel, "deceleration_time_s": decel, "cruise_time_s": cruise,
-            "mean_acceleration_m_s2": sum(a for a in accelerations if a > cfg["acceleration_threshold_m_s2"]) / sum(a > cfg["acceleration_threshold_m_s2"] for a in accelerations) if any(a > cfg["acceleration_threshold_m_s2"] for a in accelerations) else None,
-            "mean_deceleration_m_s2": sum(a for a in accelerations if a < -cfg["acceleration_threshold_m_s2"]) / sum(a < -cfg["acceleration_threshold_m_s2"] for a in accelerations) if any(a < -cfg["acceleration_threshold_m_s2"] for a in accelerations) else None,
             "maximum_abs_acceleration_m_s2": max(map(abs, accelerations)) if accelerations else None,
             "matched_distance_m": matched_distance if matched_time else None, "matched_duration_s": matched_time,
             "match_status_counts": dict(Counter(p.get("match_status", "not_requested") for p in rows)),
@@ -557,10 +565,11 @@ def operating_metrics(trips, points, cfg):
             "flagged_point_count": sum(bool(p["flags"]) for p in rows)}
         # Moving mean excludes the speed-integral contribution of idle intervals.
         idle_distance = 0.0
-        for a, b in zip(rows, rows[1:]):
-            if b["speed_interval_valid"] and (a["speed_kmh"] + b["speed_kmh"]) / 2 <= cfg["idle_speed_kmh"]:
-                idle_distance += (a["speed_kmh"] + b["speed_kmh"]) / 2 / 3.6 * b["interval_s"]
+        for interval in extra["used_intervals"].values():
+            if interval["mean_speed_kmh"] <= cfg["idle_speed_kmh"]:
+                idle_distance += interval["distance_m"]
         result["mean_moving_speed_kmh"] = (speed_distance - idle_distance) / moving * 3.6 if moving else None
+        result.update(extra["metrics"])
         results.append(result)
     return results
 
@@ -569,16 +578,15 @@ def operating_summary(metrics):
     """Descriptive time-weighted totals; no city-wide sampling inference."""
     buckets = defaultdict(list)
     for row in metrics:
-        buckets[("route", row.get("route_id"), "")].append(row)
-        buckets[("zone", row.get("sampling_zone"), "")].append(row)
-        buckets[("zone_time_block", row.get("sampling_zone"), row.get("time_block"))].append(row)
+        for key in kinematics.group_keys(row):
+            buckets[key].append(row)
     result = []
-    for (kind, group, block), records in sorted(buckets.items(), key=lambda x:str(x[0])):
+    for (kind, group, block, day, stage), records in sorted(buckets.items(), key=lambda x:str(x[0])):
         valid = [r for r in records if r["metadata_valid"]]
         def total(name): return sum(float(r.get(name) or 0) for r in valid)
         speed_time, declared = total("speed_valid_duration_s"), total("declared_duration_s")
         distance = total("speed_integrated_distance_m")
-        result.append({"aggregation":kind,"group":group,"time_block":block,
+        result.append({"aggregation":kind,"group":group,"time_block":block,"day_type":day,"collection_stage":stage,
             "trip_rows":len(records),"metadata_valid_trips":len(valid),
             "trips_with_valid_speed_intervals":sum(r["speed_valid_duration_s"]>0 for r in valid),
             "excluded_metadata_trips":len(records)-len(valid),
@@ -593,7 +601,8 @@ def operating_summary(metrics):
             "gps_distance_m":total("gps_distance_m") if total("gps_valid_duration_s") else None,
             "matched_distance_m":total("matched_distance_m") if total("matched_duration_s") else None,
             "declared_duration_denominator":"metadata_valid_trips_only; all declared time including gaps",
-            "interpretation":"descriptive_valid_intervals_only; not representative city mean"})
+            "interpretation":"descriptive_valid_intervals_only; not representative city mean",
+            **kinematics.pooled_metrics(valid)})
     return result
 
 
@@ -618,7 +627,9 @@ def run(project=WORK, config=None, input_dir=None, output_root=None, demo=False)
         report = {"status": "awaiting_measurements", "is_test_data": demo, "measurement_verified": False,
             "trip_count": 0, "point_count": 0, "route_count": len(src["routes"]), "input_files": inv,
             "source_hashes": src["hashes"], "config": cfg, "recorded_at": now(), "network_calls": 0,
-            "driving_cycle_constructed": False}
+            "driving_cycle_constructed": False, "method_version": VERSION,
+            "operating_metrics_status": "awaiting_measurements", "operating_metrics_version": kinematics.VERSION,
+            "operating_protocol": kinematics.protocol_record(cfg), "safd_trip_rows": 0, "safd_group_rows": 0}
         with lock(project, root): atomic_json(report_path, report)
         return report
     fixture_provenance = Path(inv["trips"]["path"]).parent / "fixture_provenance.json"
@@ -628,7 +639,7 @@ def run(project=WORK, config=None, input_dir=None, output_root=None, demo=False)
     is_fixture = is_fixture or any(str(r.get("is_test_data", "")).lower() in {"true", "1"} for r in trips + points)
     if not demo and is_fixture:
         raise ValueError("Fixture/demo data require --demo; cannot enter real measurement storage")
-    fingerprint = digest({"code": file_hash(__file__), "inputs": inv, "config": cfg, "sources": src["hashes"], "is_test_data": demo})
+    fingerprint = digest({"code": file_hash(__file__), "operating_code": file_hash(kinematics.__file__), "inputs": inv, "config": cfg, "sources": src["hashes"], "is_test_data": demo})
     destination = root / f"data/processed/trip_processing/{mode}" / fingerprint[:20]
     destination.parent.mkdir(parents=True, exist_ok=True)
     # Raw provenance is independent of processed version/config.
@@ -690,8 +701,10 @@ def run(project=WORK, config=None, input_dir=None, output_root=None, demo=False)
                     coordinates = {p["source_row"]: p["xy"] for p in transformed}
                     for p in validated_points: p["_xy"] = coordinates.get(p["source_row"])
                 validated_points = match_points(validated_points, validated_trips, corridors, cfg)
-            metrics = operating_metrics(validated_trips, validated_points, cfg)
+            kinematic_details = []
+            metrics = operating_metrics(validated_trips, validated_points, cfg, details=kinematic_details)
             aggregated = operating_summary(metrics)
+            safd_trip, safd_group, interval_audit = kinematics.export_tables(metrics, kinematic_details, cfg)
             flags = Counter(f for p in validated_points for f in p["flags"])
             schema = {"trips": trip_errors, "points": point_errors}
             report = {"status": "imported_with_qc_flags" if flags or any(t["flags"] for t in validated_trips) or trip_errors or point_errors else "processed",
@@ -700,7 +713,11 @@ def run(project=WORK, config=None, input_dir=None, output_root=None, demo=False)
                 "all_parseable_source_rows_preserved": len(points) == len(validated_points) and len(trips) == len(validated_trips),
                 "raw_source_bytes_preserved": True,
                 "valid_trip_count": sum(t["valid"] for t in validated_trips), "trips_with_valid_speed_intervals":sum(m["metadata_valid"] and m["speed_valid_duration_s"]>0 for m in metrics),
-                "operating_summary_rows":len(aggregated), "point_flag_counts": dict(flags),
+                "operating_summary_rows":len(aggregated),
+                "operating_metrics_version": kinematics.VERSION, "operating_metrics_status": "computed_on_valid_intervals" if any(m["kinematic_valid_duration_s"] for m in metrics) else "no_valid_intervals",
+                "safd_trip_rows": len(safd_trip), "safd_group_rows": len(safd_group),
+                "kinematic_interval_rows": len(interval_audit),
+                "operating_protocol": kinematics.protocol_record(cfg), "point_flag_counts": dict(flags),
                 "trip_flag_counts": dict(Counter(f for t in validated_trips for f in t["flags"])), "schema_errors": schema,
                 "map_matching": {"enabled": cfg["map_matching"]["enabled"], "executed": corridors is not None,
                     "statuses": dict(Counter(p.get("match_status", "not_requested") for p in validated_points)),
@@ -720,9 +737,15 @@ def run(project=WORK, config=None, input_dir=None, output_root=None, demo=False)
             write_csv(temporary / "operating_summary.csv", aggregated, list(aggregated[0]) if aggregated else ["aggregation", "group", "time_block"])
             fields = list(metrics[0]) if metrics else ["trip_id", "route_id"]
             write_csv(temporary / "operating_metrics.csv", [{k: json.dumps(v, ensure_ascii=False) if isinstance(v, (dict, list)) else v for k, v in m.items()} for m in metrics], fields)
+            atomic_json(temporary / "safd_by_trip.json", safd_trip)
+            atomic_json(temporary / "safd_by_group.json", safd_group)
+            atomic_json(temporary / "operating_protocol.json", kinematics.protocol_record(cfg))
+            write_csv(temporary / "safd_by_trip.csv", safd_trip, list(safd_trip[0]) if safd_trip else ["trip_id", *kinematics.SAFD_FIELDS])
+            write_csv(temporary / "safd_by_group.csv", safd_group, list(safd_group[0]) if safd_group else [*kinematics.GROUP_FIELDS, *kinematics.SAFD_FIELDS])
+            write_csv(temporary / "kinematic_intervals.csv", interval_audit, list(interval_audit[0]) if interval_audit else ["trip_id", "interval_order", "status", "reasons"])
             atomic_json(temporary / "qa.json", report)
             (temporary / ".transformed.json").unlink(missing_ok=True); (temporary / ".worker_payload.json").unlink(missing_ok=True)
-            publish_directory(temporary, destination, fingerprint, report, ["trips_qc.json", "points_qc.json", "operating_metrics.json", "operating_metrics.csv", "operating_summary.json", "operating_summary.csv", "qa.json"])
+            publish_directory(temporary, destination, fingerprint, report, ["trips_qc.json", "points_qc.json", "operating_metrics.json", "operating_metrics.csv", "operating_summary.json", "operating_summary.csv", "safd_by_trip.json", "safd_by_group.json", "safd_by_trip.csv", "safd_by_group.csv", "kinematic_intervals.csv", "operating_protocol.json", "qa.json"])
             atomic_json(report_path, report)
         finally:
             if temporary.exists(): shutil.rmtree(temporary)

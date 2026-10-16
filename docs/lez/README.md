@@ -19,3 +19,7 @@ Giữ 60 theo A20/B20/C20 và 30 theo **18 trong/12 ngoài**, cụ thể A10/B8/
 Xem [điều phối](PROJECT_AUTOMATION.md), [sinh 60](SAMPLING_ABC.md), [chọn 30](SELECTION_30.md), [bằng chứng](FIELD_WORKFLOW.md), [GPS](TRIP_PROCESSING.md). Cài môi trường theo [work/docs/setup/PYQGIS_SETUP.md](../setup/PYQGIS_SETUP.md).
 
 T2: [hướng dẫn chạy từng tuyến](ROUTE_INSTRUCTIONS.md), tích hợp notebook 09 mục 7 và bước `route_instructions` trong bộ điều phối.
+
+T3: [lịch, biểu mẫu và bảng tiến độ tổ hợp](SURVEY_COVERAGE.md), tích hợp notebook 07–09; notebook 09 mục 8 xem lịch dự kiến, tổ hợp còn thiếu và lý do từng chuyến.
+
+T5: [RPA/PKE, SAFD và cách tổng hợp chỉ tiêu vận hành](OPERATING_METRICS.md), tích hợp xử lý chuyến và notebook 08–09. Notebook 09 mục 9 có bước chạy dữ liệu thực và kiểm tra công thức riêng.
