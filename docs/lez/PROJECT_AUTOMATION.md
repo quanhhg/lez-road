@@ -20,7 +20,8 @@ Các bước chạy tuần tự:
 6. Tạo registry/checklist/câu hỏi/lịch đo dự kiến và xếp ưu tiên xác minh.
 7. Nhập CSV quan sát khi được cung cấp; kiểm schema/đơn vị/ngày/bằng chứng/phiên bản.
 8. Cập nhật thuộc tính trong overlay riêng; chấm lại, loại tuyến lỗi và chọn lại với đúng A10/B8/C12. Tính lại toàn bộ chỉ tiêu. Tạo snapshot khảo sát kỹ thuật khi đủ bằng chứng.
-9. Kiểm hành lang cung có hướng, nhập GPS/tốc độ, chuẩn hóa đơn vị, kiểm lỗi, ghép đúng tuyến và tính chỉ tiêu vận hành.
+9. Kiểm hành lang cung có hướng; xuất T2: phiếu chạy từng tuyến, chỉ dẫn, GPX và sơ đồ. Dùng đúng bộ đề xuất hoặc snapshot khảo sát được khóa ở bước 8.
+10. Nhập GPS/tốc độ, chuẩn hóa đơn vị, kiểm lỗi, ghép đúng tuyến và tính chỉ tiêu vận hành.
 
 Khi chưa có quan sát/chuyến đo, kết quả là `automated_pre_survey_complete_awaiting_field_evidence`. Các bước nhập, cập nhật, kiểm GPS đã có mã nhưng chưa thể tạo kết quả thực địa. Lịch dự kiến không được đếm là chuyến thực.
 
@@ -42,3 +43,5 @@ Ranh giới dùng LEZ-first, không điều chỉnh theo dân cư để đủ qu
 Notebook 09 có mục 4 để xem số kịch bản, nhóm thử, bảng so sánh và thay tuyến giả lập. Bước `selection_sensitivity` ghi riêng trong báo cáo điều phối cùng thời gian thực của lượt hiện tại. Ca cố ý thiếu quota không chặn hoàn tất; kịch bản chưa giải quyết hoặc baseline không khớp sẽ báo lỗi và giữ kết quả các bước trước.
 
 Phân tích hiện tại dùng pool 60 và bộ 30 đề xuất trước khảo sát, giữ quota A10/B8/C12. Quy trình cập nhật sau khảo sát vẫn chạy riêng ở bước sau; độ nhạy này chưa đại diện cho bộ tuyến đã cập nhật bằng dữ liệu thực địa. Xem [SENSITIVITY.md](SENSITIVITY.md).
+
+T2 lưu báo cáo `work/reports/routes/latest_route_instructions.json` và trang mở nhanh `work/maps/route_instructions/index.html`. Bước `route_instructions` có thời gian/trạng thái riêng; lỗi nguồn hoặc cache chặn bước sau. Đọc [ROUTE_INSTRUCTIONS.md](ROUTE_INSTRUCTIONS.md) để chạy T2 riêng.

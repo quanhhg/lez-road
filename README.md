@@ -23,6 +23,8 @@ Mở [work/notebooks/09_automate_project.ipynb](notebooks/09_automate_project.ip
 | `reports`, `maps/routes` | Tiến độ/QA và bản đồ 30/60 có tên đường |
 | `tests`, `docs`, `backups` | Kiểm thử, hướng dẫn và bản trước thay đổi |
 
+T2 hướng dẫn chạy từng tuyến đã được tích hợp vào notebook 09, mục 7. Chạy riêng hoặc tiếp tục theo [hướng dẫn T2](docs/lez/ROUTE_INSTRUCTIONS.md); mở `work/maps/route_instructions/index.html` sau khi xuất. Kết quả gồm 30 phiếu, GPX, sơ đồ có hướng và bảng điểm cần rà soát. Chỉ dẫn giữ đúng chuỗi cung nguồn; quyền lưu thông và điểm dừng vẫn chờ xác minh thực địa.
+
 Notebook 03 xem LEZ 2027/2030; 04 quản lý mạng; 05 sinh 60; 06 chọn 30; [07](notebooks/07_field_workflow.ipynb) quản lý bằng chứng và cập nhật; [08](notebooks/08_process_measurements.ipynb) kiểm tra chuyến; 09 điều phối tất cả. Python thường chạy controller, worker GIS dùng runtime PyQGIS đã đăng ký. Hướng dẫn cài: [work/docs/setup/PYQGIS_SETUP.md](docs/setup/PYQGIS_SETUP.md).
 
 OSM hiện có 183 ô hoàn chỉnh, snapshot 01/10/2026. Ma trận giữ 12 ô ABC×RC; **A×RC1 được ghi nhận là giới hạn của thiết kế mẫu hiện tại**. Mạng có khoảng 5,707 km RC1 giao với A nhưng còn 0 m đủ sinh tuyến sau kiểm tra nằm trọn vùng và loại dải bất định. Giữ ô/mẫu số và báo bộ mẫu có tuyến ở 11/12 ô. Xem [lý do và cách xử lý A×RC1](docs/lez/A_RC1_LIMITATION.md) cùng [bằng chứng](reports/sampling/A_RC1_limitation.json). Số hiện hành luôn lấy từ `latest_sampling_abc.json` và `latest_selection_30.json`.

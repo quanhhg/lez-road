@@ -17,3 +17,5 @@ A=KV1/KV2/KV3 thí điểm 2027; B=LEZ 2030 trừ A; C=Hà Nội ngoài LEZ 2030
 Giữ 60 theo A20/B20/C20 và 30 theo **18 trong/12 ngoài**, cụ thể A10/B8/C12. Ma trận có 12 ô; [giới hạn A×RC1](A_RC1_LIMITATION.md) đã được ghi nhận kèm số liệu và lý do. Có chiều dài mạng RC1 trong A nhưng chưa có phần đủ sinh tuyến theo quy tắc hiện tại; giữ ô/mẫu số và báo 11/12 ô có tuyến. V/N và điều chỉnh dân cư cũ chỉ là đối chiếu lịch sử.
 
 Xem [điều phối](PROJECT_AUTOMATION.md), [sinh 60](SAMPLING_ABC.md), [chọn 30](SELECTION_30.md), [bằng chứng](FIELD_WORKFLOW.md), [GPS](TRIP_PROCESSING.md). Cài môi trường theo [work/docs/setup/PYQGIS_SETUP.md](../setup/PYQGIS_SETUP.md).
+
+T2: [hướng dẫn chạy từng tuyến](ROUTE_INSTRUCTIONS.md), tích hợp notebook 09 mục 7 và bước `route_instructions` trong bộ điều phối.

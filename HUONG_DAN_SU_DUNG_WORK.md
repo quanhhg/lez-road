@@ -129,6 +129,7 @@ Trong `tiles.csv`, `query_file` và `response_dir` được tính tương đối
 | `lez/abc_boundaries.py`, `sampling_abc.py` | Vùng ABC, ma trận và sinh 60 ứng viên |
 | `lez/selection_30.py`, `selection_metrics.py`, `selection_gates.py` | Kiểm điều kiện, tính biến/điểm, chọn 30 và dự phòng |
 | `lez/export_route_maps.py` | Xuất bản đồ có tên đường cho 30/60 tuyến |
+| `lez/route_instructions.py` | T2: chỉ dẫn chạy, sơ đồ, GPX và điểm cần rà soát |
 | `setup/setup_pyqgis_kernel.py` | Tạo runtime và đăng ký kernel PyQGIS |
 
 Người sử dụng thông thường chạy notebook hoặc CLI đã hướng dẫn, không cần chạy riêng từng module nội bộ như `network.py` hay `selection_metrics.py`.
@@ -651,6 +652,21 @@ Trong QGIS:
 Một tuyến có thể đi qua nhiều tên đường. `route_id` định danh tuyến nghiên cứu; `street_sequence` là chuỗi đường, không thay cho chuỗi cung hoặc hình học thật.
 
 <a id="chi-tieu"></a>
+
+<a id="huong-dan-chay"></a>
+### 8.3. T2 - Hướng dẫn chạy từng tuyến
+
+Notebook 09 mục 7 gọi module T2 để xuất chỉ dẫn từ đúng chuỗi cung của bộ 30. Mở `work/maps/route_instructions/index.html` bằng trình duyệt để chọn vùng, xem từng bước, tải GPX hoặc in phiếu. Sơ đồ có mũi tên, điểm đầu/cuối, tọa độ và khoảng cách lũy kế.
+
+```bash
+python3 scripts/lez/route_instructions.py check
+python3 scripts/lez/route_instructions.py run
+python3 scripts/lez/route_instructions.py status
+```
+
+Đọc `work/reports/routes/latest_route_instructions.json` để tìm bundle hiện hành. Đường thiếu tên, nút nhiều nhánh, vòng xuyến/quay đầu và điểm dừng chưa xác minh được ghi riêng. Đây là chỉ dẫn dự kiến từ OSM; không phải dữ liệu chuyến đo hay xác nhận quyền lưu thông.
+
+Chi tiết đầu vào, đầu ra, tiếp tục và phiên bản: [work/docs/lez/ROUTE_INSTRUCTIONS.md](docs/lez/ROUTE_INSTRUCTIONS.md).
 
 ## 9. Hiểu các biến, điều kiện và điểm chọn tuyến
 

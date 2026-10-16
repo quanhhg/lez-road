@@ -80,3 +80,6 @@ htmlcov/
 *.gpkg-shm
 *.sqlite-wal
 *.sqlite-shm
+
+# Ghi chú duyệt T2 chỉ giữ trên máy theo yêu cầu.
+/docs/lez/T2_REVIEW.md

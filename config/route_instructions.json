@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "method_version": "directed_route_instructions_v1",
+  "selection_report": "reports/selection/latest_selection_30.json",
+  "expected_route_count": 30,
+  "metric_crs": "EPSG:3405",
+  "bearing_distance_m": 12.0,
+  "straight_angle_deg": 15.0,
+  "slight_angle_deg": 45.0,
+  "sharp_angle_deg": 135.0,
+  "uturn_angle_deg": 165.0,
+  "endpoint_tolerance_m": 0.02,
+  "length_tolerance_m": 0.05,
+  "coordinate_tolerance_m": 0.5,
+  "notes": [
+    "Instructions preserve the selected directed walk, including repeated arcs.",
+    "Turn labels are geometric suggestions, not field-verified navigation.",
+    "Roundabout exit numbers and safe stops must not be invented.",
+    "GPX tracks are planned OSM routes without measured timestamps.",
+    "No network requests, route reselection, or driving-cycle construction."
+  ]
+}

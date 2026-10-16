@@ -30,13 +30,15 @@ class AutomationSensitivityTests(unittest.TestCase):
         self.work=Path(self.temp.name).resolve()
         self.addCleanup(self.temp.cleanup)
 
-    def run_with_mocks(self, sensitivity_result=None, sensitivity_error=None, force=False):
+    def run_with_mocks(self, sensitivity_result=None, sensitivity_error=None, force=False, instructions_error=None):
         calls=[];messages=[]
         def callback(name,result):
             def fn(*args,**kwargs):
                 calls.append(name)
                 if name=='sensitivity' and sensitivity_error:
                     raise sensitivity_error
+                if name=='instructions' and instructions_error:
+                    raise instructions_error
                 return copy.deepcopy(result)
             return fn
         with ExitStack() as stack:
@@ -51,6 +53,7 @@ class AutomationSensitivityTests(unittest.TestCase):
                 ('lez.field_workflow.build_update_plan','update_plan',{'status':'proposed_update_plan'}),
                 ('lez.survey_revision.run','revision',{'status':'awaiting_field_observations','surveyed_set_locked':False}),
                 ('lez.trip_processing.prepare','corridors',{'status':'prepared'}),
+                ('lez.route_instructions.run','instructions',{'status':'exported_pending_field_review','route_count':30,'instruction_count':123}),
                 ('lez.trip_processing.run','trips',{'status':'awaiting_measurements','trip_count':0}),
                 ('lez.trip_processing.load_config','trip_config',{})]
             mocks={name:stack.enter_context(patch(target,side_effect=callback(name,result))) for target,name,result in targets}
@@ -80,6 +83,25 @@ class AutomationSensitivityTests(unittest.TestCase):
         result,_,mocks,_=self.run_with_mocks(force=True)
         self.assertIsInstance(result,dict)
         self.assertIs(mocks['sensitivity'].call_args.kwargs['force'],True)
+        self.assertIs(mocks['instructions'].call_args.kwargs['force'],True)
+
+    def test_T2_runs_after_corridors_before_measurements(self):
+        result,calls,mocks,_=self.run_with_mocks()
+        self.assertIsInstance(result,dict)
+        self.assertLess(calls.index('corridors'),calls.index('instructions'))
+        self.assertLess(calls.index('instructions'),calls.index('trips'))
+        self.assertEqual(result['route_instruction_routes'],30)
+        self.assertIn('route_instructions',result['steps'])
+        self.assertIsNone(mocks['instructions'].call_args.kwargs['selection_report'])
+
+    def test_T2_error_keeps_completed_steps_and_does_not_process_measurements(self):
+        result,calls,_,_=self.run_with_mocks(instructions_error=ValueError('broken route instructions'))
+        self.assertIsInstance(result,ValueError)
+        report=automation.status(self.work)
+        self.assertEqual(report['active_step'],'route_instructions')
+        self.assertEqual(report['status'],'failed')
+        self.assertIn('directed_trip_corridors',report['steps'])
+        self.assertNotIn('trips',calls)
 
     def test_unresolved_scenario_stops_before_maps_and_preserves_completed_steps(self):
         value=sensitivity();value.update(status='completed_with_unresolved_scenarios',completed_scenarios=112,
@@ -135,6 +157,7 @@ class AutomationSensitivityTests(unittest.TestCase):
             stack.enter_context(patch('lez.sampling_abc.preflight',return_value={'status':'ready'}))
             stack.enter_context(patch('lez.trip_processing.load_config',return_value={}))
             stack.enter_context(patch('lez.field_workflow.config',return_value={}))
+            stack.enter_context(patch('lez.route_instructions.configuration',return_value={}))
             protocol=stack.enter_context(patch('lez.selection_sensitivity.protocol',return_value={'method_version':'sensitivity_v1'}))
             frozen=stack.enter_context(patch('lez.selection_sensitivity.preflight_sensitivity',side_effect=AssertionError('fresh work has no selection yet')))
             result=automation.preflight(self.work)

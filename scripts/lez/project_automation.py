@@ -10,7 +10,7 @@ if not __package__:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     __package__ = 'lez'
 from .common import WORK, atomic_json, file_hash, input_path, now, relative
-VERSION='LEZ_FIRST_AUTOMATION_v2_sensitivity'
+VERSION='LEZ_FIRST_AUTOMATION_v3_T2'
 REPORT='reports/automation/latest_project_automation.json'
 
 
@@ -21,6 +21,7 @@ def preflight(work=WORK):
     from .trip_processing import load_config
     from .field_workflow import config as field_config
     from .selection_sensitivity import protocol as sensitivity_protocol
+    from .route_instructions import configuration as instructions_configuration
     work=Path(work).resolve()
     sampling=configuration(work);selection=selection_configuration(work)
     policy=json.loads((work/'config/lez_policy.json').read_text())
@@ -44,7 +45,7 @@ def preflight(work=WORK):
         states=Counter(r['status'] for r in csv.DictReader(stream) if r['status']!='split')
     if set(states)!={'done'}:raise ValueError('OSM source tiles are not all completed: '+str(states))
     result=sampling_preflight(work)
-    load_config(work);field_config(work)
+    load_config(work);field_config(work);instructions_configuration(work)
     sensitivity=sensitivity_protocol(work)
     return dict(result,status='ready',method_version=VERSION,source_tile_states=dict(states),
                 policy_version=policy['policy_version'],raw_source_audit=relative(work/'reports/overpass/completion_audit.json',work),
@@ -98,6 +99,7 @@ def run(work=WORK, *, force=False, progress=print, observations=None, input_dir=
     from .field_workflow import prepare, status as field_status, import_observations, build_update_plan
     from .trip_processing import prepare as prepare_trips, run as process_trips, load_config
     from .survey_revision import run as revise_survey
+    from .route_instructions import run as export_instructions
     work=Path(work).resolve();check=preflight(work);timer=time.monotonic()
     report={'status':'running','method_version':VERSION,'started_at':now(),'policy_version':check['policy_version'],
             'steps':{},'step_seconds':{},'network_calls':0,'raw_osm_modified':False,'driving_cycle_constructed':False,
@@ -127,11 +129,15 @@ def run(work=WORK, *, force=False, progress=print, observations=None, input_dir=
         if revision.get('surveyed_set_locked'):
             trip_config['selection_report']='reports/field/latest_survey_revision.json'
         step('directed_trip_corridors',lambda:prepare_trips(work,config=trip_config))
+        instructions=step('route_instructions',lambda:export_instructions(
+            work,selection_report=trip_config.get('selection_report'),force=force,progress=progress))
         trips=step('real_trip_qc',lambda:process_trips(work,config=trip_config,input_dir=input_dir))
         report.update(status='automated_pre_survey_complete_awaiting_field_evidence',finished_at=now(),
                       active_step=None,elapsed_seconds=time.monotonic()-timer,
                       candidate_routes=pool['candidates']['created_routes'],selected_routes=len(selected['selected_route_ids']),
                       measured_trips=trips.get('trip_count',0),
+                      route_instruction_routes=instructions['route_count'],
+                      route_instruction_steps=instructions['instruction_count'],
                       sensitivity_scenarios=sensitivity['total_scenarios'],
                       sensitivity_completed_scenarios=sensitivity['completed_scenarios'],
                       sensitivity_expected_infeasible_scenarios=sensitivity['expected_infeasible_scenarios'],

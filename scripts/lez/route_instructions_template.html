@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@@TITLE@@</title>
+<style>
+:root { color-scheme: light; --ink:#203c4d; --teal:#087e8b; --line:#d3e1e7; }
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); background:#eef4f6; font:16px/1.6 system-ui,-apple-system,sans-serif; }
+main { max-width:1250px; margin:auto; padding:24px; }
+a { color:var(--teal); }
+.top { display:flex; gap:12px; justify-content:space-between; flex-wrap:wrap; align-items:center; }
+h1 { font-size:30px; margin:14px 0 3px; }
+.subtitle { margin:0 0 16px; color:#506977; }
+.notice { background:#fff2d8; border-left:4px solid #b86a22; border-radius:6px; padding:12px 16px; }
+.layout { display:grid; grid-template-columns:minmax(320px, 46%) minmax(350px, 1fr); gap:20px; align-items:start; margin-top:20px; }
+.map-box { background:white; border:1px solid var(--line); border-radius:12px; padding:12px; position:sticky; top:12px; }
+svg { width:100%; height:auto; display:block; border-radius:8px; }
+.map-step { cursor:pointer; }
+.map-step.selected circle { fill:#d04c19; r:11; }
+.map-step.selected text { font-size:17px; font-weight:bold; }
+.step-path.selected { stroke:#d04c19; }
+.tools { display:flex; gap:7px; flex-wrap:wrap; margin:8px 0; align-items:center; }
+button { font:inherit; padding:6px 12px; background:white; color:var(--ink); border:1px solid #9db7c2; border-radius:6px; cursor:pointer; }
+button:hover { background:#e1eff2; }
+table { width:100%; border-collapse:collapse; background:white; font-size:14px; }
+th { text-align:left; background:var(--ink); color:white; padding:10px; }
+td { padding:10px; border-bottom:1px solid var(--line); vertical-align:top; }
+td:first-child { width:40px; }
+tr[data-step] { cursor:pointer; scroll-margin-top:20px; }
+tr[data-step]:hover { background:#edf6f7; }
+tr.selected { background:#fff0d6; outline:2px solid #d2944e; outline-offset:-2px; }
+small { display:block; color:#65777f; font-size:12px; margin-top:5px; }
+.tip { font-size:13px; margin:10px 0 0; color:#5b727e; }
+.selected-instruction { padding:9px 12px; background:#e7f2f4; border-radius:6px; min-height:54px; }
+footer { border-top:1px solid var(--line); margin-top:22px; padding-top:14px; color:#617681; font-size:12px; }
+@media(max-width:900px) { .layout { grid-template-columns:1fr; } .map-box { position:static; } }
+@media print {
+  @page { size:A4; margin:13mm; }
+  body { background:white; font-size:11px; }
+  main { padding:0; }
+  .top, .tools, .tip, .selected-instruction { display:none; }
+  .layout { display:block; }
+  .map-box { position:static; padding:4px; margin-bottom:15px; break-inside:avoid; }
+  .map-box svg { max-height:235px; }
+  h1 { font-size:23px; }
+  table { font-size:10px; }
+  th, td { padding:6px; }
+  thead { display:table-header-group; }
+  tr, .notice { break-inside:avoid; }
+  tr.selected { background:transparent; outline:none; }
+  footer { font-size:9px; }
+}
+</style>
+</head>
+<body><main>
+<div class="top"><a href="../index.html">← Danh sách 30 tuyến</a><div><a href="../gpx/@@ROUTE_ID@@.gpx" download>Tải GPX</a> · <a href="../maps/@@ROUTE_ID@@.svg">Mở sơ đồ</a> · <button id="print">In / lưu PDF</button></div></div>
+<h1>@@ROUTE_ID@@ · Hướng dẫn khảo sát</h1>
+<p class="subtitle">Vùng @@ZONE@@ · @@LENGTH@@ km · @@COUNT@@ bước · @@REVIEW@@ bước có mục cần rà soát</p>
+<p class="notice">@@NOTICE@@</p>
+<div class="layout">
+<section class="map-box" aria-label="Sơ đồ tuyến">
+@@MAP@@
+<div class="tools"><button id="previous" aria-label="Bước trước">← Trước</button><button id="next" aria-label="Bước tiếp">Tiếp →</button><span id="step-label"></span><button id="reset">Xem toàn tuyến</button></div>
+<div id="current" class="selected-instruction" aria-live="polite">Chọn một bước trong bảng hoặc một điểm trên sơ đồ.</div>
+<p class="tip">Màu cam đánh dấu bước đang chọn. Số trên sơ đồ trùng số bước trong bảng; những bước ở cùng vị trí có thể chồng số. Chọn từng dòng để xem riêng. Phóng to bằng cuộn chuột trên sơ đồ; kéo để dịch chuyển.</p>
+</section>
+<section aria-label="Các bước chạy">
+<table><thead><tr><th>Bước</th><th>Chỉ dẫn và nội dung cần kiểm tra</th><th>Đoạn đi / lũy kế</th><th>Vĩ độ / kinh độ</th></tr></thead><tbody>@@ROWS@@</tbody></table>
+</section></div>
+<footer>Nguồn OSM: @@SNAPSHOT@@ · Phiên bản tuyến: @@VERSION@@.<br>© OpenStreetMap contributors · ODbL. Quãng đường theo hình học mạng, không phải số đo chuyến chạy. Lộ trình giữ cả phần đi lặp; số bước được dùng để đối chiếu vị trí, không phải số nút giao độc lập.</footer>
+</main>
+<script>
+(() => {
+  const rows = Array.from(document.querySelectorAll('tbody tr[data-step]'));
+  const svg = document.querySelector('svg');
+  let current = -1, view = [0,0,1000,620], drag = null;
+  const apply = () => svg.setAttribute('viewBox',view.join(' '));
+  function select(index, scroll) {
+    current = Math.max(0,Math.min(rows.length-1,index));
+    const step = rows[current].dataset.step;
+    document.querySelectorAll('[data-step]').forEach(e => e.classList.toggle('selected',e.dataset.step===step));
+    const marker=svg.querySelector('.map-step[data-step="'+step+'"]');
+    if(marker) svg.appendChild(marker);
+    document.getElementById('current').textContent = rows[current].querySelector('b').textContent;
+    document.getElementById('step-label').textContent = 'Bước '+step+' / '+rows.length;
+    if (scroll) rows[current].scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  rows.forEach((r,i)=>r.addEventListener('click',()=>select(i,false)));
+  document.querySelectorAll('.map-step').forEach(e=>{
+    const choose=()=>select(Number(e.dataset.step)-1,true);
+    e.addEventListener('click',choose);
+    e.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();choose();}});
+  });
+  document.getElementById('previous').addEventListener('click',()=>select(current-1,true));
+  document.getElementById('next').addEventListener('click',()=>select(current+1,true));
+  document.getElementById('print').addEventListener('click',()=>window.print());
+  document.getElementById('reset').addEventListener('click',()=>{view=[0,0,1000,620];apply();});
+  svg.addEventListener('wheel',event=>{
+    event.preventDefault();
+    const box=svg.getBoundingClientRect(), zoom=event.deltaY<0?0.85:1.18;
+    const width=Math.min(2000,Math.max(80,view[2]*zoom)), height=width*0.62;
+    const ux=(event.clientX-box.left)/box.width, uy=(event.clientY-box.top)/box.height;
+    view=[view[0]+ux*(view[2]-width),view[1]+uy*(view[3]-height),width,height];apply();
+  },{passive:false});
+  svg.addEventListener('pointerdown',e=>{if(e.target.closest('.map-step'))return;drag=[e.clientX,e.clientY,...view];svg.setPointerCapture(e.pointerId);});
+  svg.addEventListener('pointermove',e=>{if(!drag)return;const b=svg.getBoundingClientRect();view=[drag[2]-(e.clientX-drag[0])*drag[4]/b.width,drag[3]-(e.clientY-drag[1])*drag[5]/b.height,drag[4],drag[5]];apply();});
+  svg.addEventListener('pointerup',()=>{drag=null;});
+  svg.addEventListener('pointercancel',()=>{drag=null;});
+  select(0,false);
+})();
+</script>
+</body></html>
