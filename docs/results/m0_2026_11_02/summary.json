@@ -1,0 +1,186 @@
+{
+  "status": "completed_pre_survey_random_baseline",
+  "valid_samples": 1000,
+  "attempts": 1000,
+  "rejections": {
+    "overlap": 0,
+    "required_strata": 0
+  },
+  "random_seed": 20261102,
+  "quota": {
+    "inside": 18,
+    "outside": 12
+  },
+  "intersection_quota": [
+    {
+      "name": "A_inside",
+      "group": "inside",
+      "sampling_zones": [
+        "A"
+      ],
+      "count": 10
+    },
+    {
+      "name": "B_inside",
+      "group": "inside",
+      "sampling_zones": [
+        "B"
+      ],
+      "count": 8
+    },
+    {
+      "name": "C_outside",
+      "group": "outside",
+      "sampling_zones": [
+        "C"
+      ],
+      "count": 12
+    }
+  ],
+  "baseline_metrics": {
+    "D_combined": 0.36518658692754424,
+    "D_by_domain": {
+      "inside": 0.42750169313525804,
+      "outside": 0.3100930516025221
+    },
+    "D_domain_mean": 0.3687973723688901,
+    "route_count": 30,
+    "inside": 18,
+    "outside": 12,
+    "sampling_zone_counts": {
+      "A": 10,
+      "B": 8,
+      "C": 12
+    },
+    "zone_group_counts": {
+      "A": {
+        "inside": 10,
+        "outside": 0
+      },
+      "B": {
+        "inside": 8,
+        "outside": 0
+      },
+      "C": {
+        "inside": 0,
+        "outside": 12
+      }
+    },
+    "quota_bucket_counts": {
+      "A_inside": 10,
+      "B_inside": 8,
+      "C_outside": 12
+    },
+    "traversed_length_m": 274031.31063705904,
+    "rc_traversed_length_m": 263169.6616055199,
+    "represented_primary_strata": [
+      "A",
+      "B",
+      "C"
+    ],
+    "material_cells": 11,
+    "touched_rc_cells": 11,
+    "unique_rc_length_m": 240898.85586544703,
+    "unique_rc_coverage_fraction": 0.010741962737068794,
+    "quantile_groups_covered": 33,
+    "max_traversed_overlap_fraction": 0.5106118009613794,
+    "max_unique_corridor_overlap_fraction": 0.5966994438350687
+  },
+  "baseline_selected_ids": [
+    "B04",
+    "C04",
+    "A10",
+    "B17",
+    "C12",
+    "C16",
+    "B16",
+    "B19",
+    "C08",
+    "C13",
+    "C20",
+    "B20",
+    "B02",
+    "C06",
+    "C03",
+    "A01",
+    "C19",
+    "C07",
+    "B08",
+    "C05",
+    "B12",
+    "C11",
+    "A03",
+    "A06",
+    "A09",
+    "A02",
+    "A08",
+    "A17",
+    "A18",
+    "A11"
+  ],
+  "unique_sampled_sets": 1000,
+  "comparison": {
+    "n": 1000,
+    "baseline_D": 0.36518658692754424,
+    "D_distribution": {
+      "count": 1000,
+      "mean": 0.5420522191496691,
+      "std": 0.04973074797703797,
+      "min": 0.4145403006258408,
+      "q025": 0.45507174772494907,
+      "q25": 0.5063133416612806,
+      "median": 0.5395535324227014,
+      "q75": 0.5740663832360509,
+      "q975": 0.6479011526187199,
+      "max": 0.6984115126870761
+    },
+    "strictly_lower_D_count": 0,
+    "tied_D_count": 0,
+    "no_higher_D_count": 0,
+    "no_higher_D_fraction": 0.0,
+    "empirical_resolution": 0.001,
+    "interpretation": "Descriptive random-set benchmark; not a conventional p-value or a population confidence interval."
+  },
+  "secondary_length_matched_comparison": {
+    "length_window_fraction": 0.1,
+    "selection_filter": false,
+    "n": 953,
+    "baseline_D": 0.36518658692754424,
+    "D_distribution": {
+      "count": 953,
+      "mean": 0.5414726241200076,
+      "std": 0.04833059466589165,
+      "min": 0.4145403006258408,
+      "q025": 0.45433192532076005,
+      "q25": 0.5068214596267935,
+      "median": 0.5396773286195562,
+      "q75": 0.5735467548477082,
+      "q975": 0.6436936084833351,
+      "max": 0.6870975192661448
+    },
+    "strictly_lower_D_count": 0,
+    "tied_D_count": 0,
+    "no_higher_D_count": 0,
+    "no_higher_D_fraction": 0.0,
+    "empirical_resolution": 0.001049317943336831,
+    "interpretation": "Descriptive random-set benchmark; not a conventional p-value or a population confidence interval."
+  },
+  "baseline_reproduced": true,
+  "baseline_selection_modified": false,
+  "measurement_verified": false,
+  "official_gis_verified": false,
+  "missing_pool_cells": [
+    "A×RC1"
+  ],
+  "limitations": [
+    "Conditional on the fixed 60-candidate pool and cached research geometry/gates.",
+    "D measures length-composition mismatch, not field measurement coverage.",
+    "Finite simulation of random sets compared with an optimized baseline; no conventional p-value or global optimality proof.",
+    "Zero observed random sets at least as good does not mean zero probability.",
+    "Length-matched comparison is descriptive on a subset; all valid draws remain in the primary result."
+  ],
+  "schema_version": 1,
+  "reviewed_on": "2026-11-02",
+  "source_run_fingerprint": "c0dab6f8b0b424a196759e275fde355644949ce572788eb176cf8428ce6ce953",
+  "snapshot_utc": "2026-10-01T00:00:00Z"
+}

@@ -11,6 +11,7 @@ Mở `work/notebooks/09_automate_project.ipynb`. Bộ điều phối chạy các
 | 07_field_workflow | Checklist, bằng chứng, cập nhật và chọn lại |
 | 08_process_measurements | CSV/GPS/tốc độ, map matching và chỉ tiêu |
 | 09_automate_project | Kiểm tra/chạy/tiếp tục toàn bộ |
+| 10_random_baseline | M0: 1.000 bộ 30 ngẫu nhiên cùng quota; Python thường, chạy riêng |
 
 A=KV1/KV2/KV3 thí điểm 2027; B=LEZ 2030 trừ A; C=Hà Nội ngoài LEZ 2030. Toàn Vành đai 1 là giai đoạn 2028–2029. B chứa cả phần Vành đai 1 chưa thuộc A và phần mở rộng Vành đai 2–3. Hình học OSM là proxy kỹ thuật có dải bất định; không tự xác nhận GIS pháp lý hoặc quyền xe máy.
 
@@ -23,3 +24,7 @@ T2: [hướng dẫn chạy từng tuyến](ROUTE_INSTRUCTIONS.md), tích hợp n
 T3: [lịch, biểu mẫu và bảng tiến độ tổ hợp](SURVEY_COVERAGE.md), tích hợp notebook 07–09; notebook 09 mục 8 xem lịch dự kiến, tổ hợp còn thiếu và lý do từng chuyến.
 
 T5: [RPA/PKE, SAFD và cách tổng hợp chỉ tiêu vận hành](OPERATING_METRICS.md), tích hợp xử lý chuyến và notebook 08–09. Notebook 09 mục 9 có bước chạy dữ liệu thực và kiểm tra công thức riêng.
+
+M0: [protocol và cách chạy](RANDOM_BASELINE.md), [kết quả ngày 02/11/2026](../results/M0_2026_11_02.md). Mỗi bộ có A10/B8/C12, kiểm điều kiện chung và lưu đầy đủ ID/chỉ tiêu. Không lọc theo D hoặc ép số ô vật chất.
+
+Đọc [tổng quan](../PROJECT_OVERVIEW.md), [hướng dẫn sử dụng](../../HUONG_DAN_SU_DUNG_WORK.md) và [bắt đầu trên máy mới](../setup/GETTING_STARTED.md) để phân biệt mã nguồn trên GitHub với dữ liệu/bundle phải khôi phục tại máy. Notebook 09 cần mạng/cache phụ trợ trước; phần V/N/chuẩn hóa cũ không định nghĩa lại A/B/C hiện hành.

@@ -1,6 +1,6 @@
 # Cài môi trường PyQGIS cho notebook trong work
 
-Hướng dẫn dành cho macOS với QGIS 4.2.3 đang có trên máy. PyQGIS là API Python đi kèm QGIS; phần thiết lập ở đây giúp VS Code/Jupyter dùng đúng Python và thư viện của QGIS.
+Hướng dẫn dành cho script macOS của dự án, được viết cho QGIS 4.2.3/Python 3.12. Máy sử dụng phải có ứng dụng QGIS tương thích; tài liệu không khẳng định ứng dụng/kernel còn hoạt động chỉ vì đã từng cài. PyQGIS là API Python đi kèm QGIS; phần thiết lập ở đây giúp VS Code/Jupyter dùng đúng Python và thư viện của QGIS. Xem thêm [máy mới](GETTING_STARTED.md).
 
 ## Tài liệu, script và runtime nằm ở đâu?
 
@@ -14,13 +14,13 @@ work/
     └── packages hoặc packages-...    Thư viện notebook
 ```
 
-Hiện kernel đã đăng ký dùng runtime ở `../.pyqgis-runtime`, tính từ `work`. Khi kiểm tra ngày 04/10/2026, môi trường này import thành công QGIS 4.2.3, Python 3.12.11, ipykernel 7.4.0 và pyzmq 27.2.0. Việc thêm tài liệu chưa chuyển runtime hay đăng ký lại kernel.
+Một bản cài trước đây dùng runtime ở `../.pyqgis-runtime`, tính từ `work`. Lượt kiểm tra ngày 04/10/2026 đã import được QGIS 4.2.3/Python 3.12.11; đó là thông tin lịch sử, không thay bước kiểm lại trên máy hiện tại. Runtime ở ngoài `work` không được mang theo khi chỉ clone repo hoặc sao chép riêng `work`.
 
 Tạo runtime bên trong `work` bằng mục 3. QGIS vẫn là ứng dụng cài trong `/Applications`; bản sao interpreter và thư viện notebook nằm trong dự án và tiếp tục sử dụng thư viện của ứng dụng QGIS đó.
 
 ## 1. Chuẩn bị
 
-- QGIS hiện tại: `/Applications/QGIS-final-4_2_3.app`.
+- Ứng dụng mặc định mà script tìm: `/Applications/QGIS-final-4_2_3.app`. Kiểm tra ứng dụng và `Contents/MacOS/python3.12` còn tồn tại trước khi chạy. Script không tự tải/cài ứng dụng QGIS.
 - VS Code có các extension Python và Jupyter; mở thư mục `work` làm workspace.
 - Terminal có `python3`, `install_name_tool` và `codesign`. Hai công cụ cuối được script dùng để cấu hình bản sao interpreter trên macOS.
 - Có mạng nếu cần tải thư viện notebook bằng pip. Việc cài này không gọi Overpass hoặc tải dữ liệu đường.
@@ -50,6 +50,8 @@ Trong VS Code mở Terminal và bảo đảm thư mục hiện tại là `work`.
 ```bash
 python3 scripts/setup/setup_pyqgis_kernel.py --project-dir .
 ```
+
+Nếu ứng dụng nằm ở vị trí khác, truyền `--qgis-app` với đường dẫn thật. Script vẫn giả định Python 3.12 và cấu trúc macOS này; chỉ đổi đường dẫn không tự làm nó tương thích mọi bản QGIS. Dùng `--help` để xem các tham số đã hỗ trợ.
 
 Script thực hiện tuần tự:
 
@@ -97,6 +99,7 @@ Lệnh đối chiếu runtime, cấu hình và cache dữ liệu hiện có; kh�
 | Gọi Overpass bằng `requests`, đọc CSV/JSON | Python thường có các thư viện notebook cần dùng |
 | Cell import trực tiếp `build_tiles`, `qgis.core` hoặc `processing` | Kernel PyQGIS |
 | `03_boundaries.ipynb`, `04_build_motorcycle_network.ipynb` | Python thường hoặc PyQGIS; module tự gọi runtime PyQGIS đã đăng ký cho phần hình học |
+| `10_random_baseline.ipynb` | Python thường có NumPy/Matplotlib; dùng nguồn/gate lưu sẵn, không khởi động QGIS |
 
 Notebook 03/04 cần môi trường điều khiển có `pandas`. Chọn PyQGIS đã có trên máy nếu muốn dùng một kernel chung; Python thường có `pandas` cũng chạy được bộ điều khiển.
 
@@ -109,5 +112,6 @@ Notebook 03/04 cần môi trường điều khiển có `pandas`. Chọn PyQGIS 
 | Import được `qgis` nhưng thiếu `processing` | Kiểm tra `PYTHONPATH` trong kernel có thư mục plugin của QGIS; script đã khai báo đường dẫn này. |
 | Gạch đỏ Pylance nhưng cell chạy được | Kiểm tra interpreter của trình soạn thảo và kernel notebook. Với module dự án, mở đúng workspace `work` và giữ `python.analysis.extraPaths` hiện có. |
 | Đã đổi vị trí runtime nhưng kernel vẫn lỗi | Đăng ký lại từ vị trí mới, restart kernel rồi đọc lại `sys.executable` để biết interpreter thực sự đang chạy. |
+| `dyld`, `Library not loaded`, thiếu `libpython3.12.dylib` | Interpreter còn nhưng ứng dụng/framework QGIS đã mất hoặc đổi vị trí. Khôi phục bản ứng dụng tương thích và đăng ký lại; cài ipykernel bằng pip không khôi phục được thư viện QGIS gốc. |
 
 Không đặt tên script là `qgis.py`, vì tên này che module QGIS khi import; lưu ý này cũng có trong [tài liệu PyQGIS](https://docs.qgis.org/3.44/en/docs/pyqgis_developer_cookbook/intro.html#python-applications).

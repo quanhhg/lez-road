@@ -1,44 +1,77 @@
-# Dự án tuyến xe máy Hà Nội theo LEZ
+# Tuyến khảo sát xe máy Hà Nội theo LEZ
 
-Thiết kế hiện hành: **60 ứng viên A20/B20/C20**, chọn **30 đề xuất A10/B8/C12 = 18 trong/12 ngoài LEZ 2030**. Lấy LEZ làm mốc trước; không dịch chuyển ranh giới theo dân cư để đủ quota.
+Quy trình Python lấy OSM qua Overpass API, dựng mạng xe máy có hướng, sinh **60 ứng viên A20/B20/C20**, chọn **30 tuyến đề xuất A10/B8/C12**, đối chứng ngẫu nhiên và chuẩn bị khảo sát/GPS. Bộ 30 gồm **18 tuyến trong / 12 tuyến ngoài LEZ 2030**.
 
-- A: khu vực thí điểm LEZ **2027 KV1/KV2/KV3 tại Hoàn Kiếm/Cửa Nam**, nằm trong Vành đai 1.
-- B: phần LEZ **2030 trong Vành đai 3 trừ A**, gồm phần Vành đai 1 còn lại và phần mở rộng Vành đai 2–3.
-- C: phần Hà Nội ngoài phạm vi LEZ 2030.
+Đây là thiết kế **tiền khảo sát**. Hình học OSM là proxy kỹ thuật có truy vết nguồn; bộ tuyến chưa được xác minh đầy đủ về GIS chính thức, quyền lưu thông và điều kiện thực địa. Các nguồn chính sách được đóng băng trong cấu hình, không được coi là tra cứu pháp luật cập nhật theo thời gian thực.
 
-Theo Quyết định 3273, toàn bộ Vành đai 1 thuộc giai đoạn 2028–2029; không gọi toàn bộ Vành đai 1 là LEZ 2027. Xem cấu hình nguồn, ngày, hash và dải bất định tại `work/config/lez_policy.json`. Hình học dựng từ OSM là proxy kỹ thuật, chưa được xác minh là GIS pháp lý.
+## Bắt đầu đọc và sử dụng
 
-Mở [work/notebooks/09_automate_project.ipynb](notebooks/09_automate_project.ipynb), chạy cell kiểm tra rồi cell chạy toàn bộ. Chạy lại cùng cell để tiếp tục; `force=False` dùng cache có hash hợp lệ. Bộ điều phối tự chạy độ nhạy mở rộng sau bước chọn 30, rồi tiếp tục đến kiểm tra chuyến đo và chỉ tiêu vận hành; **không xây chu trình lái**.
-
-| Folder trong work | Nội dung |
+| Bạn cần gì? | Tài liệu |
 |---|---|
-| `notebooks` | Notebook 01–09, logic chính ở module |
-| `scripts/overpass` | HTTP tải OSM, không cần import QGIS |
-| `scripts/lez` | Ranh giới, graph, ma trận tuyến, chấm điểm, thực địa và GPS |
-| `config` | Mốc LEZ, snapshot, quota, trọng số, đơn vị và ngưỡng |
-| `data/hanoi_tiles` | Nguồn OSM theo ô, query, response và manifest |
-| `data/raw` | Tài liệu nguồn và bản byte dữ liệu đo được nhập |
-| `data/processed` | Bundle dẫn xuất có phiên bản/hash |
-| `data/measurements/incoming` | CSV thực tế chờ nhập |
-| `reports`, `maps/routes` | Tiến độ/QA và bản đồ 30/60 có tên đường |
-| `tests`, `docs`, `backups` | Kiểm thử, hướng dẫn và bản trước thay đổi |
+| Hiểu mục tiêu, dữ liệu, phương pháp và phần còn thiếu | [Tổng quan dự án](docs/PROJECT_OVERVIEW.md) |
+| Thao tác từ đầu đến cuối trong dự án đã có dữ liệu | [Hướng dẫn sử dụng](HUONG_DAN_SU_DUNG_WORK.md) |
+| Clone repo, cài môi trường, khôi phục dữ liệu trên máy khác | [Bắt đầu trên máy mới](docs/setup/GETTING_STARTED.md) |
+| Chạy 1.000 bộ ngẫu nhiên và đọc kết quả | [M0](docs/lez/RANDOM_BASELINE.md) · [Notebook 10](notebooks/10_random_baseline.ipynb) |
+| Tìm hướng dẫn theo từng phần | [Mục lục tài liệu](docs/README.md) |
 
-T2 hướng dẫn chạy từng tuyến đã được tích hợp vào notebook 09, mục 7. Chạy riêng hoặc tiếp tục theo [hướng dẫn T2](docs/lez/ROUTE_INSTRUCTIONS.md); mở `work/maps/route_instructions/index.html` sau khi xuất. Kết quả gồm 30 phiếu, GPX, sơ đồ có hướng và bảng điểm cần rà soát. Chỉ dẫn giữ đúng chuỗi cung nguồn; quyền lưu thông và điểm dừng vẫn chờ xác minh thực địa.
+Trong tài liệu, `.../work` là thư mục gốc repo; không chứa đường dẫn tài khoản cá nhân. Dấu `...` không phải ký tự để chép vào lệnh Terminal.
 
-T3 đã bổ sung lịch ngày thường/cuối tuần, thông tin thiết bị/điều kiện đo và bảng tiến độ tổ hợp. Xem notebook 09 mục 8 hoặc [hướng dẫn T3](docs/lez/SURVEY_COVERAGE.md). Có 180 tổ hợp và 360 lượt dự kiến; số lượt này chưa phải cỡ mẫu bắt buộc, mục tiêu chuyến/ngày vẫn chờ xác nhận. Chỉ dữ liệu thực đủ thông tin và qua kiểm tra chất lượng mới được đếm.
+## Dòng xử lý
 
-Notebook 03 xem LEZ 2027/2030; 04 quản lý mạng; 05 sinh 60; 06 chọn 30; [07](notebooks/07_field_workflow.ipynb) quản lý bằng chứng và cập nhật; [08](notebooks/08_process_measurements.ipynb) kiểm tra chuyến; 09 điều phối tất cả. Python thường chạy controller, worker GIS dùng runtime PyQGIS đã đăng ký. Hướng dẫn cài: [work/docs/setup/PYQGIS_SETUP.md](docs/setup/PYQGIS_SETUP.md).
+```mermaid
+flowchart LR
+    O[Overpass API / raw OSM] --> N[04: mạng xe máy]
+    N --> B[03: đa giác ranh giới LEZ-first]
+    B --> C[05: 60 ứng viên]
+    C --> S[06: 30 đề xuất]
+    S --> M[10: đối chứng M0]
+    S --> F[07: bằng chứng / cập nhật]
+    F --> G[08: GPS / chỉ tiêu vận hành]
+```
 
-OSM hiện có 183 ô hoàn chỉnh, snapshot 01/10/2026. Ma trận giữ 12 ô ABC×RC; **A×RC1 được ghi nhận là giới hạn của thiết kế mẫu hiện tại**. Mạng có khoảng 5,707 km RC1 giao với A nhưng còn 0 m đủ sinh tuyến sau kiểm tra nằm trọn vùng và loại dải bất định. Giữ ô/mẫu số và báo bộ mẫu có tuyến ở 11/12 ô. Xem [lý do và cách xử lý A×RC1](docs/lez/A_RC1_LIMITATION.md) cùng [bằng chứng](reports/sampling/A_RC1_limitation.json). Số hiện hành luôn lấy từ `latest_sampling_abc.json` và `latest_selection_30.json`.
+[Notebook 09](notebooks/09_automate_project.ipynb) điều phối các bước hiện có đến xử lý chuyến đo, gồm độ nhạy, bản đồ, T2 và T3/T5. **M0 chạy riêng ở notebook 10.** Chạy lại với cache hợp lệ để tiếp tục; không cần tải lại OSM chỉ để xem hoặc so sánh bộ tuyến.
 
-Chưa có bằng chứng G1/G4/G5/G6/C6 và chuyến đo thực thì pipeline báo chờ; không sinh thông số thực địa. Giá trị OSM, mô hình và quan sát giữ riêng. D đo sai lệch cơ cấu chiều dài, không phải tỷ lệ đường đã khảo sát.
+Phân vùng theo cấu hình LEZ-first: **A** là KV1/KV2/KV3 thí điểm 2027 tại Hoàn Kiếm/Cửa Nam; **B** là LEZ 2030 trừ A; **C** là phần Hà Nội ngoài LEZ 2030. A không đồng nghĩa toàn Vành đai 1. `sampling_zone` và trạng thái trong/ngoài LEZ là hai thuộc tính riêng. Nguồn và phiên bản: [lez_policy.json](config/lez_policy.json).
 
-Hướng dẫn chi tiết: [quy trình](docs/lez/PROJECT_AUTOMATION.md), [thực địa](docs/lez/FIELD_WORKFLOW.md), [GPS](docs/lez/TRIP_PROCESSING.md), [sinh 60](docs/lez/SAMPLING_ABC.md), [chọn 30](docs/lez/SELECTION_30.md), [kế hoạch](docs/plans/LEZ_python_direct_api_plan.md).
+## Kết quả đã kiểm tra ngày 02/11/2026
 
-Các bundle L/O, phạm vi điều chỉnh theo dân cư và phân tầng V/N cũ giữ để truy vết lịch sử. Chúng không được dùng thay ranh giới LEZ-first hiện hành. Raw OSM và tài liệu nguồn được giữ nguyên.
+| Nội dung | Kết quả trên dữ liệu lưu tại máy |
+|---|---|
+| OSM | 183 ô hợp lệ; snapshot `2026-10-01T00:00:00Z` |
+| Bộ ứng viên / bộ đề xuất | 60 A20/B20/C20 → 30 A10/B8/C12 |
+| D của bộ 30 | **0,365187**; D càng nhỏ thì cơ cấu chiều dài RC càng gần mạng tham chiếu |
+| M0, seed `20261102` | 1.000 bộ hợp lệ; D trung bình **0,542052**; thấp nhất **0,414540** |
+| Bộ ngẫu nhiên có D ≤ D bộ gốc | **0/1.000**, thống kê mô tả; không diễn giải thành p-value bằng 0 |
+| Độ nhạy tiền khảo sát | 114 kịch bản: 113 hoàn thành, 1 ca thiếu quota được định trước |
+| Đo thực tế | 0 chuyến / 0 điểm GPS trong báo cáo dữ liệu thực |
+| Giới hạn ô RC | Pool có tuyến ở 11/12 ô; thiếu A×RC1 |
 
-Kiểm tra độ nhạy mở rộng được tích hợp vào notebook 09, xem kết quả ở mục 4; mục 7a–7c notebook 06 dùng để chạy riêng: [work/docs/lez/SENSITIVITY.md](docs/lez/SENSITIVITY.md). Báo cáo riêng `work/reports/selection/latest_sensitivity.json`, có chuẩn hóa X, trọng số, phần làn/tốc độ thiếu, C6 khác nhau và thay tuyến giả lập; giữ bộ 30 đã công bố.
+Xem [bản kết quả M0 được lưu trong repo](docs/results/M0_2026_11_02.md), gồm biểu đồ, bảng chỉ tiêu, danh sách các bộ và hash nguồn. Các số trên là một phiên bản đã kiểm tra, không tự thay đổi khi chạy phiên bản mới. D không phải tỷ lệ đường đã khảo sát; 0/1.000 không chứng minh bộ gốc tối ưu toàn cục.
 
-Bản trên GitHub giữ mã nguồn, notebook, cấu hình, truy vấn, metadata ô và tài liệu nguồn theo [`.gitignore`](.gitignore). Response OSM từng ô, bundle xử lý, dữ liệu đo, báo cáo, bản đồ và backup được giữ trên máy. Khi clone sang máy khác, cần tải hoặc khôi phục dữ liệu OSM và thiết lập PyQGIS trước khi chạy các bước phụ thuộc dữ liệu.
+## Chạy nhanh khi đã có dữ liệu tương ứng
 
-T5 đã bổ sung RPA/PKE, SAFD theo thời gian và nhật ký từng khoảng, tích hợp notebook 09 mục 9 và xử lý chuyến. Công thức, lưới, mẫu số và giới hạn được ghi tại [hướng dẫn T5](docs/lez/OPERATING_METRICS.md). Kết quả thực vẫn chờ dữ liệu; ví dụ tính tay tách riêng với `is_test_data=true`.
+Từ thư mục gốc repo, bằng Python có NumPy và Matplotlib:
+
+```bash
+python3 scripts/lez/selection_random.py preflight
+python3 scripts/lez/selection_random.py run
+```
+
+M0 đọc bundle mạng, 60 ứng viên, bộ 30 và gate đã lưu; không khởi động QGIS hoặc gọi HTTP. `preflight` dừng nếu thiếu nguồn/hash. Muốn dựng lại mạng/hình học cần runtime PyQGIS phù hợp; đọc [cài đặt](docs/setup/GETTING_STARTED.md) trước khi chạy notebook 09.
+
+## Nội dung repo và dữ liệu cần khôi phục
+
+| Được lưu trên GitHub | Được sinh hoặc lưu riêng tại máy |
+|---|---|
+| Mã nguồn, notebook, cấu hình, kiểm thử | Response OSM từng ô và manifest tải |
+| Truy vấn, metadata ô, tài liệu nguồn đã theo dõi | Graph, GeoPackage và bundle xử lý lớn |
+| Hướng dẫn và bản kết quả M0 ngày 02/11 | Báo cáo `latest_*`, bản đồ HTML/GPX và checkpoint |
+| | Bằng chứng khảo sát và dữ liệu đo |
+
+Clone repo cung cấp mã và tài liệu; để tái chạy cần khôi phục hoặc dựng các đầu vào theo [hướng dẫn máy mới](docs/setup/GETTING_STARTED.md). [.gitignore](.gitignore) giữ các kết quả sinh tự động ngoài Git; bản M0 trong `docs/results` là bản kết quả được chọn riêng để đọc và kiểm tra trên GitHub.
+
+## Hướng phát triển
+
+Hoàn thiện đối chứng M1–M5, kiểm tra thay đổi đa giác ranh giới, xác minh tuyến/neo và C6, thu GPS/tốc độ, đánh giá đủ dữ liệu rồi xây dựng/kiểm định chu trình lái. M0, độ nhạy trên pool cố định và lịch dự kiến không thay thế bằng chứng thực địa. Chi tiết tại [phần việc còn lại](docs/PROJECT_OVERVIEW.md#cong-viec-con-lai).
+
+Dữ liệu nền: © OpenStreetMap contributors. Xem [thông tin bản quyền OSM](https://www.openstreetmap.org/copyright); tài liệu và nguồn khác giữ thông tin xuất xứ tương ứng.

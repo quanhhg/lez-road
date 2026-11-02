@@ -1,0 +1,7 @@
+# Python thường cho HTTP, controller, bảng và notebook M0.
+# Không thay thế QGIS/PyQGIS; đây không phải lockfile tái lập mọi phiên bản.
+requests
+pandas
+numpy
+matplotlib
+ipykernel

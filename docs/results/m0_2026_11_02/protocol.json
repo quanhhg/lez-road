@@ -1,0 +1,85 @@
+{
+  "config": {
+    "schema_version": 1,
+    "method_version": "M0_uniform_stratified_rejection_v1",
+    "valid_samples": 1000,
+    "random_seed": 20261102,
+    "max_attempts": 1000000,
+    "checkpoint_every": 100,
+    "comparison_tolerance": 1e-12,
+    "secondary_length_window_fraction": 0.1,
+    "render_plot": true,
+    "replacement_within_set": false,
+    "independent_sets_may_repeat": true,
+    "material_cell_count_is_filter": false
+  },
+  "quota": {
+    "inside": 18,
+    "outside": 12
+  },
+  "intersection_quota": [
+    {
+      "name": "A_inside",
+      "group": "inside",
+      "sampling_zones": [
+        "A"
+      ],
+      "count": 10
+    },
+    {
+      "name": "B_inside",
+      "group": "inside",
+      "sampling_zones": [
+        "B"
+      ],
+      "count": 8
+    },
+    {
+      "name": "C_outside",
+      "group": "outside",
+      "sampling_zones": [
+        "C"
+      ],
+      "count": 12
+    }
+  ],
+  "max_corridor_overlap": 0.7,
+  "proposal": "uniform independent full-set draw within disjoint quota buckets",
+  "acceptance": "reject entire set if common hard constraints fail; no repair or optimization",
+  "repeated_sets": "allowed across independent draws; never within one set",
+  "baseline_selected_ids": [
+    "B04",
+    "C04",
+    "A10",
+    "B17",
+    "C12",
+    "C16",
+    "B16",
+    "B19",
+    "C08",
+    "C13",
+    "C20",
+    "B20",
+    "B02",
+    "C06",
+    "C03",
+    "A01",
+    "C19",
+    "C07",
+    "B08",
+    "C05",
+    "B12",
+    "C11",
+    "A03",
+    "A06",
+    "A09",
+    "A02",
+    "A08",
+    "A17",
+    "A18",
+    "A11"
+  ],
+  "D_formula": "0.5 * sum(abs(network_RC_length / total_network_RC_length - sample_RC_traversal / total_sample_RC_traversal))",
+  "coverage_denominator": "full eligible RC1-RC4 network length, each physical part counted once",
+  "material_cells": "diagnostic outcome only; fixed full-route fraction threshold from selection_30 config"
+}

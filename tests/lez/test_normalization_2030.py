@@ -5,7 +5,7 @@ from pathlib import Path
 import sys
 import unittest
 
-WORK = Path('/Users/quanh.hg/python/work')
+WORK = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(WORK / 'scripts'))
 staged = Path(__file__).resolve().parents[1] / 'sampling_2030.py'
 source = staged if staged.exists() else WORK / 'scripts/lez/sampling_2030.py'

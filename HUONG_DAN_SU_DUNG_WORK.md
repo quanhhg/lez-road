@@ -1,10 +1,10 @@
 # Hướng dẫn sử dụng dự án Hà Nội OSM — LEZ từ A đến Z
 
-Cập nhật theo các tệp hiện có ngày **06/10/2026**. Thư mục gốc được viết là **`.../work`**. Tài liệu này hướng dẫn chạy dự án hiện tại trên macOS, đọc kết quả và chuẩn bị khảo sát.
+Cập nhật theo các tệp hiện có ngày **02/11/2026**. Thư mục gốc được viết là **`.../work`**. Tài liệu này hướng dẫn chạy dự án hiện tại trên macOS, đọc kết quả và chuẩn bị khảo sát.
 
 **Thiết kế đang dùng:** sinh 60 ứng viên **A20/B20/C20**, chọn 30 đề xuất **A10/B8/C12**, tương ứng **18 trong / 12 ngoài LEZ 2030**. Bộ 30 đã được đề xuất từ dữ liệu bản đồ; khảo sát thực địa và xây dựng hai chu trình lái còn ở phía sau.
 
-Các liên kết trong tài liệu mở tệp tương đối với thư mục `.../work`. Trong các lệnh Terminal, dấu `...` chỉ là cách viết rút gọn vị trí thư mục, **không phải ký tự để chép vào lệnh**.
+Đọc nhanh [tổng quan](docs/PROJECT_OVERVIEW.md), [mục lục tài liệu](docs/README.md) hoặc [bắt đầu trên máy mới](docs/setup/GETTING_STARTED.md). `.../work` là thư mục gốc repo, không bắt buộc phải có tên `work`. Các liên kết mã/tài liệu tính tương đối từ đây; vị trí đầu ra dưới `data/processed`, `reports` và `maps` cần được tạo hoặc khôi phục tại máy, không phải tệp luôn có sau clone. Trong các lệnh Terminal, dấu `...` chỉ là cách viết rút gọn vị trí thư mục, **không phải ký tự để chép vào lệnh**.
 
 ## Mục lục
 
@@ -29,13 +29,17 @@ Các liên kết trong tài liệu mở tệp tương đối với thư mục `.
 
 | Bạn muốn làm gì? | Mở hoặc chạy gì? | Cần gọi API không? |
 |---|---|---|
-| Xem 30 tuyến được chọn, tên đường và trong/ngoài LEZ | [.../work/maps/routes/30_tuyen_LEZ2030.html](maps/routes/30_tuyen_LEZ2030.html) | Không cần tải lại dữ liệu |
-| Xem toàn bộ 60 ứng viên | [.../work/maps/routes/60_tuyen_LEZ2030.html](maps/routes/60_tuyen_LEZ2030.html) | Không cần tải lại dữ liệu |
+| Xem 30 tuyến được chọn, tên đường và trong/ngoài LEZ | `.../work/maps/routes/30_tuyen_LEZ2030.html` | Không cần tải lại dữ liệu |
+| Xem toàn bộ 60 ứng viên | `.../work/maps/routes/60_tuyen_LEZ2030.html` | Không cần tải lại dữ liệu |
 | Đọc ảnh hoặc danh sách tuyến | PNG và CSV trong `.../work/maps/routes` | Không |
 | Xem tiến độ OSM | Notebook 01: thiết lập → kiểm tra cấu hình/tiến độ → tổng kết | Không |
 | Xem ranh giới và phân tầng đã chuẩn hóa | Notebook 03 | Mặc định không |
 | Xem hoặc chạy lại bộ 60 bằng cache | Notebook 05, giữ `REBUILD_LEZ_SCOPE=False`, `FORCE=False` | Không |
 | Xem hoặc chạy lại lựa chọn 30 | Notebook 06, giữ `force=False` | Không |
+| Điều phối các bước đã tích hợp sau khi có mạng/cache chuẩn hóa | Notebook 09 | Không |
+| So 1.000 bộ ngẫu nhiên với bộ 30 cố định | Notebook 10 hoặc `selection_random.py run` | Không; không cần QGIS đang chạy |
+| Chuẩn bị/nhập bằng chứng, cập nhật và chọn lại | Notebook 07 | Không |
+| Nhập chuyến/GPS, kiểm chất lượng và T5 | Notebook 08 hoặc 09 | Không |
 | Dựng lại mạng sau khi thay dữ liệu hoặc quy tắc xe máy | Notebook 04 | Không khi dùng nguồn đã lưu và `fetch_sources=False` |
 | Tải các ô OSM còn thiếu/hỏng | Notebook 01: kiểm tra trước → cell tải | Có, nếu có ô cần tải |
 | Kiểm tra/chia ô tải nặng | Notebook 02 hoặc phần PyQGIS tùy chọn trong 01 | Thao tác chia không gọi API; tải ô con là bước riêng |
@@ -58,7 +62,7 @@ open maps/routes/60_tuyen_LEZ2030.html
 ├── HUONG_DAN_SU_DUNG_WORK.md       Hướng dẫn tổng hợp này
 ├── README.md                      Giới thiệu và tiến độ thiết kế hiện hành
 ├── .vscode/settings.json          Cấu hình trình soạn thảo
-├── notebooks/                    Sáu notebook làm việc
+├── notebooks/                    Mười notebook 01–10
 ├── scripts/
 │   ├── overpass/                  HTTP, cache, trạng thái và lưới tải
 │   ├── lez/                       Mạng, ranh giới, chuẩn hóa, sinh/chọn tuyến
@@ -67,6 +71,7 @@ open maps/routes/60_tuyen_LEZ2030.html
 ├── data/
 │   ├── hanoi_tiles/               Dữ liệu OSM theo ô và lịch sử tải
 │   ├── raw/                       Tài liệu nghiên cứu, nguồn pháp lý, nguồn bổ sung
+│   ├── measurements/incoming/     CSV quan sát, chuyến và GPS để nhập
 │   ├── interim/                   Chỉ mục và dữ liệu trung gian
 │   └── processed/                 Mạng, vùng và bộ tuyến theo phiên bản
 ├── reports/                      Báo cáo tiến độ, kiểm tra, nhật ký
@@ -100,15 +105,19 @@ Một **bundle** là thư mục kết quả của một phiên bản xử lý, c
 
 | Câu hỏi | Nguồn chính |
 |---|---|
-| Ô OSM nào đã tải xong? | [.../work/data/hanoi_tiles/tiles.csv](data/hanoi_tiles/tiles.csv), manifest từng ô và [.../work/reports/overpass/completion_audit.json](reports/overpass/completion_audit.json) |
+| Ô OSM nào đã tải xong? | [.../work/data/hanoi_tiles/tiles.csv](data/hanoi_tiles/tiles.csv), manifest từng ô và `.../work/reports/overpass/completion_audit.json` |
 | Lịch sử ô và trạng thái được lưu ở đâu? | [.../work/data/hanoi_tiles/tiles_history.json](data/hanoi_tiles/tiles_history.json) |
 | Endpoint/snapshot/CRS của bộ tải? | [.../work/data/hanoi_tiles/tile_project.json](data/hanoi_tiles/tile_project.json) |
 | Báo cáo/bản đồ lưới được đặt ở đâu? | [.../work/data/hanoi_tiles/project_layout.json](data/hanoi_tiles/project_layout.json) và module `project_paths.py` |
-| Mạng xe máy hiện tại có gì? | [.../work/reports/network/latest_network_report.json](reports/network/latest_network_report.json) |
-| Phạm vi LEZ nghiên cứu đã chuẩn hóa? | [.../work/reports/sampling/latest_normalization_2030.json](reports/sampling/latest_normalization_2030.json) |
-| Bộ 60 ABC hiện hành? | [.../work/reports/sampling/latest_sampling_abc.json](reports/sampling/latest_sampling_abc.json) |
-| Bộ 30 hiện hành và chỉ tiêu? | [.../work/reports/selection/latest_selection_30.json](reports/selection/latest_selection_30.json) |
-| Bản đồ đang dùng bộ dữ liệu nào? | [.../work/maps/routes/route_maps_manifest.json](maps/routes/route_maps_manifest.json) |
+| Mạng xe máy hiện tại có gì? | `.../work/reports/network/latest_network_report.json` |
+| Hồ sơ chuẩn hóa V/N lịch sử, nguồn phụ trợ của bộ ABC? | `.../work/reports/sampling/latest_normalization_2030.json` |
+| Bộ 60 ABC hiện hành? | `.../work/reports/sampling/latest_sampling_abc.json` |
+| Bộ 30 hiện hành và chỉ tiêu? | `.../work/reports/selection/latest_selection_30.json` |
+| Đối chứng M0 mới nhất? | `.../work/reports/selection/latest_random_baseline.json` |
+| Độ nhạy trên pool cố định? | `.../work/reports/selection/latest_sensitivity.json` |
+| Bằng chứng/quan sát đã đủ chưa? | `.../work/reports/field/latest_field_workflow.json`, `latest_survey_revision.json` |
+| Chuyến/GPS thực, T3? | `.../work/reports/trips/latest_real.json`, `reports/field/latest_survey_coverage.json` |
+| Bản đồ đang dùng bộ dữ liệu nào? | `.../work/maps/routes/route_maps_manifest.json` |
 
 `.../work/data/tiles.csv` là liên kết tới CSV trong `data/hanoi_tiles`. Không tạo một bảng tiến độ riêng cạnh notebook.
 
@@ -125,10 +134,15 @@ Trong `tiles.csv`, `query_file` và `response_dir` được tính tương đối
 | `overpass/render_grid.py` | Vẽ lưới tải |
 | `lez/pipeline.py` | Controller/worker chuẩn hóa OSM và dựng mạng |
 | `lez/access.py`, `network.py`, `graph.py`, `routing.py` | Quyền xe máy, hình học, graph có hướng, tìm đường |
-| `lez/normalization_2030.py`, `boundary_review.py` | Chuẩn hóa LEZ/V/N và truy vết phân tầng |
+| `lez/policy_boundaries.py` | Đa giác ranh giới LEZ-first hiện hành và nguồn chính sách |
+| `lez/normalization_2030.py`, `boundary_review.py` | Chuẩn hóa/phân tầng V/N phụ trợ, truy vết lịch sử |
 | `lez/abc_boundaries.py`, `sampling_abc.py` | Vùng ABC, ma trận và sinh 60 ứng viên |
 | `lez/selection_30.py`, `selection_metrics.py`, `selection_gates.py` | Kiểm điều kiện, tính biến/điểm, chọn 30 và dự phòng |
 | `lez/export_route_maps.py` | Xuất bản đồ có tên đường cho 30/60 tuyến |
+| `lez/project_automation.py` | Điều phối từ pool 60 đến khảo sát/chuyến đo; cần nguồn mạng/chuẩn hóa trước |
+| `lez/selection_sensitivity.py` | Độ nhạy trên pool và bộ 30 cố định |
+| `lez/selection_random.py` | M0: bốc đều theo quota, checkpoint và so sánh bộ 30 |
+| `lez/field_workflow.py`, `survey_revision.py`, `trip_processing.py` | Bằng chứng, cập nhật, chọn lại và kiểm chuyến/GPS |
 | `lez/route_instructions.py` | T2: chỉ dẫn chạy, sơ đồ, GPX và điểm cần rà soát |
 | `lez/survey_coverage.py` | T3: lịch theo loại ngày, điều kiện đo và tiến độ tổ hợp |
 | `lez/operating_metrics.py` | T5: RPA/PKE, phân bố tốc độ–gia tốc và tổng hợp có trọng số |
@@ -144,16 +158,16 @@ Người sử dụng thông thường chạy notebook hoặc CLI đã hướng d
 
 | Nhóm | Không gian nghiên cứu | Ứng viên 60 | Đề xuất 30 | Nhóm LEZ dùng cho bộ tuyến hiện tại |
 |---|---|---:|---:|---|
-| A | Trong Vành đai 1 | 20 | 10 | Trong LEZ 2030 |
-| B | Giữa Vành đai 1 và Vành đai 3 | 20 | 8 | Trong LEZ 2030 |
-| C | Ngoài Vành đai 3, trong phạm vi Hà Nội của dự án | 20 | 12 | Ngoài LEZ 2030 |
+| A | KV1/KV2/KV3 thí điểm LEZ 2027 tại Hoàn Kiếm/Cửa Nam | 20 | 10 | Trong LEZ 2030 |
+| B | LEZ 2030 trừ A: phần Vành đai 1 chưa thuộc A và phần mở rộng đến Vành đai 3 | 20 | 8 | Trong LEZ 2030 |
+| C | Phần Hà Nội ngoài LEZ 2030 của phiên bản nghiên cứu | 20 | 12 | Ngoài LEZ 2030 |
 | Tổng | | 60 | 30 | Bộ 60: 40 trong/20 ngoài; bộ 30: 18 trong/12 ngoài |
 
-B bao gồm khoảng Vành đai 1–3, **không chỉ các tuyến nằm trên đường Vành đai 2**. Trong dữ liệu, `sampling_zone` giữ A/B/C; `group` và `lez2030_group` giữ trạng thái LEZ. Pool hiện tại lấy A/B giao phần trong LEZ và C giao phần ngoài LEZ; hình học toàn tuyến phải đáp ứng cả hai lớp.
+A **không phải toàn Vành đai 1**. B gồm cả phần Vành đai 1 chưa thuộc A và phần đến Vành đai 3; không chỉ các tuyến trên đường Vành đai 2. Định nghĩa theo nguồn đóng băng trong `config/lez_policy.json`, không phải tra cứu chính sách cập nhật theo ngày đọc. Trong dữ liệu, `sampling_zone` giữ A/B/C; `group` và `lez2030_group` giữ trạng thái LEZ. Pool hiện tại lấy A/B giao phần trong LEZ và C giao phần ngoài LEZ; hình học toàn tuyến phải đáp ứng cả hai lớp.
 
 Ma trận sinh/chọn chính có **12 ô = 3 nhóm ABC × 4 loại RC**. Các tầng V1–V5, N1–N10 và ma trận chuẩn hóa 60 ô vẫn được giữ để đối chiếu chi tiết; chúng không còn là quota bắt buộc phải có đủ 15 tầng trong bộ 30 ABC.
 
-### 3.2. Trạng thái tại ngày lập hướng dẫn
+### 3.2. Trạng thái đã đối chiếu ngày 02/11/2026
 
 | Phần việc | Kết quả hiện có | Giới hạn cần nhớ |
 |---|---|---|
@@ -163,13 +177,16 @@ Ma trận sinh/chọn chính có **12 ô = 3 nhóm ABC × 4 loại RC**. Các t�
 | Sinh 60 ABC | A20/B20/C20; không còn mục tiêu sinh tuyến thất bại | 60 tuyến vẫn cần kiểm tra thực địa |
 | Chọn 30 | A10/B8/C12, đúng 18 trong/12 ngoài; có 30 tuyến dự phòng | Trạng thái `proposed_for_survey`, chưa khóa bộ cuối |
 | Bản đồ | Có HTML/PNG/CSV cho cả 30 và 60 | Đọc manifest để đối chiếu với bộ tuyến sau mỗi lần chạy mới |
-| Đo và xây chu trình lái | Chưa có chuỗi tốc độ–thời gian thực đo trong bộ chọn | Cần khảo sát, đo, xử lý chuyến và xây hai chu trình |
+| M0 | 1.000 bộ hợp lệ, seed 20261102; 0/1.000 bộ có D ≤ bộ gốc | Đối chứng mô tả trên cùng pool; không phải p-value bằng 0 |
+| Độ nhạy | 114 kịch bản: 113 hoàn thành, 1 ca thiếu quota định trước | Chưa bao gồm đầy đủ thay đa giác ranh giới và benchmark M1–M5 |
+| Khảo sát / T2 / T3 | Có mã, phiếu/GPX, lịch 180 tổ hợp / 360 lượt đề xuất | Chưa có tổ hợp được đếm đã đo; mục tiêu số chuyến/ngày còn chờ chốt |
+| GPS / T5 / chu trình | Có xử lý chuyến và công thức; báo cáo thực 0 chuyến / 0 điểm GPS | Chưa có kết quả đo hoặc chu trình thực nghiệm |
 
 Snapshot OSM đang dùng là **`2026-10-01T00:00:00Z`**. Tính chiều dài/diện tích trong CRS mét **EPSG:3405**; tọa độ truy vấn Overpass dùng WGS84.
 
 Hình học Vành đai 1/3 là **proxy kỹ thuật có truy vết nguồn**. Phần khép kín phía bắc Vành đai 3 có dải bất định 2.000 m được loại khỏi tuyến. Các kết quả “thuần vùng” hiện tại được kiểm theo phạm vi nghiên cứu đã lưu, không tự xác nhận một đa giác pháp lý.
 
-Các số ở mục này là ảnh chụp tiến độ ngày 06/10/2026. Sau khi thay đầu vào hoặc chạy phiên bản mới, đọc lại các báo cáo `latest_*.json`.
+Các số ở mục này là ảnh chụp kiểm tra ngày 02/11/2026. Ngày cập nhật hướng dẫn không đổi ngày snapshot OSM hoặc ngày kiểm chính sách nguồn. Pool còn thiếu A×RC1; giữ đủ 12 ô/mẫu số và báo 11/12 ô có tuyến. Xem [giới hạn A×RC1](docs/lez/A_RC1_LIMITATION.md). Sau khi thay đầu vào hoặc chạy phiên bản mới, đọc lại các báo cáo `latest_*.json`.
 
 <a id="moi-truong"></a>
 
@@ -192,10 +209,12 @@ Khi mới đọc dự án, chạy cell thiết lập và cell xem trạng thái 
 | 01 — đọc/tải OSM | Python thường hoặc PyQGIS | Cần `requests`, `pandas`, Jupyter; giữ `ENABLE_PYQGIS=False` khi dùng Python thường |
 | 02 — verify/split lưới | PyQGIS | Import trực tiếp `build_tiles` → `qgis.core` |
 | 03/04/05/06 — điều khiển quy trình | Python thường hoặc PyQGIS | Controller dùng thư viện phân tích; worker GIS cần runtime PyQGIS đã đăng ký |
+| 07/08/09 — bằng chứng, GPS và điều phối | Python thường hoặc PyQGIS | Một số bước GIS/map matching/bản đồ cần worker PyQGIS; dữ liệu phải có trước |
+| 10 — M0 trên dữ liệu đã lưu | Python thường | NumPy và Matplotlib; notebook cần ipykernel; không khởi động QGIS |
 | Cell do bạn viết có `from qgis.core import ...` | PyQGIS | Kernel đang chạy cell phải nạp được QGIS |
 | Mở PNG/HTML/CSV kết quả | Không cần kernel GIS | Chỉ xem tệp đã xuất |
 
-Có thể chọn **Python (PyQGIS 4.2.3)** làm kernel chung trên máy hiện tại cho thuận tiện. Python thường vẫn dùng được cho HTTP và controller; việc này không làm mất yêu cầu runtime PyQGIS ở phần hình học.
+Chỉ chọn **Python (PyQGIS 4.2.3)** khi đã kiểm interpreter và ứng dụng QGIS tương ứng còn hoạt động. Kernel đã đăng ký không tự chứng minh runtime dùng được. Python thường vẫn dùng được cho HTTP và controller; việc này không làm mất yêu cầu runtime PyQGIS ở phần hình học.
 
 Kiểm thư viện notebook bằng một cell:
 
@@ -218,7 +237,7 @@ print("QGIS:", Qgis.QGIS_VERSION)
 
 ### 4.3. Runtime hiện có và cách thiết lập lại
 
-Kernel hiện tại trỏ tới runtime ở **`.../work/../.pyqgis-runtime`**, tức thư mục cùng cấp với `work`. Không cần chạy script cài lại mỗi lần mở notebook.
+Một bản cài trước đây dùng **`.../work/../.pyqgis-runtime`**. Trên máy mới hoặc sau khi chuyển/xóa ứng dụng QGIS, phải kiểm lại interpreter, ứng dụng và kernelspec; không giả định runtime cũ vẫn hoạt động. Chỉ cài lại khi cần, không cài lại mỗi lần mở notebook.
 
 Nếu cài mới, sửa runtime hoặc muốn tạo runtime **bên trong `.../work`**, đọc [.../work/docs/setup/PYQGIS_SETUP.md](docs/setup/PYQGIS_SETUP.md), rồi từ Terminal ở `.../work` chạy:
 
@@ -235,11 +254,11 @@ Nếu muốn một môi trường Python thường riêng cho HTTP/controller v�
 ~~~bash
 python3 -m venv .venv
 source .venv/bin/activate
-python3 -m pip install requests pandas numpy ipykernel
+python3 -m pip install -r requirements-notebook.txt
 python3 -m ipykernel install --user --name hanoi-work --display-name "Python (Hanoi work)"
 ~~~
 
-Chỉ cần thực hiện nhánh này khi thiếu môi trường Python thường. Kernel **Python (Hanoi work)** không chứa PyQGIS; vẫn cần runtime GIS đăng ký ở trên cho 03–06 và chọn kernel PyQGIS cho 02.
+Chỉ cần thực hiện nhánh này khi thiếu môi trường Python thường. Kernel **Python (Hanoi work)** không chứa PyQGIS; vẫn cần runtime GIS đăng ký ở trên cho bước hình học/routing/bản đồ và chọn kernel PyQGIS cho 02. M0 ở notebook 10 chạy bằng môi trường thường này. Danh sách thư viện không khóa phiên bản; muốn lặp đúng M0 đã lưu cần đối chiếu Python/NumPy/Matplotlib trong bản kết quả.
 
 ### 4.4. Có cần SQL hoặc API key?
 
@@ -256,22 +275,23 @@ Bộ tải dùng Overpass HTTP trực tiếp từ cấu hình; không yêu cầu
 Khi dựng lại từ dữ liệu nguồn đã có:
 
 ~~~text
-Thiết lập môi trường
+Thiết lập môi trường + khôi phục/kiểm tra các nguồn
         ↓
 02 kiểm tra lưới nếu cần → 01 kiểm tra/tải OSM nếu cần
         ↓
-04 chuẩn hóa OSM và dựng mạng
+04 dựng mạng xe máy
         ↓
-03 chuẩn hóa ranh giới LEZ/V/N
+03 xem/kiểm đa giác LEZ-first; có cache chuẩn hóa phụ trợ cần thiết
         ↓
-05 sinh 60 ứng viên ABC
-        ↓
-06 chọn 30 + biến + điểm + dự phòng + checklist
-        ↓
-Xuất lại bản đồ → khảo sát → đo → cập nhật/khóa → xây chu trình
+05 sinh 60 → 06 chọn 30
+        ├── 10: M0 trên pool và bộ 30 cố định
+        ├── Độ nhạy tiền khảo sát
+        └── 07: bằng chứng/cập nhật → 08: GPS/QC/T5 → T3
 ~~~
 
-**04 đứng trước 03 trong một lượt dựng mới**, vì chuẩn hóa ranh giới/mạng cắt trong 03 cần mạng đã có. Số thứ tự tên notebook không thay thế quan hệ phụ thuộc này. Với dự án hiện tại đã có mạng và chuẩn hóa, có thể mở 03 để xem ngay hoặc đi thẳng 05/06.
+**04 đứng trước phần hình học 03 trong một lượt dựng mới.** Notebook 09 điều phối các bước đã tích hợp từ pool 60 đến dữ liệu đo; nó cần mạng và cache chuẩn hóa tồn tại trước, không tự thay toàn bộ bước tải/khởi tạo nguồn. M0 chạy riêng, chưa tích hợp vào 09.
+
+`sampling_abc` vẫn đọc bundle `normalization_2030` làm nguồn Hà Nội và kiểm tra bổ trợ. Nếu cache này thiếu thì phải khôi phục hoặc dựng theo cấu hình nguồn. Việc dùng bundle phụ trợ không có nghĩa phân A/B/C lại theo dân cư hoặc theo phạm vi LEZ điều chỉnh cũ.
 
 ### 5.2. Notebook 01 — tải và theo dõi OSM
 
@@ -332,21 +352,18 @@ Hiện còn 27.597 đoạn và 212 quan hệ hạn chế cần rà soát; `final
 
 Một số thông báo cuối 04 như `stage_a_complete` thuộc hồ sơ A/C cũ; đọc tiến độ ABC từ báo cáo 05/06. Đoạn Markdown cũ về quota 20/40 ở cuối 04 không phải quota hiện hành.
 
-### 5.5. Notebook 03 — ranh giới và chuẩn hóa nghiên cứu
+### 5.5. Notebook 03 — đa giác ranh giới LEZ-first
 
 Tệp: [.../work/notebooks/03_boundaries.ipynb](notebooks/03_boundaries.ipynb).
 
-**Đầu vào:** mạng đã dựng, phạm vi LEZ/policy, dữ liệu dân cư/hoạt động và nguồn địa bàn đã lưu. Các cấu hình liên quan: `sampling_boundary_policy.json`, `sampling_2030.json`.
+Phần đầu notebook đọc `config/lez_policy.json`, kiểm nguồn/hash, gọi worker `policy_boundaries` để dựng và xem đa giác A/B/C trong thư mục tạm; hiển thị diện tích, dải bất định và cờ `official_gis_verified`. Không sinh 60 hoặc chọn 30, không tự thay nguồn pháp lý bằng một hình vẽ.
 
-1. Chạy thiết lập và đọc cấu hình.
-2. Chạy kiểm tra đầu vào; nếu thiếu mạng, hoàn thiện 04 trước.
-3. Chạy `run_normalization(WORK, fetch=False, force=False, progress=print)`.
-4. Xem kiểm tra chuẩn hóa, truy vết gán tầng, quyết định các phần sát ranh giới và bản đồ.
-5. Đọc báo cáo `latest_normalization_2030.json` và các tệp trong `paths`.
+1. Kiểm mạng/nguồn và runtime; hoàn thiện 04 trước nếu mạng thiếu.
+2. Chạy phần LEZ-first để xem nguồn, hình học và giới hạn.
+3. Chuyển sang 05 để sinh ứng viên theo phiên bản chính sách cấu hình.
+4. Phần **đối chiếu lịch sử V/N, dân cư/hoạt động** có guard riêng. Chỉ dùng khi cần kiểm hoặc dựng cache phụ trợ `normalization_2030`; giữ phần này tách khỏi phân vùng hiện hành.
 
-03 không sinh lại 60 hoặc chọn 30. `fetch=False` dùng cache nguồn; nếu cache dân cư/hoạt động thiếu/hỏng, cần sửa bước nguồn tương ứng trước, không thay dữ liệu thiếu bằng 0.
-
-Bảng `boundary_decisions.csv` ghi lựa chọn sát ranh giới; `adjusted_boundary_parts.csv` ghi phần đổi trong/ngoài; `strata_assignment_trace.csv` giải thích gán V/N. Đây là bằng chứng nghiên cứu, cần giữ khi sử dụng hình học đã chuẩn hóa.
+Nếu cache phụ trợ thiếu, đọc [chuẩn hóa](docs/lez/NORMALIZATION_2030.md), kiểm nguồn mạng/dân cư/hoạt động trước khi dựng. Không sửa `config/lez_policy.json` để cho phép dịch ranh giới theo dân cư nhằm đủ quota.
 
 ### 5.6. Notebook 05 — sinh 60 ứng viên ABC
 
@@ -355,7 +372,7 @@ Tệp: [.../work/notebooks/05_sampling_2030.ipynb](notebooks/05_sampling_2030.ip
 Tên tệp còn chứa “2030”; logic sinh tuyến hiện tại gọi **`lez.sampling_abc`**. Cấu hình chính là [.../work/config/sampling_abc.json](config/sampling_abc.json).
 
 1. Chạy thiết lập, đọc cấu hình và preflight.
-2. Giữ `REBUILD_LEZ_SCOPE=False`: đọc chuẩn hóa LEZ đã lưu. Chỉ bật True khi chủ động dựng lại phạm vi và cập nhật các kết quả phụ thuộc.
+2. Giữ `REBUILD_LEZ_SCOPE=False`: đọc cache chuẩn hóa phụ trợ đã lưu. Cờ này còn tên lịch sử; chỉ bật True khi chủ động dựng lại cache phụ trợ và các kết quả phụ thuộc. Phân A/B/C hiện hành vẫn theo `lez_policy.json`, không theo phạm vi điều chỉnh dân cư cũ.
 3. Xem ma trận mạng; có 12 ô ABC×RC và bảng chi tiết V/N bổ sung.
 4. Giữ `FORCE=False`, chạy cell sinh 60.
 5. Xem CSV, số tuyến theo A/B/C và LEZ, mục tiêu thất bại, overlap, D và bản đồ.
@@ -383,6 +400,34 @@ Cell kiểm quota kiểm CSV thật, không chỉ in mục tiêu từ cấu hìn
 
 `final_context_score` đánh giá tuyến trong bối cảnh tập cuối; `score_at_greedy_selection` là điểm lúc tuyến được chọn trong vòng greedy. Không so hai cột như cùng một bảng xếp hạng tĩnh.
 
+### 5.8. Notebook 07 — bằng chứng và cập nhật sau khảo sát
+
+Tệp: [.../work/notebooks/07_field_workflow.ipynb](notebooks/07_field_workflow.ipynb). Tạo/mở chiến dịch, biểu mẫu và registry; nhập CSV quan sát, kiểm đơn vị/ngày/chứng cứ, lập kế hoạch cập nhật hoặc thay tuyến, rồi chấm lại trên overlay riêng. Cập nhật phải giữ quota và tính lại chỉ tiêu toàn bộ 30. Không nhập trực tiếp vào CSV trong bundle đã hash.
+
+Khi chưa có bằng chứng, trạng thái tiếp tục chờ; công cụ không tự gán G1/G4/G5/G6/C6 là đạt. Xem [workflow thực địa](docs/lez/FIELD_WORKFLOW.md).
+
+### 5.9. Notebook 08 — chuyến/GPS và chỉ tiêu vận hành
+
+Tệp: [.../work/notebooks/08_process_measurements.ipynb](notebooks/08_process_measurements.ipynb). Chuẩn bị schema CSV, nhập `trips.csv`/`gps_points.csv`, kiểm đơn vị/thời gian/GPS, ghép hành lang có hướng và tính chỉ tiêu/T5. Ghi `route_id`, `trip_id`, thiết bị và điều kiện theo biểu mẫu; không đổi tên cột tùy ý.
+
+Giữ đo thử, ví dụ giả và khảo sát chính theo nhãn riêng. Đầu vào trống không tạo chuyến đo. Xem [GPS/QC](docs/lez/TRIP_PROCESSING.md), [T3](docs/lez/SURVEY_COVERAGE.md), [T5](docs/lez/OPERATING_METRICS.md).
+
+### 5.10. Notebook 09 — điều phối các bước hiện có
+
+Tệp: [.../work/notebooks/09_automate_project.ipynb](notebooks/09_automate_project.ipynb). Chạy cell thiết lập → kiểm tra → chạy toàn bộ → xem tiến độ. Bộ điều phối dùng cache 60/30, chạy độ nhạy mở rộng, bản đồ, biểu mẫu/bằng chứng/cập nhật, T2, dữ liệu thực và T3/T5. Nguồn mạng/cache chuẩn hóa và runtime GIS phải có trước.
+
+Ở mục 2, `MEASUREMENTS_DIR = None` dùng thư mục từ `config/trip_processing.json`; hoặc chọn một thư mục chứa `trips.csv` và `gps_points.csv`. Mục 8/9 dùng lại nguồn này qua `T3_MEASUREMENTS_DIR` và `T5_MEASUREMENTS_DIR`; sau khi đổi nguồn, chạy lại các cell phụ thuộc hoặc restart từ đầu. `OBSERVATIONS_CSV` là nguồn bằng chứng quan sát riêng.
+
+Mục 4 xem độ nhạy; mục 7 T2; mục 8 T3; mục 9 T5. Chưa có dữ liệu/bằng chứng thì báo chờ, không tính là khảo sát xong. Xem [điều phối](docs/lez/PROJECT_AUTOMATION.md).
+
+### 5.11. Notebook 10 — M0, 1.000 bộ ngẫu nhiên
+
+Tệp: [.../work/notebooks/10_random_baseline.ipynb](notebooks/10_random_baseline.ipynb). Chọn Python thường, chạy từ trên xuống: kiểm dữ liệu/hash → bốc và đánh giá → đọc thống kê → xem biểu đồ/CSV. Không gọi HTTP hoặc khởi động QGIS; cần bundle mạng, pool 60, bộ 30 và gate tương ứng đã lưu.
+
+Mỗi bộ gồm A-trong 10/B-trong 8/C-ngoài 12; không lặp ID trong bộ. Loại toàn bộ bộ vi phạm điều kiện chung rồi bốc lại đến đủ 1.000 bộ hợp lệ. Không ép số ô vật chất, không tối ưu D và không loại các bộ giống nhau giữa các lần bốc độc lập.
+
+Số bộ/seed ở `config/selection_random.json`; lưu checkpoint mỗi 100 bộ hợp lệ, dùng lại cache khi hash đạt. Chạy lại cùng lệnh để tiếp tục. Đổi cấu hình tạo phiên bản khác. Xem [protocol M0](docs/lez/RANDOM_BASELINE.md) và [kết quả lưu trên GitHub](docs/results/M0_2026_11_02.md).
+
 <a id="terminal"></a>
 
 ## 6. Các lệnh Terminal tương ứng
@@ -401,6 +446,9 @@ python3 scripts/lez/sampling_abc.py check --work .
 python3 scripts/lez/sampling_abc.py status --work .
 python3 scripts/lez/selection_30.py preflight --work .
 python3 scripts/lez/selection_30.py status --work .
+python3 scripts/lez/project_automation.py status --work .
+python3 scripts/lez/selection_random.py preflight --work .
+python3 scripts/lez/selection_random.py status --work .
 ~~~
 
 `audit_download.py` **ghi lại báo cáo kiểm tra**, không gửi HTTP. Các lệnh kiểm tra có thể đọc nhiều tệp và tính hash; thời gian im lặng ngắn không tự là lỗi. Kiểm tra trạng thái sau khi một lượt xử lý kết thúc, tránh mở hai quy trình cùng sửa dự án.
@@ -424,7 +472,7 @@ python3 scripts/lez/sampling_abc.py run --work .
 python3 scripts/lez/selection_30.py run --work .
 ~~~
 
-Không thêm `--force` cho một lần tiếp tục thông thường. Lệnh `normalization_2030.py run` mặc định không fetch; chỉ thêm `--fetch` khi đã chủ động cần bổ sung nguồn dân cư/hoạt động. Lệnh `pipeline.py run` không ghi `--stage` sẽ mặc định `all`; vì vậy dùng đầy đủ câu lệnh mạng ở trên.
+Lệnh `normalization_2030.py run` dựng **cache phụ trợ/lịch sử**, không phải thay định nghĩa LEZ-first; có thể bỏ qua nếu cache phụ trợ hợp lệ. Phần LEZ-first hiện hành được kiểm ở notebook 03 và được module sinh 60 dựng theo cấu hình. Không thêm `--force` cho một lần tiếp tục thông thường. Lệnh `normalization_2030.py run` mặc định không fetch; chỉ thêm `--fetch` khi đã chủ động cần bổ sung nguồn dân cư/hoạt động. Lệnh `pipeline.py run` không ghi `--stage` sẽ mặc định `all`; vì vậy dùng đầy đủ câu lệnh mạng ở trên.
 
 Các lệnh `run` là controller gọi runtime đã đăng ký. `build`, `export`, `precompute` hoặc `--worker` ở một số module là nhánh xử lý chuyên sâu, có thể đòi hỏi PyQGIS trực tiếp; không dùng chúng thay cho `run` bằng Python thường.
 
@@ -465,6 +513,20 @@ Nhánh Overpass dùng HTTP giả lập. Các kiểm tra LEZ xác minh quy tắc,
 
 Muốn xem tham số mà không thực hiện xử lý, thêm `--help` vào tệp CLI, ví dụ `python3 scripts/lez/selection_30.py --help`.
 
+### 6.6. Điều phối và đối chứng M0
+
+Chỉ chạy `project_automation` khi đã có các nguồn/bundle và runtime cần thiết. M0 chạy độc lập bằng Python thường:
+
+~~~bash
+python3 scripts/lez/project_automation.py check --work .
+python3 scripts/lez/project_automation.py run --work .
+python3 scripts/lez/selection_random.py preflight --work .
+python3 scripts/lez/selection_random.py run --work .
+python3 scripts/lez/selection_random.py status --work .
+~~~
+
+M0 không có tùy chọn `--force`; đầu ra hoàn tất được kiểm hash trước khi dùng lại. `max_attempts` đếm cả bộ bị loại; nếu hết lượt mà chưa đủ 1.000 bộ thì không công bố báo cáo hoàn tất.
+
 <a id="dau-ra"></a>
 
 ## 7. Tìm và đọc đúng đầu ra hiện hành
@@ -478,6 +540,7 @@ Các kết quả nằm dưới:
 .../work/data/processed/normalization_2030/<version>/
 .../work/data/processed/sampling_abc/<version>/
 .../work/data/processed/selection_30/<version>/
+.../work/data/processed/selection_random/<version>/
 ~~~
 
 `<version>` là ký hiệu minh họa cho thư mục hash, không phải thư mục tên thật để bạn tạo. Dùng trường `paths` của báo cáo hiện hành, không chọn thư mục theo tên lớn nhất hoặc ngày sửa mới nhất.
@@ -577,12 +640,12 @@ Các tên sau nằm trong bundle từ `latest_selection_30.json`:
 
 Các liên kết đang công bố đúng bộ ABC/30:
 
-- [.../work/data/processed/network.gpkg](data/processed/network.gpkg)
-- [.../work/data/processed/motorcycle_graph.json.gz](data/processed/motorcycle_graph.json.gz)
-- [.../work/data/processed/sampling_abc.gpkg](data/processed/sampling_abc.gpkg)
-- [.../work/data/processed/network_parts_abc.gpkg](data/processed/network_parts_abc.gpkg)
-- [.../work/data/processed/candidate_routes_abc.gpkg](data/processed/candidate_routes_abc.gpkg)
-- [.../work/data/processed/selected_routes_30.gpkg](data/processed/selected_routes_30.gpkg)
+- `.../work/data/processed/network.gpkg`
+- `.../work/data/processed/motorcycle_graph.json.gz`
+- `.../work/data/processed/sampling_abc.gpkg`
+- `.../work/data/processed/network_parts_abc.gpkg`
+- `.../work/data/processed/candidate_routes_abc.gpkg`
+- `.../work/data/processed/selected_routes_30.gpkg`
 
 **Lưu ý cụ thể của cấu trúc hiện tại:**
 
@@ -596,6 +659,18 @@ Các liên kết đang công bố đúng bộ ABC/30:
 | Bộ 30 12 trong/18 ngoài, bộ 60 20 trong/40 ngoài, kết quả 55/60 ô | Kết quả thiết kế trước; không dùng làm mục tiêu/tiến độ ABC mới |
 
 Giữ các bộ cũ để đối chiếu. Không chép CSV lịch sử vào nguồn hiện hành hoặc sửa tên/nhóm thủ công để làm quota đạt.
+
+### 7.5. Đầu ra M0, độ nhạy và chuyến đo
+
+| Báo cáo hiện hành tại máy | Cách đọc |
+|---|---|
+| `reports/selection/latest_random_baseline.json` | `valid_samples`, `attempts`, bộ bị loại, seed, phân phối D và `paths` |
+| `reports/selection/latest_sensitivity.json` | Số kịch bản hoàn thành/thiếu quota và bộ gốc dùng so sánh |
+| `reports/field/latest_survey_revision.json` | Overlay bằng chứng, cập nhật/chọn lại và trạng thái khóa kỹ thuật |
+| `reports/trips/latest_real.json` | Chuyến/điểm thực, QC và chỉ tiêu vận hành |
+| `reports/field/latest_survey_coverage.json` | Tổ hợp đã có chuyến đạt điều kiện và lý do chưa được đếm |
+
+Bundle M0 có `random_sets.csv/json` (30 ID/chỉ tiêu từng bộ), `metric_summary.csv`, `route_frequency.csv`, `D_distribution.png`, protocol/hash và checkpoint. Bản chọn ngày 02/11 có ở [docs/results](docs/results/M0_2026_11_02.md), đọc được sau clone; nó không thay con trỏ `latest` tại máy.
 
 <a id="ban-do"></a>
 
@@ -653,8 +728,6 @@ Trong QGIS:
 
 Một tuyến có thể đi qua nhiều tên đường. `route_id` định danh tuyến nghiên cứu; `street_sequence` là chuỗi đường, không thay cho chuỗi cung hoặc hình học thật.
 
-<a id="chi-tieu"></a>
-
 <a id="huong-dan-chay"></a>
 ### 8.3. T2 - Hướng dẫn chạy từng tuyến
 
@@ -682,6 +755,8 @@ Xem [work/docs/lez/SURVEY_COVERAGE.md](docs/lez/SURVEY_COVERAGE.md). T3 theo dõ
 
 Notebook 09 mục 9 chạy RPA/PKE và SAFD từ cùng nguồn chuyến/GPS của bước kiểm tra dữ liệu thực; notebook 08 cũng có phần xem T5. Dùng trọng số thời gian/quãng đường đúng mẫu số, tách đo thử và khảo sát chính; không điền số đo từ OSM. Cấu hình công thức và lưới nằm ở `work/config/trip_processing.json`, phần `operating_metrics`, hiện ghi là đề xuất. Đầu vào trống vẫn chờ dữ liệu; năm ví dụ giả chỉ kiểm tra cách tính. Xem [work/docs/lez/OPERATING_METRICS.md](docs/lez/OPERATING_METRICS.md).
 
+<a id="chi-tieu"></a>
+
 ## 9. Hiểu các biến, điều kiện và điểm chọn tuyến
 
 ### 9.1. RC, chiều dài và độ phủ
@@ -707,7 +782,7 @@ D(S)     = 0,5 × tổng |q_S(h,k) − q(h,k)|
 
 D càng nhỏ thì cơ cấu mẫu càng gần cơ cấu mạng theo chỉ tiêu này. **D không phải tỷ lệ đường đã khảo sát**. D trong/ngoài có mẫu số mạng/mẫu riêng từng nhóm LEZ. Đường nối được tách khỏi mẫu số RC của D.
 
-Kết quả ngày 06/10/2026: D bộ 60 = **0,540380**; D bộ 30 = **0,332245**. Bộ 30 phủ RC duy nhất **208,178 km / 22.425,963 km = 0,928292%** và có đóng góp ở 12/12 ô ABC×RC. Đủ quota/số ô không tự chứng minh đại diện toàn diện.
+Kết quả đã đối chiếu ngày 02/11/2026: D bộ 30 = **0,365187**; chiều dài lượt đi toàn bộ **274,031 km**, riêng RC **263,170 km**. Độ phủ RC duy nhất **240,899 km / 22.425,963 km = 1,074196%**; có tuyến ở **11/12 ô**, thiếu A×RC1. Đủ quota không tự chứng minh đại diện toàn diện. M0 có D trung bình **0,542052**, thấp nhất **0,414540**, 0/1.000 bộ có D ≤ bộ gốc; đây là đối chứng mô tả, không phải p-value bằng 0.
 
 Ngưỡng `target_cell_min_fraction=0.3` là tỷ lệ chiều dài ô mục tiêu trong một tuyến, không phải yêu cầu phủ 30% mạng của ô đó.
 
@@ -727,7 +802,7 @@ Vector X có 4 biến RC + số làn + giới hạn tốc độ + mật độ n�
 
 Thiếu thẻ OSM được giữ NULL/NaN. Các cột `lanes_known_length_fraction`, `maxspeed_known_length_fraction` cho biết phần chiều dài có thẻ. `lanes_scoring_model`, `maxspeed_scoring_model` là mô hình phục vụ chấm điểm, có cột tỷ lệ ước tính riêng; mô hình dùng median theo RC và fallback đã lưu.
 
-Trong bộ 30 hiện tại, 4 tuyến không có thẻ làn và 26 có một phần; 8 tuyến không có thẻ maxspeed và 22 có một phần. Chưa tuyến nào có phủ thẻ đầy đủ cho hai biến này. Đây là mức đầy đủ của bản đồ, không phải số thông số đã đo.
+Trong bộ 30 đã kiểm ngày 02/11: làn có 4 tuyến không có thẻ, 24 có một phần và 2 đủ thẻ theo chiều dài; maxspeed có 6 tuyến không có thẻ, 24 có một phần và 0 đủ thẻ. Đây là mức đầy đủ của bản đồ, không phải số thông số đã đo.
 
 ### 9.3. Điều kiện bắt buộc G1–G6
 
@@ -770,6 +845,10 @@ Các giá trị overlap là chiều dài phần vật lý chung; ngưỡng 50% l
 
 | Tệp trong `.../work/config` | Việc điều khiển |
 |---|---|
+| `lez_policy.json` | Định nghĩa LEZ-first, nguồn chính sách và cờ không dịch ranh giới theo dân cư |
+| `selection_random.json` | M0: số bộ hợp lệ, seed, số lần bốc tối đa, checkpoint và đối chiếu chiều dài phụ |
+| `selection_sensitivity.json` | Các giả định độ nhạy trên pool cố định |
+| `field_workflow.json`, `trip_processing.json` | Schema bằng chứng, `survey_design`/lịch T3, dữ liệu đo, QC và công thức T5 |
 | `access_rules.json` | Quyền xe máy, loại đường loại trừ, xử lý conditional/barrier/rẽ |
 | `sampling_boundary_policy.json` | Phạm vi nghiên cứu LEZ và chính sách phần sát ranh giới |
 | `sampling_2030.json` | Nguồn dân cư/hoạt động, V/N và chuẩn hóa; không phải quota sinh ABC hiện hành |
@@ -787,6 +866,7 @@ Các dữ liệu dân cư/hoạt động trong chuẩn hóa là nguồn/mô hìn
 | Bạn thay đổi gì? | Trình tự cần xem xét chạy lại |
 |---|---|
 | Chỉ nội dung hướng dẫn hoặc cách xem bảng | Không cần dựng lại dữ liệu |
+| Chỉ số bộ/seed M0 | 10; tạo bundle M0 khác, giữ bộ 30 |
 | Chỉ cách vẽ/nhãn bản đồ | Xuất bản đồ |
 | Trọng số hoặc chính sách điểm chọn 30 | 06 → xuất bản đồ → đối chiếu checklist |
 | Mục tiêu RC/neo/chiều dài hoặc proxy vành đai ABC | 05 → 06 → xuất bản đồ |
@@ -794,7 +874,7 @@ Các dữ liệu dân cư/hoạt động trong chuẩn hóa là nguồn/mô hìn
 | Quyền xe máy, graph, hình học mạng | 04 → 03 → 05 → 06 → xuất bản đồ |
 | Thay snapshot/raw OSM/query | Xây phiên bản nguồn nhất quán → kiểm/tải → 04 → 03 → 05 → 06 → bản đồ |
 
-Mỗi bước tự kiểm fingerprint/hash. Sau thay đổi, đọc lại báo cáo để xác nhận phiên bản mới; không giả định một báo cáo `latest` cũ tự phản ánh cấu hình vừa sửa.
+Sau khi thay pool hoặc bộ 30, chạy lại cả M0 và độ nhạy để đối chiếu đúng bộ gốc mới. Mỗi bước tự kiểm fingerprint/hash. Sau thay đổi, đọc lại báo cáo để xác nhận phiên bản mới; không giả định một báo cáo `latest` cũ tự phản ánh cấu hình vừa sửa.
 
 ### 10.3. Dừng và tiếp tục đúng cách
 
@@ -843,7 +923,7 @@ Giữ `route_id` để nối quan sát với bộ tuyến. Ghi ngày/người ki
 4. Tính lại quota, D, coverage, overlap, đa dạng của **toàn tập 30**, không chỉ điểm tuyến thay.
 5. Lưu phiên bản lựa chọn mới và xuất lại bản đồ/checklist.
 
-Hiện chưa có một notebook tự nhập bản checklist quan sát để tự khóa lại bộ cuối. Việc tích hợp quan sát và phê duyệt thay tuyến là bước cần triển khai tiếp; không chỉ sửa `selected_routes.csv`.
+Notebook 07 và bước cập nhật trong 09 đã có nhập/kiểm bằng chứng, tạo overlay thuộc tính, chấm lại/chọn lại và snapshot khảo sát kỹ thuật khi đủ điều kiện. Công cụ không tự tạo chứng cứ hoặc phê duyệt pháp lý; phải dùng schema đúng và xem trạng thái khóa. Không sửa trực tiếp `selected_routes.csv`.
 
 ### 11.3. Các bước sau bộ 30 đề xuất
 
@@ -862,6 +942,10 @@ Hiện chưa có một notebook tự nhập bản checklist quan sát để tự
 
 | Hiện tượng | Nguyên nhân cần kiểm | Cách xử lý |
 |---|---|---|
+| M0 báo thiếu bundle/gate sau clone | Repo không chứa bundle GIS lớn | Khôi phục đúng mạng + pool 60 + bộ 30 + cache/nguồn phụ thuộc; đọc hướng dẫn máy mới |
+| `dyld`, `Library not loaded`, kernel không khởi động | Interpreter còn nhưng framework/ứng dụng QGIS gốc đã mất/đổi đường dẫn | Khôi phục QGIS tương thích, kiểm Python đi kèm rồi đăng ký lại; dùng Python thường cho M0 |
+| M0 `max_attempts` | Chưa bốc đủ số bộ hợp lệ trong giới hạn | Xem số bộ/bộ bị loại và điều kiện; định trước cấu hình lượt mới, không nới tiêu chuẩn sau khi xem D |
+| Nhật ký tổng còn `running` từ ngày cũ | Lượt trước dừng hoặc nhật ký chưa cập nhật | Xem thời gian, bước cuối và trạng thái từng module; không coi là tiến trình đang chạy |
 | `No module named 'qgis'` khi chạy 02 hoặc import `build_tiles` | Kernel không có PyQGIS | Chọn PyQGIS, restart, chạy lại từ thiết lập; tải HTTP vẫn giữ nhánh không import QGIS |
 | Controller báo không tìm thấy kernel `pyqgis-423` | Runtime đăng ký mất hoặc interpreter đã chuyển | Kiểm theo tài liệu setup, đăng ký lại, kiểm QGIS; sau đó chạy lại controller |
 | `different Team IDs` khi import pyzmq | Native dependency và interpreter QGIS gốc không tương thích chữ ký | Dùng runtime bản sao đã cấu hình bởi script setup; không tắt bảo vệ hệ thống |
@@ -891,13 +975,14 @@ Với Pylance, các đường dẫn module dự án trong `.vscode/settings.json
 - `data/raw`: tài liệu nghiên cứu/pháp lý, phản hồi nguồn bổ sung và manifest.
 - `config`, `scripts`, `notebooks`, `docs`, `tests` và hướng dẫn này.
 - Các bundle đang được báo cáo hiện hành tham chiếu, cùng `reports` và `maps/routes`.
-- Bản nhập liệu và dữ liệu đo do bạn tạo trong `data/field`.
+- Bản nhập liệu/chiến dịch trong `data/field`, `data/measurements` và các thư mục đo riêng do bạn chọn.
+- Bundle M0, checkpoint và báo cáo gốc nếu cần tái kiểm đúng lượt đã chạy. GitHub chỉ giữ bản kết quả M0 được chọn trong `docs/results`, không thay toàn bộ bản sao dữ liệu.
 
 Khi sao lưu tệp alias trong `data/processed`, phải giữ cả bundle đích; chỉ sao chép symlink sẽ không đủ. Cách đơn giản là sao lưu toàn bộ `.../work` thay vì chọn vài CSV.
 
 `backups` chứa phiên bản trước, không phải nơi mở notebook để làm việc hằng ngày. Có thể dọn các bản thừa sau khi đã có bản sao độc lập và biết nguồn hiện hành không phụ thuộc chúng. Không xóa `data/raw` hoặc bundle hiện hành vì tưởng là backup.
 
-Runtime hiện tại ở `.../work/../.pyqgis-runtime` không nằm trong bản sao chỉ gồm `work`. Khi chuyển máy/thư mục, giữ runtime phù hợp hoặc dựng lại theo mục 4, cài ứng dụng QGIS cần thiết và đăng ký lại kernel. Sau khi chuyển, restart kernel, kiểm đường import/settings và chạy preflight trước.
+Nếu runtime được đặt ở `.../work/../.pyqgis-runtime`, nó không nằm trong bản sao chỉ gồm `work`. Khi chuyển máy/thư mục, giữ runtime phù hợp hoặc dựng lại theo mục 4, cài ứng dụng QGIS cần thiết và đăng ký lại kernel. Sau khi chuyển, restart kernel, kiểm đường import/settings và chạy preflight trước.
 
 Notebook và tài liệu có thể dùng đường dẫn tương đối, nhưng kernelspec của Jupyter vẫn cần trỏ đúng interpreter thực tế. Không sửa đồng loạt tất cả đường dẫn trong dữ liệu gốc để “rút gọn” vị trí runtime.
 
@@ -909,6 +994,9 @@ Notebook và tài liệu có thể dùng đường dẫn tương đối, nhưng 
 
 | Công việc | Tài liệu |
 |---|---|
+| Tổng quan / máy mới | [Tổng quan](docs/PROJECT_OVERVIEW.md), [máy mới](docs/setup/GETTING_STARTED.md), [mục lục](docs/README.md) |
+| M0 và kết quả lưu trong repo | [Hướng dẫn M0](docs/lez/RANDOM_BASELINE.md), [kết quả ngày 02/11](docs/results/M0_2026_11_02.md) |
+| Điều phối / khảo sát / GPS / T5 | [Điều phối](docs/lez/PROJECT_AUTOMATION.md), [bằng chứng](docs/lez/FIELD_WORKFLOW.md), [GPS](docs/lez/TRIP_PROCESSING.md), [T3](docs/lez/SURVEY_COVERAGE.md), [T5](docs/lez/OPERATING_METRICS.md) |
 | Cài/chọn kernel | [.../work/docs/setup/PYQGIS_SETUP.md](docs/setup/PYQGIS_SETUP.md) |
 | Bộ tải và resume/lỗi/cache | [.../work/docs/overpass/DOWNLOAD_README.md](docs/overpass/DOWNLOAD_README.md) |
 | Lưới tải và cấu trúc Overpass | [.../work/docs/overpass/README.md](docs/overpass/README.md) |

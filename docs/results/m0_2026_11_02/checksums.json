@@ -1,0 +1,12 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "D_distribution.png": "41559e9bfd8eec7019630d0b82a27516593a638e2df8a452a96b554ecaaaacb2",
+    "metric_summary.csv": "ed951085e6fb5a5bbc7c0f064f9f7a6408bcd985d61fcd0d4dfe6da61f91fe16",
+    "protocol.json": "da3d672f3b38ec0b5f7e300b3aa933c345336f446c403e28ac58982da0b54a51",
+    "provenance.json": "30d5aaccb97d6a0c042de6b93df9a42ec72646c62d19e5d41e26774e83fa65f2",
+    "random_sets.csv": "098d0282255a4c457ca960d87d0097a382290790146414f2b673994ce01fc4ed",
+    "route_frequency.csv": "8a2123b216aadf49ddf99295f1e8ff11fc42924590d00ded06b89ed0a49252d4",
+    "summary.json": "0b51475f75d1e9e0b172ceefc2e12b7bf0dcce00140741b8e1f750e44112fd20"
+  }
+}
