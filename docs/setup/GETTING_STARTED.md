@@ -56,16 +56,23 @@ Khi cần tải OSM từ đầu, dùng notebook 01 và [bộ tải](../overpass/
 
 ## 4. Thiết lập runtime GIS khi cần
 
-Đọc [PYQGIS_SETUP.md](PYQGIS_SETUP.md). Bản sao interpreter trong `.pyqgis-runtime` vẫn phụ thuộc ứng dụng QGIS gốc. Nếu chỉ còn kernelspec/interpreter mà ứng dụng hoặc framework đã mất, phải khôi phục ứng dụng tương thích rồi đăng ký lại.
+Người mới làm theo [hướng dẫn tải, cài và chạy PyQGIS từng bước](PYQGIS_SETUP.md). Tài liệu chỉ rõ thao tác trong Finder, Terminal và notebook; có kết quả cần thấy sau từng bước. Script của dự án **không tự tải/cài ứng dụng QGIS**.
+
+1. Tải bộ cài **QGIS 4.2.3 cho macOS** từ nguồn chính thức, mở `.dmg`, kéo ứng dụng vào **Applications**, rồi mở ứng dụng. Xem [mục tải và cài](PYQGIS_SETUP.md#tai-cai-qgis).
+2. Trong QGIS, mở **Plugins → Python Console**, kiểm QGIS 4.2.3/Python 3.12.x. Script hiện cố định theo cặp phiên bản này; không mặc định bản LTR hoặc phiên bản mới hơn sẽ dùng nguyên được.
+3. Cài phần mở rộng **Python/Jupyter** của Microsoft trong VS Code, mở **work** và **Terminal → New Terminal**. Kiểm `python3`, công cụ macOS và đường dẫn ứng dụng theo [mục chuẩn bị](PYQGIS_SETUP.md#chuan-bi-vscode).
+4. Trong Terminal ở `work`, xem tham số rồi chạy thiết lập khi ứng dụng đã đúng vị trí mặc định:
 
 ```bash
 python3 scripts/setup/setup_pyqgis_kernel.py --help
 python3 scripts/setup/setup_pyqgis_kernel.py --project-dir .
 ```
 
-Lệnh thứ hai chỉ áp dụng khi ứng dụng nằm đúng vị trí mặc định mà script hỗ trợ. Nếu vị trí khác, truyền `--qgis-app` với đường dẫn thực tế; kiểm Python 3.12/thư viện tương thích trước. Script không tự cài ứng dụng QGIS và không bảo đảm bản QGIS bất kỳ có cùng cấu trúc. Không dùng `pip install qgis` thay cho QGIS/PyQGIS.
+5. Chỉ coi là thành công khi có `Import and GIS checks passed`, `Registered kernel` và dòng chọn kernel. Trong notebook chọn **Select Kernel → Select Another Kernel → Jupyter Kernels → Python (PyQGIS 4.2.3)**, restart và chạy [cell kiểm tra import/Processing](PYQGIS_SETUP.md#kiem-tra-notebook).
 
-Sau cài đặt, chọn kernel PyQGIS và kiểm `from qgis.core import Qgis`, phiên bản, Processing. Tài liệu [PyQGIS standalone](https://docs.qgis.org/3.44/en/docs/pyqgis_developer_cookbook/intro.html#using-pyqgis-in-standalone-scripts) giải thích vai trò thư viện/môi trường; thông số thực tế phải khớp ứng dụng của máy.
+Mặc định ứng dụng là `/Applications/QGIS-final-4_2_3.app`; nếu vị trí khác, truyền `--qgis-app` theo [mục tạo kernel](PYQGIS_SETUP.md#tao-kernel), sau khi kiểm tương thích. Không dùng `pip install qgis` thay cho QGIS/PyQGIS. Bản sao interpreter trong `work/.pyqgis-runtime` vẫn phụ thuộc ứng dụng QGIS gốc. Nếu chỉ còn kernel/interpreter mà ứng dụng hoặc framework đã mất, phải khôi phục ứng dụng tương thích rồi đăng ký lại.
+
+Sau khi môi trường chạy được và đã có dữ liệu ở mục 3, có thể dùng `python3 scripts/lez/pipeline.py check` để kiểm cả runtime và đầu vào dự án. Thiếu bundle/hash là vấn đề dữ liệu, không tự động là cài PyQGIS lỗi. Không cần chạy lại bộ cài mỗi lần mở VS Code.
 
 ## 5. Kiểm trước khi xử lý
 

@@ -212,6 +212,7 @@ Khi mới đọc dự án, chạy cell thiết lập và cell xem trạng thái 
 | 03/04/05/06 — điều khiển quy trình | Python thường hoặc PyQGIS | Controller dùng thư viện phân tích; worker GIS cần runtime PyQGIS đã đăng ký |
 | 07/08/09 — bằng chứng, GPS và điều phối | Python thường hoặc PyQGIS | Một số bước GIS/map matching/bản đồ cần worker PyQGIS; dữ liệu phải có trước |
 | 10 — M0 trên dữ liệu đã lưu | Python thường | NumPy và Matplotlib; notebook cần ipykernel; không khởi động QGIS |
+| 11 — biểu đồ đối chứng | Python thường | Thư viện trong `requirements-notebook.txt`; chỉ đọc kết quả M0, không khởi động QGIS |
 | Cell do bạn viết có `from qgis.core import ...` | PyQGIS | Kernel đang chạy cell phải nạp được QGIS |
 | Mở PNG/HTML/CSV kết quả | Không cần kernel GIS | Chỉ xem tệp đã xuất |
 
@@ -238,17 +239,27 @@ print("QGIS:", Qgis.QGIS_VERSION)
 
 ### 4.3. Runtime hiện có và cách thiết lập lại
 
-Một bản cài trước đây dùng **`.../work/../.pyqgis-runtime`**. Trên máy mới hoặc sau khi chuyển/xóa ứng dụng QGIS, phải kiểm lại interpreter, ứng dụng và kernelspec; không giả định runtime cũ vẫn hoạt động. Chỉ cài lại khi cần, không cài lại mỗi lần mở notebook.
+**Hướng dẫn đầy đủ cho người mới:** [Tải, cài và chạy PyQGIS từng bước](docs/setup/PYQGIS_SETUP.md). Tài liệu có đường dẫn tải chính thức, thao tác trong Finder/VS Code, nơi nhập lệnh, kết quả cần thấy và cách xử lý lỗi.
 
-Nếu cài mới, sửa runtime hoặc muốn tạo runtime **bên trong `.../work`**, đọc [.../work/docs/setup/PYQGIS_SETUP.md](docs/setup/PYQGIS_SETUP.md), rồi từ Terminal ở `.../work` chạy:
+PyQGIS đi kèm ứng dụng QGIS. Việc nối với notebook có hai khâu: **cài QGIS vào máy → tạo môi trường chạy trong `work`**. Script của dự án chỉ làm khâu thứ hai, không tự tải QGIS. Bộ thiết lập hiện tại dành cho **macOS, QGIS 4.2.3/Python 3.12**; không dùng nguyên lệnh cho mọi bản QGIS hoặc hệ điều hành.
+
+Nếu chưa có môi trường hoạt động, làm theo thứ tự:
+
+1. **Tải và cài QGIS:** vào [trang QGIS chính thức](https://qgis.org/download/), chọn bộ cài macOS **4.2.3** phù hợp script; mở `.dmg`, kéo ứng dụng vào **Applications**, rồi chạy ứng dụng từ đó. Xem [hướng dẫn tải/cài chi tiết](docs/setup/PYQGIS_SETUP.md#tai-cai-qgis); không chỉ tải tệp rồi bỏ qua bước cài.
+2. **Kiểm phiên bản:** trong QGIS mở **Plugins → Python Console**, kiểm QGIS 4.2.3 và Python 3.12.x theo mục 2 của tài liệu trên. Ghi lại tên/vị trí thật của ứng dụng; mặc định script tìm `/Applications/QGIS-final-4_2_3.app`.
+3. **Chuẩn bị VS Code:** cài phần mở rộng **Python** và **Jupyter** của Microsoft, mở **File → Open Folder → work**, rồi **Terminal → New Terminal**. Kiểm `pwd`, `ls`, `python3 --version` và công cụ macOS theo [mục chuẩn bị](docs/setup/PYQGIS_SETUP.md#chuan-bi-vscode). Lệnh dưới chạy trong Terminal ở `work`, không phải cell notebook.
+4. **Tạo môi trường:** sau khi kiểm đường dẫn ứng dụng, chạy lệnh sau nếu dùng đúng vị trí mặc định:
 
 ~~~bash
 python3 scripts/setup/setup_pyqgis_kernel.py --project-dir .
 ~~~
 
-Lệnh này tạo `.../work/.pyqgis-runtime`, cấu hình bản sao interpreter QGIS trên macOS, kiểm import/Processing và đăng ký lại kernel `pyqgis-423`. Nó có thể cài phụ thuộc notebook qua pip nếu thiếu và cập nhật kernel cùng tên. Sau khi thành công, chọn lại **Python (PyQGIS 4.2.3)** và restart notebook.
+5. **Đợi hoàn tất và chọn kernel:** cần thấy cả `Import and GIS checks passed`, `Registered kernel` và dòng hướng dẫn chọn kernel. Trong notebook chọn **Select Kernel → Select Another Kernel → Jupyter Kernels → Python (PyQGIS 4.2.3)**, rồi restart. Nếu ứng dụng ở đường dẫn khác, dùng `--qgis-app` theo [mục tạo kernel](docs/setup/PYQGIS_SETUP.md#tao-kernel), sau khi xác nhận phiên bản tương thích.
+6. **Chạy cell kiểm tra:** làm [mục kiểm tra notebook và Processing](docs/setup/PYQGIS_SETUP.md#kiem-tra-notebook). Kiểm `sys.executable`, phiên bản và phép tạo vùng đệm trong bộ nhớ; chỉ thấy tên kernel trong menu chưa xác nhận môi trường chạy được. Sau đó mới kiểm dữ liệu dự án.
 
-Đây là **lệnh thiết lập môi trường**, không phải lệnh dựng mạng hoặc tải OSM. Script dành cho QGIS 4.2.3/Python 3.12 của máy hiện tại; đổi phiên bản QGIS cần kiểm lại hướng dẫn. Không dùng `pip install qgis` để thay thế môi trường QGIS.
+Lệnh tạo `work/.pyqgis-runtime`, kiểm import/Processing và cập nhật kernel `pyqgis-423`. Nó có thể tải phụ thuộc notebook qua pip nếu thiếu, không gọi Overpass hoặc dựng mạng. Không dùng `pip install qgis` để thay thế ứng dụng QGIS. Nếu notebook 02 thiếu `requests`, có [hướng dẫn bổ sung vào đúng runtime](docs/setup/PYQGIS_SETUP.md#chon-moi-truong).
+
+Một bản cài trước đây dùng **`work/../.pyqgis-runtime`**. Trên máy mới hoặc sau khi chuyển/xóa ứng dụng QGIS, phải kiểm lại ứng dụng và đường dẫn kernel; bản sao Python vẫn phụ thuộc thư viện QGIS gốc. Chỉ thiết lập lại khi cần, không cài lại mỗi lần mở notebook. Khi dùng hằng ngày không cần mở giao diện QGIS, nhưng phải giữ ứng dụng đúng vị trí.
 
 Nếu muốn một môi trường Python thường riêng cho HTTP/controller và máy chưa có các thư viện cần thiết, có thể tạo môi trường tùy chọn:
 
@@ -259,7 +270,7 @@ python3 -m pip install -r requirements-notebook.txt
 python3 -m ipykernel install --user --name hanoi-work --display-name "Python (Hanoi work)"
 ~~~
 
-Chỉ cần thực hiện nhánh này khi thiếu môi trường Python thường. Kernel **Python (Hanoi work)** không chứa PyQGIS; vẫn cần runtime GIS đăng ký ở trên cho bước hình học/routing/bản đồ và chọn kernel PyQGIS cho 02. M0 ở notebook 10 chạy bằng môi trường thường này. Danh sách thư viện không khóa phiên bản; muốn lặp đúng M0 đã lưu cần đối chiếu Python/NumPy/Matplotlib trong bản kết quả.
+Chỉ cần thực hiện nhánh này khi thiếu môi trường Python thường. Kernel **Python (Hanoi work)** không chứa PyQGIS; vẫn cần runtime GIS đăng ký ở trên cho bước hình học/routing/bản đồ và chọn kernel PyQGIS cho 02. M0 ở notebook 10 và biểu đồ ở notebook 11 chạy bằng môi trường thường này. Danh sách thư viện không khóa phiên bản; muốn lặp đúng M0 đã lưu cần đối chiếu Python/NumPy/Matplotlib trong bản kết quả.
 
 ### 4.4. Có cần SQL hoặc API key?
 

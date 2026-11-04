@@ -11,6 +11,7 @@ Quy trình Python lấy OSM qua Overpass API, dựng mạng xe máy có hướng
 | Hiểu mục tiêu, dữ liệu, phương pháp và phần còn thiếu | [Tổng quan dự án](docs/PROJECT_OVERVIEW.md) |
 | Thao tác từ đầu đến cuối trong dự án đã có dữ liệu | [Hướng dẫn sử dụng](HUONG_DAN_SU_DUNG_WORK.md) |
 | Clone repo, cài môi trường, khôi phục dữ liệu trên máy khác | [Bắt đầu trên máy mới](docs/setup/GETTING_STARTED.md) |
+| Tải QGIS, cài PyQGIS trong work và chọn kernel VS Code từng bước | [Hướng dẫn PyQGIS cho người mới](docs/setup/PYQGIS_SETUP.md) |
 | Chạy 1.000 bộ ngẫu nhiên và đọc kết quả | [M0](docs/lez/RANDOM_BASELINE.md) · [Notebook 10](notebooks/10_random_baseline.ipynb) |
 | Vẽ phân bố D và quan hệ D với độ phủ/chiều dài | [Biểu đồ đối chứng](docs/lez/RANDOM_COMPARISON_PLOTS.md) · [Notebook 11](notebooks/11_random_comparison_plots.ipynb) |
 | Tìm hướng dẫn theo từng phần | [Mục lục tài liệu](docs/README.md) |
