@@ -38,6 +38,7 @@ Cập nhật theo các tệp hiện có ngày **02/11/2026**. Thư mục gốc �
 | Xem hoặc chạy lại lựa chọn 30 | Notebook 06, giữ `force=False` | Không |
 | Điều phối các bước đã tích hợp sau khi có mạng/cache chuẩn hóa | Notebook 09 | Không |
 | So 1.000 bộ ngẫu nhiên với bộ 30 cố định | Notebook 10 hoặc `selection_random.py run` | Không; không cần QGIS đang chạy |
+| Vẽ/đổi khoảng D và xem hồi quy mô tả | Notebook 11; đọc M0 có sẵn hoặc bản công bố trong repo | Không; không cần QGIS hoặc bốc lại mẫu |
 | Chuẩn bị/nhập bằng chứng, cập nhật và chọn lại | Notebook 07 | Không |
 | Nhập chuyến/GPS, kiểm chất lượng và T5 | Notebook 08 hoặc 09 | Không |
 | Dựng lại mạng sau khi thay dữ liệu hoặc quy tắc xe máy | Notebook 04 | Không khi dùng nguồn đã lưu và `fetch_sources=False` |
@@ -427,6 +428,17 @@ Tệp: [.../work/notebooks/10_random_baseline.ipynb](notebooks/10_random_baselin
 Mỗi bộ gồm A-trong 10/B-trong 8/C-ngoài 12; không lặp ID trong bộ. Loại toàn bộ bộ vi phạm điều kiện chung rồi bốc lại đến đủ 1.000 bộ hợp lệ. Không ép số ô vật chất, không tối ưu D và không loại các bộ giống nhau giữa các lần bốc độc lập.
 
 Số bộ/seed ở `config/selection_random.json`; lưu checkpoint mỗi 100 bộ hợp lệ, dùng lại cache khi hash đạt. Chạy lại cùng lệnh để tiếp tục. Đổi cấu hình tạo phiên bản khác. Xem [protocol M0](docs/lez/RANDOM_BASELINE.md) và [kết quả lưu trên GitHub](docs/results/M0_2026_11_02.md).
+
+### 5.12. Notebook 11 — biểu đồ so sánh các bộ 30
+
+Tệp: [.../work/notebooks/11_random_comparison_plots.ipynb](notebooks/11_random_comparison_plots.ipynb). Dùng **Python thường** có pandas, NumPy, Matplotlib và Seaborn; không cần kernel PyQGIS. Chạy từ trên xuống: chọn nguồn/tham số → kiểm hash và đọc M0 → xem thống kê/bảng khoảng D → vẽ hai hình → xuất PNG/SVG và bảng.
+
+- `SOURCE="auto"` ưu tiên `reports/selection/latest_random_baseline.json` khi có; nếu con trỏ không tồn tại thì đọc bản công bố ngày 02/11/2026. Có con trỏ nhưng dữ liệu hỏng hoặc bộ 30 tại máy đã đổi thì dừng để kiểm tra, không âm thầm chuyển bản cũ. `SOURCE="published"` dùng bản công bố có nhãn phiên bản riêng.
+- `BIN_WIDTH=0.02` chia D thành các khoảng rộng 0,02; có thể dùng 0,05. `HIST_STAT` chọn `"count"` hoặc `"percent"`. Khoảng chỉ để trình bày, không phải ngưỡng đạt.
+- `X_METRIC="unique_rc_coverage_fraction"` vẽ D theo độ phủ RC không trùng (%); dùng `"traversed_length_m"` để vẽ theo tổng lượt đi (km). `FIT_LINE=True` vẽ đường hồi quy mô tả chỉ từ các bộ ngẫu nhiên; bộ đã chọn là điểm tham chiếu, không tham gia khớp.
+- Xuất dưới `work/reports/selection/plots/<hash>/`, tách khỏi nguồn M0. Sau khi đổi tham số, chạy lại các cell phụ thuộc hoặc Run All trước khi xuất. Bản M0 trong repo đọc được sau clone mà không có graph/GIS.
+
+Notebook 09 giữ vai trò điều phối; notebook 10 tạo/tiếp tục M0; notebook 11 đọc và trình bày kết quả. Xem [hướng dẫn biểu đồ](docs/lez/RANDOM_COMPARISON_PLOTS.md).
 
 <a id="terminal"></a>
 
@@ -995,6 +1007,7 @@ Notebook và tài liệu có thể dùng đường dẫn tương đối, nhưng 
 | Công việc | Tài liệu |
 |---|---|
 | Tổng quan / máy mới | [Tổng quan](docs/PROJECT_OVERVIEW.md), [máy mới](docs/setup/GETTING_STARTED.md), [mục lục](docs/README.md) |
+| Biểu đồ D và hồi quy mô tả | [Notebook 11](notebooks/11_random_comparison_plots.ipynb), [hướng dẫn biểu đồ](docs/lez/RANDOM_COMPARISON_PLOTS.md) |
 | M0 và kết quả lưu trong repo | [Hướng dẫn M0](docs/lez/RANDOM_BASELINE.md), [kết quả ngày 02/11](docs/results/M0_2026_11_02.md) |
 | Điều phối / khảo sát / GPS / T5 | [Điều phối](docs/lez/PROJECT_AUTOMATION.md), [bằng chứng](docs/lez/FIELD_WORKFLOW.md), [GPS](docs/lez/TRIP_PROCESSING.md), [T3](docs/lez/SURVEY_COVERAGE.md), [T5](docs/lez/OPERATING_METRICS.md) |
 | Cài/chọn kernel | [.../work/docs/setup/PYQGIS_SETUP.md](docs/setup/PYQGIS_SETUP.md) |

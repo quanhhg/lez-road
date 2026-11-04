@@ -1,7 +1,8 @@
-# Python thường cho HTTP, controller, bảng và notebook M0.
+# Python thường cho HTTP, controller, bảng, M0 và notebook biểu đồ.
 # Không thay thế QGIS/PyQGIS; đây không phải lockfile tái lập mọi phiên bản.
 requests
 pandas
 numpy
 matplotlib
+seaborn
 ipykernel

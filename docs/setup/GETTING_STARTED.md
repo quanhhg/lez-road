@@ -13,6 +13,7 @@ cd work
 |---|---|---|
 | Đọc phương pháp/kết quả M0 | Không | [Tổng quan](../PROJECT_OVERVIEW.md), [kết quả M0](../results/M0_2026_11_02.md) |
 | Kiểm lại thống kê M0 đã công bố | Python thường | Các CSV trong bản kết quả; không cần graph/GIS để đọc lại thống kê |
+| Vẽ lại biểu đồ từ M0 đã công bố | Python thường và thư viện trong requirements-notebook.txt; không cần graph/GIS | [Notebook 11](../../notebooks/11_random_comparison_plots.ipynb), [hướng dẫn](../lez/RANDOM_COMPARISON_PLOTS.md) |
 | Bốc lại M0 từ dữ liệu nguồn | Python + NumPy/Matplotlib và các nguồn/bundle tương ứng | Mục 2–3, rồi notebook 10 |
 | Dựng lại hình học, ứng viên, chọn tuyến, bản đồ | Nguồn OSM/cache phụ trợ và runtime PyQGIS hoạt động | Mục 2–4, rồi hướng dẫn sử dụng |
 | Xử lý đo thực tế | Bộ tuyến/corridor, schema và CSV thực | Notebook 07–09; không dùng ví dụ giả làm dữ liệu thật |

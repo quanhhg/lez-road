@@ -12,6 +12,7 @@ Quy trình Python lấy OSM qua Overpass API, dựng mạng xe máy có hướng
 | Thao tác từ đầu đến cuối trong dự án đã có dữ liệu | [Hướng dẫn sử dụng](HUONG_DAN_SU_DUNG_WORK.md) |
 | Clone repo, cài môi trường, khôi phục dữ liệu trên máy khác | [Bắt đầu trên máy mới](docs/setup/GETTING_STARTED.md) |
 | Chạy 1.000 bộ ngẫu nhiên và đọc kết quả | [M0](docs/lez/RANDOM_BASELINE.md) · [Notebook 10](notebooks/10_random_baseline.ipynb) |
+| Vẽ phân bố D và quan hệ D với độ phủ/chiều dài | [Biểu đồ đối chứng](docs/lez/RANDOM_COMPARISON_PLOTS.md) · [Notebook 11](notebooks/11_random_comparison_plots.ipynb) |
 | Tìm hướng dẫn theo từng phần | [Mục lục tài liệu](docs/README.md) |
 
 Trong tài liệu, `.../work` là thư mục gốc repo; không chứa đường dẫn tài khoản cá nhân. Dấu `...` không phải ký tự để chép vào lệnh Terminal.
@@ -25,11 +26,12 @@ flowchart LR
     B --> C[05: 60 ứng viên]
     C --> S[06: 30 đề xuất]
     S --> M[10: đối chứng M0]
+    M --> P[11: biểu đồ đối chứng]
     S --> F[07: bằng chứng / cập nhật]
     F --> G[08: GPS / chỉ tiêu vận hành]
 ```
 
-[Notebook 09](notebooks/09_automate_project.ipynb) điều phối các bước hiện có đến xử lý chuyến đo, gồm độ nhạy, bản đồ, T2 và T3/T5. **M0 chạy riêng ở notebook 10.** Chạy lại với cache hợp lệ để tiếp tục; không cần tải lại OSM chỉ để xem hoặc so sánh bộ tuyến.
+[Notebook 09](notebooks/09_automate_project.ipynb) điều phối các bước hiện có đến xử lý chuyến đo, gồm độ nhạy, bản đồ, T2 và T3/T5. **M0 chạy riêng ở notebook 10; notebook 11 chỉ đọc kết quả để vẽ và xuất hình.** Notebook 11 cũng đọc được bản kết quả M0 lưu trong repo sau clone, không cần khôi phục GIS để xem biểu đồ. Chạy lại với cache hợp lệ để tiếp tục; không cần tải lại OSM chỉ để xem hoặc so sánh bộ tuyến.
 
 Phân vùng theo cấu hình LEZ-first: **A** là KV1/KV2/KV3 thí điểm 2027 tại Hoàn Kiếm/Cửa Nam; **B** là LEZ 2030 trừ A; **C** là phần Hà Nội ngoài LEZ 2030. A không đồng nghĩa toàn Vành đai 1. `sampling_zone` và trạng thái trong/ngoài LEZ là hai thuộc tính riêng. Nguồn và phiên bản: [lez_policy.json](config/lez_policy.json).
 

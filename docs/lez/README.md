@@ -12,6 +12,7 @@ Mở `work/notebooks/09_automate_project.ipynb`. Bộ điều phối chạy các
 | 08_process_measurements | CSV/GPS/tốc độ, map matching và chỉ tiêu |
 | 09_automate_project | Kiểm tra/chạy/tiếp tục toàn bộ |
 | 10_random_baseline | M0: 1.000 bộ 30 ngẫu nhiên cùng quota; Python thường, chạy riêng |
+| 11_random_comparison_plots | Đọc M0, chia khoảng D và vẽ quan hệ D với độ phủ/chiều dài; không bốc lại mẫu |
 
 A=KV1/KV2/KV3 thí điểm 2027; B=LEZ 2030 trừ A; C=Hà Nội ngoài LEZ 2030. Toàn Vành đai 1 là giai đoạn 2028–2029. B chứa cả phần Vành đai 1 chưa thuộc A và phần mở rộng Vành đai 2–3. Hình học OSM là proxy kỹ thuật có dải bất định; không tự xác nhận GIS pháp lý hoặc quyền xe máy.
 

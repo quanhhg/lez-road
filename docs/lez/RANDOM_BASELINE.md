@@ -54,3 +54,7 @@ Kết quả riêng ở `.../work/data/processed/selection_random/<hash>/`:
 Con trỏ hiện hành: `.../work/reports/selection/latest_random_baseline.json`. Chạy lại cùng lệnh tự tiếp tục từ checkpoint; một lần ngắt có thể cần bốc lại phần sau checkpoint cuối, vẫn giữ cùng chuỗi ngẫu nhiên. Bundle hoàn chỉnh chỉ được dùng lại nếu hash hợp lệ. Bundle đã hoàn tất nhưng hỏng kiểm tra được giữ để xem xét, không tự ghi đè.
 
 Bộ 30 gốc, raw OSM và các gate không bị cập nhật bởi M0. Đây chỉ là **M0**; chưa thay thế các đối chứng M1–M5, khảo sát thực địa hoặc kiểm tra đổi đa giác ranh giới. A×RC1 vẫn là giới hạn của pool cố định, không tự bổ sung bằng mô phỏng. Notebook 09 tiếp tục quy trình hiện có; M0 chạy riêng ở notebook 10.
+
+## Vẽ và phân tích biểu đồ riêng
+
+Mở [notebook 11](../../notebooks/11_random_comparison_plots.ipynb) khi chỉ cần đổi khoảng D, xem bảng tần suất hoặc vẽ D theo độ phủ/chiều dài. Notebook này đọc M0 đã lưu, không gọi lại bộ bốc ngẫu nhiên và không ghi vào bundle M0. Dùng Python thường có pandas, NumPy, Matplotlib và Seaborn; xem [hướng dẫn biểu đồ](RANDOM_COMPARISON_PLOTS.md). Nó cũng đọc được bản kết quả ngày 02/11 trong repo khi chưa có kết quả M0 tại máy.
