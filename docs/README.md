@@ -12,6 +12,7 @@ Trước tiên đọc [tổng quan](PROJECT_OVERVIEW.md), sau đó chọn [hư�
 | Phạm vi / ứng viên | [LEZ-first](lez/README.md) · [Sinh 60](lez/SAMPLING_ABC.md) | ABC, ma trận mạng, quota và hình học |
 | Chọn 30 | [Thuật toán](lez/SELECTION_30.md) | G1–G6, biến X, C1–C7, greedy và swap |
 | Đối chứng | [M0](lez/RANDOM_BASELINE.md) · [Kết quả ngày 02/11](results/M0_2026_11_02.md) | Bốc đều theo quota, seed, 1.000 bộ hợp lệ và cách diễn giải |
+| Đối chứng M2–M5 | [Hướng dẫn](lez/SELECTION_BENCHMARKS.md) · [Notebook 12](../notebooks/12_selection_benchmarks.ipynb) | M2/M3 độc lập bằng Python; trích M4/M5 từ lịch sử đã kiểm; M1 chờ chốt quy tắc |
 | Biểu đồ đối chứng | [Hướng dẫn](lez/RANDOM_COMPARISON_PLOTS.md) · [Notebook 11](../notebooks/11_random_comparison_plots.ipynb) | Chia khoảng D; quan hệ D với độ phủ/chiều dài; đọc kết quả tại máy hoặc bản công bố |
 | Độ nhạy | [Phân tích hiện có](lez/SENSITIVITY.md) | Các giả định trên pool cố định; phân biệt với thay đa giác ranh giới |
 | Giới hạn dữ liệu | [A×RC1](lez/A_RC1_LIMITATION.md) | Ô thiếu, mẫu số được giữ và điều kiện xem xét lại |

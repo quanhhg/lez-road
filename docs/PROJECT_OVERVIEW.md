@@ -93,13 +93,13 @@ M0 bốc đều, độc lập trong các nhóm quota A-trong 10/B-trong 8/C-ngo�
 
 D ngẫu nhiên trung bình `0.542052`, nhỏ nhất `0.414540`; không có bộ nào trong 1.000 bộ có D không lớn hơn `0.365187` của bộ gốc. Đây là thống kê mô tả trên pool cố định; không phải p-value bằng 0 hoặc bằng chứng đại diện mọi tuyến Hà Nội. Các phân vị M0 là phân phối bộ ngẫu nhiên, không phải khoảng tin cậy cho mạng Hà Nội.
 
-Độ nhạy hiện có không bao gồm đầy đủ việc thay đa giác ranh giới, sinh lại pool và so trên một mạng tham chiếu chung. Nó cũng không đồng nghĩa đã chạy đầy đủ mọi benchmark M0–M5.
+Độ nhạy hiện có không bao gồm đầy đủ việc thay đa giác ranh giới, sinh lại pool và so trên một mạng tham chiếu chung; nó không thay thế các phương pháp đối chứng độc lập. Notebook 12 đã có lượt chạy M2/M3 và kết quả M4/M5 được kiểm, trích từ cùng lịch sử chọn tuyến; M1 vẫn chờ chốt quy tắc. Xem [hướng dẫn đối chứng](lez/SELECTION_BENCHMARKS.md).
 
 <a id="cong-viec-con-lai"></a>
 
 ## Công việc còn lại
 
-1. Hoàn thiện các đối chứng M1 theo tỷ trọng mạng, M2 D-only, M3 độ phủ, và xuất M4/M5 có/không swap theo một protocol chung. Selector hiện có hỗ trợ một phần M4/M5; chưa có bộ báo cáo benchmark M1–M5 độc lập.
+1. Chốt quy tắc M1 theo tỷ trọng mạng và hoàn thiện diễn giải bảng M0–M5. M2/M3 đã có lượt chạy độc lập; M4/M5 đã được kiểm, trích từ cùng lịch sử chọn tuyến, xem [hướng dẫn đối chứng](lez/SELECTION_BENCHMARKS.md).
 2. Thiết kế các kịch bản đổi đa giác ranh giới, overlay/mạng/pool phù hợp, tính D theo mạng kịch bản và theo một mạng tham chiếu chung.
 3. Xác minh tuyến/neo, biển báo/quyền đi, công trình, khả năng lặp, an toàn, số làn/tốc độ và C6 bằng chứng cứ thực địa. Cập nhật qua overlay rồi tính lại toàn bộ bộ 30.
 4. Chốt thiết kế số lượt/ngày, thu GPS/tốc độ, kiểm chất lượng và theo dõi các tổ hợp. Lịch 360 lượt là đề xuất, không phải cỡ mẫu bắt buộc đã kiểm định.

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "method_version": "fixed_pool_objective_benchmarks_v1",
+  "methods": ["M2", "M3", "M4", "M5"],
+  "seed_policy": "shared_D_ranked_inside_outside_pairs_from_selection_config",
+  "D_tie_tolerance": 1e-10,
+  "coverage_tie_tolerance_m": 1e-8,
+  "tie_breaker": "route_ID_only",
+  "M2_objective": "minimum_RC_only_global_D_after_each_addition",
+  "M3_objective": "maximum_marginal_unique_RC_physical_length",
+  "saved_methods_policy": "verify_history_replay_swaps_recompute_metrics",
+  "secondary_length_window_fraction": 0.1,
+  "material_cell_count_is_filter": false,
+  "M2_M3_swaps": false,
+  "M1_status": "allocation_rule_not_finalized"
+}
