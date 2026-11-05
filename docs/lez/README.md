@@ -13,7 +13,7 @@ Mở `work/notebooks/09_automate_project.ipynb`. Bộ điều phối chạy các
 | 09_automate_project | Kiểm tra/chạy/tiếp tục toàn bộ |
 | 10_random_baseline | M0: 1.000 bộ 30 ngẫu nhiên cùng quota; Python thường, chạy riêng |
 | 11_random_comparison_plots | Đọc M0, chia khoảng D và vẽ quan hệ D với độ phủ/chiều dài; không bốc lại mẫu |
-| 12_selection_benchmarks | M2/M3 trên cache bằng Python; kiểm/trích M4/M5 từ lịch sử bộ 30; không thay bộ gốc |
+| 12_selection_benchmarks | M1/M2b dùng cùng quota RC, đối chiếu M2a đã lưu; M2/M3 chạy độc lập; kiểm/trích M4/M5 từ lịch sử bộ 30; không thay bộ gốc |
 
 A=KV1/KV2/KV3 thí điểm 2027; B=LEZ 2030 trừ A; C=Hà Nội ngoài LEZ 2030. Toàn Vành đai 1 là giai đoạn 2028–2029. B chứa cả phần Vành đai 1 chưa thuộc A và phần mở rộng Vành đai 2–3. Hình học OSM là proxy kỹ thuật có dải bất định; không tự xác nhận GIS pháp lý hoặc quyền xe máy.
 
@@ -29,6 +29,6 @@ T5: [RPA/PKE, SAFD và cách tổng hợp chỉ tiêu vận hành](OPERATING_MET
 
 M0: [protocol và cách chạy](RANDOM_BASELINE.md), [kết quả ngày 02/11/2026](../results/M0_2026_11_02.md). Mỗi bộ có A10/B8/C12, kiểm điều kiện chung và lưu đầy đủ ID/chỉ tiêu. Không lọc theo D hoặc ép số ô vật chất.
 
-M2–M5: [quy tắc, công thức và cách chạy](SELECTION_BENCHMARKS.md). Các mã M là phương pháp độc lập, không phải trọng số; không cần chạy theo số thứ tự. M2 tối thiểu D, M3 tối đa chiều dài RC phủ mới; M4/M5 là trước/sau hoán đổi trong cùng lịch sử đã kiểm. M1 chờ chốt quy tắc, chưa được coi là hoàn thành.
+M1–M5: [quy tắc, công thức và cách chạy](SELECTION_BENCHMARKS.md). Các mã M là phương pháp, không phải trọng số; không cần chạy theo số thứ tự. M1 dùng quota vùng × RC và ưu tiên tuyến tập trung vào ô mục tiêu; M2 tối thiểu D, với M2a là kết quả gốc và M2b có thêm quota RC; M3 tối đa chiều dài RC phủ mới; M4/M5 là trước/sau hoán đổi trong cùng lịch sử đã kiểm.
 
 Đọc [tổng quan](../PROJECT_OVERVIEW.md), [hướng dẫn sử dụng](../../HUONG_DAN_SU_DUNG_WORK.md) và [bắt đầu trên máy mới](../setup/GETTING_STARTED.md) để phân biệt mã nguồn trên GitHub với dữ liệu/bundle phải khôi phục tại máy. Notebook 09 cần mạng/cache phụ trợ trước; phần V/N/chuẩn hóa cũ không định nghĩa lại A/B/C hiện hành.

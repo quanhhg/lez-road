@@ -14,7 +14,7 @@ Quy trình Python lấy OSM qua Overpass API, dựng mạng xe máy có hướng
 | Tải QGIS, cài PyQGIS trong work và chọn kernel VS Code từng bước | [Hướng dẫn PyQGIS cho người mới](docs/setup/PYQGIS_SETUP.md) |
 | Chạy 1.000 bộ ngẫu nhiên và đọc kết quả | [M0](docs/lez/RANDOM_BASELINE.md) · [Notebook 10](notebooks/10_random_baseline.ipynb) |
 | Vẽ phân bố D và quan hệ D với độ phủ/chiều dài | [Biểu đồ đối chứng](docs/lez/RANDOM_COMPARISON_PLOTS.md) · [Notebook 11](notebooks/11_random_comparison_plots.ipynb) |
-| Chạy M2/M3 và đối chiếu M4/M5 từ lịch sử đã lưu | [Các phương pháp đối chứng](docs/lez/SELECTION_BENCHMARKS.md) · [Notebook 12](notebooks/12_selection_benchmarks.ipynb) |
+| Chạy M1, đối chiếu M2a/M2b và xem M3–M5 | [Các phương pháp đối chứng](docs/lez/SELECTION_BENCHMARKS.md) · [Notebook 12](notebooks/12_selection_benchmarks.ipynb) |
 | Tìm hướng dẫn theo từng phần | [Mục lục tài liệu](docs/README.md) |
 
 Trong tài liệu, `.../work` là thư mục gốc repo; không chứa đường dẫn tài khoản cá nhân. Dấu `...` không phải ký tự để chép vào lệnh Terminal.
@@ -28,13 +28,13 @@ flowchart LR
     B --> C[05: 60 ứng viên]
     C --> S[06: 30 đề xuất]
     S --> M[10: đối chứng M0]
-    S --> K[12: M2/M3 và lịch sử M4/M5]
+    S --> K[12: đối chứng M1–M5]
     M --> P[11: biểu đồ đối chứng]
     S --> F[07: bằng chứng / cập nhật]
     F --> G[08: GPS / chỉ tiêu vận hành]
 ```
 
-[Notebook 09](notebooks/09_automate_project.ipynb) điều phối các bước hiện có đến xử lý chuyến đo, gồm độ nhạy, bản đồ, T2 và T3/T5. **M0 chạy riêng ở notebook 10; notebook 11 chỉ đọc kết quả để vẽ và xuất hình. Notebook 12 chạy M2/M3 độc lập và trích M4/M5 từ cùng lịch sử đã kiểm tra, bằng Python thường.** Notebook 11 cũng đọc được bản kết quả M0 lưu trong repo sau clone, không cần khôi phục GIS để xem biểu đồ. Chạy lại với cache hợp lệ để tiếp tục; không cần tải lại OSM chỉ để xem hoặc so sánh bộ tuyến.
+[Notebook 09](notebooks/09_automate_project.ipynb) điều phối các bước hiện có đến xử lý chuyến đo, gồm độ nhạy, bản đồ, T2 và T3/T5. **M0 chạy riêng ở notebook 10; notebook 11 chỉ đọc kết quả để vẽ và xuất hình. Notebook 12 chạy M2/M3 độc lập và trích M4/M5 từ cùng lịch sử đã kiểm tra; mục M1/M2b dùng chung quota RC và đối chiếu với bộ M2a hợp lệ đã lưu. Các bước này dùng Python thường.** Notebook 11 cũng đọc được bản kết quả M0 lưu trong repo sau clone, không cần khôi phục GIS để xem biểu đồ. Chạy lại với cache hợp lệ để tiếp tục; không cần tải lại OSM chỉ để xem hoặc so sánh bộ tuyến.
 
 Phân vùng theo cấu hình LEZ-first: **A** là KV1/KV2/KV3 thí điểm 2027 tại Hoàn Kiếm/Cửa Nam; **B** là LEZ 2030 trừ A; **C** là phần Hà Nội ngoài LEZ 2030. A không đồng nghĩa toàn Vành đai 1. `sampling_zone` và trạng thái trong/ngoài LEZ là hai thuộc tính riêng. Nguồn và phiên bản: [lez_policy.json](config/lez_policy.json).
 
@@ -77,6 +77,6 @@ Clone repo cung cấp mã và tài liệu; để tái chạy cần khôi phục 
 
 ## Hướng phát triển
 
-Chốt quy tắc M1, đánh giá đầy đủ bảng M0–M5 từ kết quả đã kiểm tra, kiểm tra thay đổi đa giác ranh giới, xác minh tuyến/neo và C6, thu GPS/tốc độ, đánh giá đủ dữ liệu rồi xây dựng/kiểm định chu trình lái. M0, độ nhạy trên pool cố định và lịch dự kiến không thay thế bằng chứng thực địa. Chi tiết tại [phần việc còn lại](docs/PROJECT_OVERVIEW.md#cong-viec-con-lai).
+Đánh giá đầy đủ bảng M0–M5 từ kết quả đã kiểm tra, kiểm tra thay đổi đa giác ranh giới, xác minh tuyến/neo và C6, thu GPS/tốc độ, đánh giá đủ dữ liệu rồi xây dựng/kiểm định chu trình lái. M0, độ nhạy trên pool cố định và lịch dự kiến không thay thế bằng chứng thực địa. Chi tiết tại [phần việc còn lại](docs/PROJECT_OVERVIEW.md#cong-viec-con-lai).
 
 Dữ liệu nền: © OpenStreetMap contributors. Xem [thông tin bản quyền OSM](https://www.openstreetmap.org/copyright); tài liệu và nguồn khác giữ thông tin xuất xứ tương ứng.

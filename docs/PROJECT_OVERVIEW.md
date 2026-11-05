@@ -43,6 +43,7 @@ flowchart TD
     POOL --> PICK[06: gates / X / C1-C7 / 30 đề xuất]
     PICK --> SENS[Độ nhạy trên pool cố định]
     PICK --> M0[10: M0 ngẫu nhiên phân tầng]
+    PICK --> BENCH[12: đối chứng M1–M5]
     PICK --> FIELD[07: bằng chứng / cập nhật / chọn lại]
     FIELD --> T2[T2: phiếu / GPX / chỉ dẫn]
     FIELD --> GPS[08: chuyến thực / QC / map matching]
@@ -53,7 +54,7 @@ flowchart TD
 
 Python thường xử lý HTTP, bảng, controller và M0. Worker PyQGIS thực hiện phần hình học/routing/bản đồ phụ thuộc QGIS. GeoPackage/SQLite được dùng nội bộ; người chạy không phải dựng SQL server hoặc tự viết SQL. Overpass đọc dữ liệu không cần API key trong cách tích hợp hiện tại. QuickOSM không phải phụ thuộc của pipeline Python.
 
-Notebook 09 điều phối các bước đã tích hợp; notebook 10 chạy M0 riêng. Số notebook không phải thứ tự dựng mới: **04 đứng trước phần hình học 03**, rồi 05 → 06. Phần V/N và chuẩn hóa dân cư trong notebook 03 là đối chiếu lịch sử có guard, không thay cách phân A/B/C hiện hành.
+Notebook 09 điều phối các bước đã tích hợp; notebook 10 chạy M0 riêng. Notebook 12 chạy M2/M3, đọc lịch sử M4/M5 và có mục riêng để chạy M1/M2b theo cùng quota RC và đối chiếu M2a đã lưu. Số notebook không phải thứ tự dựng mới: **04 đứng trước phần hình học 03**, rồi 05 → 06. Phần V/N và chuẩn hóa dân cư trong notebook 03 là đối chiếu lịch sử có guard, không thay cách phân A/B/C hiện hành.
 
 ## Phương pháp chọn và đánh giá
 
@@ -93,13 +94,13 @@ M0 bốc đều, độc lập trong các nhóm quota A-trong 10/B-trong 8/C-ngo�
 
 D ngẫu nhiên trung bình `0.542052`, nhỏ nhất `0.414540`; không có bộ nào trong 1.000 bộ có D không lớn hơn `0.365187` của bộ gốc. Đây là thống kê mô tả trên pool cố định; không phải p-value bằng 0 hoặc bằng chứng đại diện mọi tuyến Hà Nội. Các phân vị M0 là phân phối bộ ngẫu nhiên, không phải khoảng tin cậy cho mạng Hà Nội.
 
-Độ nhạy hiện có không bao gồm đầy đủ việc thay đa giác ranh giới, sinh lại pool và so trên một mạng tham chiếu chung; nó không thay thế các phương pháp đối chứng độc lập. Notebook 12 đã có lượt chạy M2/M3 và kết quả M4/M5 được kiểm, trích từ cùng lịch sử chọn tuyến; M1 vẫn chờ chốt quy tắc. Xem [hướng dẫn đối chứng](lez/SELECTION_BENCHMARKS.md).
+Độ nhạy hiện có không bao gồm đầy đủ việc thay đa giác ranh giới, sinh lại pool và so trên một mạng tham chiếu chung; nó không thay thế các phương pháp đối chứng độc lập. Notebook 12 chạy M2/M3 và kiểm/trích M4/M5 từ cùng lịch sử chọn tuyến; mục M1/M2b dùng quota tuyến theo vùng × RC và đối chiếu với M2a đã lưu và kiểm lại. Xem [hướng dẫn đối chứng](lez/SELECTION_BENCHMARKS.md).
 
 <a id="cong-viec-con-lai"></a>
 
 ## Công việc còn lại
 
-1. Chốt quy tắc M1 theo tỷ trọng mạng và hoàn thiện diễn giải bảng M0–M5. M2/M3 đã có lượt chạy độc lập; M4/M5 đã được kiểm, trích từ cùng lịch sử chọn tuyến, xem [hướng dẫn đối chứng](lez/SELECTION_BENCHMARKS.md).
+1. Hoàn thiện diễn giải bảng M0–M5 và các đánh đổi D, độ phủ, chiều dài khảo sát. Có thể thử mục tiêu chiều dài tuyệt đối hoặc khởi đầu ba tuyến, mỗi vùng một tuyến, như các kiểm tra độ nhạy riêng; xem [hướng dẫn đối chứng](lez/SELECTION_BENCHMARKS.md).
 2. Thiết kế các kịch bản đổi đa giác ranh giới, overlay/mạng/pool phù hợp, tính D theo mạng kịch bản và theo một mạng tham chiếu chung.
 3. Xác minh tuyến/neo, biển báo/quyền đi, công trình, khả năng lặp, an toàn, số làn/tốc độ và C6 bằng chứng cứ thực địa. Cập nhật qua overlay rồi tính lại toàn bộ bộ 30.
 4. Chốt thiết kế số lượt/ngày, thu GPS/tốc độ, kiểm chất lượng và theo dõi các tổ hợp. Lịch 360 lượt là đề xuất, không phải cỡ mẫu bắt buộc đã kiểm định.

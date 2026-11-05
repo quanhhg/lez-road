@@ -39,7 +39,7 @@ Cập nhật theo các tệp hiện có ngày **02/11/2026**. Thư mục gốc �
 | Điều phối các bước đã tích hợp sau khi có mạng/cache chuẩn hóa | Notebook 09 | Không |
 | So 1.000 bộ ngẫu nhiên với bộ 30 cố định | Notebook 10 hoặc `selection_random.py run` | Không; không cần QGIS đang chạy |
 | Vẽ/đổi khoảng D và xem hồi quy mô tả | Notebook 11; đọc M0 có sẵn hoặc bản công bố trong repo | Không; không cần QGIS hoặc bốc lại mẫu |
-| Chạy M2/M3 và đối chiếu M4/M5 đã lưu | Notebook 12; dùng cùng pool 60, ma trận và gate | Không; Python thường, không khởi động QGIS |
+| Chạy M1–M3 và đối chiếu M4/M5 đã lưu | Notebook 12; dùng cùng pool 60, ma trận và gate | Không; Python thường, không khởi động QGIS |
 | Chuẩn bị/nhập bằng chứng, cập nhật và chọn lại | Notebook 07 | Không |
 | Nhập chuyến/GPS, kiểm chất lượng và T5 | Notebook 08 hoặc 09 | Không |
 | Dựng lại mạng sau khi thay dữ liệu hoặc quy tắc xe máy | Notebook 04 | Không khi dùng nguồn đã lưu và `fetch_sources=False` |
@@ -145,6 +145,7 @@ Trong `tiles.csv`, `query_file` và `response_dir` được tính tương đối
 | `lez/selection_sensitivity.py` | Độ nhạy trên pool và bộ 30 cố định |
 | `lez/selection_random.py` | M0: bốc đều theo quota, checkpoint và so sánh bộ 30 |
 | `lez/selection_benchmarks.py` | M2/M3 bằng Python; kiểm/trích M4/M5 từ lịch sử đã lưu; đầu ra riêng |
+| `lez/selection_m1.py` | M1/M2b cùng quota vùng × RC; đối chiếu M2a đã lưu, kiểm lại nguồn và phiên bản tính |
 | `lez/field_workflow.py`, `survey_revision.py`, `trip_processing.py` | Bằng chứng, cập nhật, chọn lại và kiểm chuyến/GPS |
 | `lez/route_instructions.py` | T2: chỉ dẫn chạy, sơ đồ, GPX và điểm cần rà soát |
 | `lez/survey_coverage.py` | T3: lịch theo loại ngày, điều kiện đo và tiến độ tổ hợp |
@@ -181,7 +182,7 @@ Ma trận sinh/chọn chính có **12 ô = 3 nhóm ABC × 4 loại RC**. Các t�
 | Chọn 30 | A10/B8/C12, đúng 18 trong/12 ngoài; có 30 tuyến dự phòng | Trạng thái `proposed_for_survey`, chưa khóa bộ cuối |
 | Bản đồ | Có HTML/PNG/CSV cho cả 30 và 60 | Đọc manifest để đối chiếu với bộ tuyến sau mỗi lần chạy mới |
 | M0 | 1.000 bộ hợp lệ, seed 20261102; 0/1.000 bộ có D ≤ bộ gốc | Đối chứng mô tả trên cùng pool; không phải p-value bằng 0 |
-| Độ nhạy | 114 kịch bản: 113 hoàn thành, 1 ca thiếu quota định trước | Chưa bao gồm đầy đủ thay đa giác ranh giới; đối chứng riêng tại notebook 12: M2/M3 chạy mới, M4/M5 trích lịch sử đã kiểm, M1 chờ quy tắc |
+| Độ nhạy | 114 kịch bản: 113 hoàn thành, 1 ca thiếu quota định trước | Chưa bao gồm đầy đủ thay đa giác ranh giới; đối chứng riêng tại notebook 12: M1/M2b đối chiếu M2a đã lưu, M2/M3 chạy độc lập, M4/M5 trích lịch sử đã kiểm |
 | Khảo sát / T2 / T3 | Có mã, phiếu/GPX, lịch 180 tổ hợp / 360 lượt đề xuất | Chưa có tổ hợp được đếm đã đo; mục tiêu số chuyến/ngày còn chờ chốt |
 | GPS / T5 / chu trình | Có xử lý chuyến và công thức; báo cáo thực 0 chuyến / 0 điểm GPS | Chưa có kết quả đo hoặc chu trình thực nghiệm |
 
@@ -300,7 +301,7 @@ Thiết lập môi trường + khôi phục/kiểm tra các nguồn
         ↓
 05 sinh 60 → 06 chọn 30
         ├── 10: M0 trên pool và bộ 30 cố định → 11: biểu đồ M0
-        ├── 12: M2/M3 độc lập; đọc lịch sử M4/M5
+        ├── 12: M1/M2b đối chiếu M2a; M2/M3 độc lập; đọc lịch sử M4/M5
         ├── Độ nhạy tiền khảo sát
         └── 07: bằng chứng/cập nhật → 08: GPS/QC/T5 → T3
 ~~~
@@ -455,11 +456,13 @@ Tệp: [.../work/notebooks/11_random_comparison_plots.ipynb](notebooks/11_random
 
 Notebook 09 giữ vai trò điều phối; notebook 10 tạo/tiếp tục M0; notebook 11 đọc và trình bày kết quả. Xem [hướng dẫn biểu đồ](docs/lez/RANDOM_COMPARISON_PLOTS.md).
 
-### 5.13. Notebook 12 — M2/M3 và lịch sử M4/M5
+### 5.13. Notebook 12 — M1–M5
 
 Tệp: [.../work/notebooks/12_selection_benchmarks.ipynb](notebooks/12_selection_benchmarks.ipynb). Dùng **Python thường** có NumPy, pandas và ipykernel. Chạy cell thiết lập → kiểm nguồn/hash → chọn `METHODS` → chạy/tiếp tục → đọc bảng, ID và các khởi đầu. M2/M3 có thể chạy riêng, không phụ thuộc số thứ tự M; M4/M5 được kiểm và trích từ cùng lịch sử chọn tuyến đã lưu.
 
-M2 chọn D sau bổ sung thấp nhất; M3 chọn chiều dài RC mới được phủ lớn nhất. Cùng 10 cặp khởi đầu xếp theo D, quota A10/B8/C12 và trùng hành lang <70%; M3 kế thừa D ở khởi đầu nhưng sau đó chỉ tối đa độ phủ. Không hoán đổi, không ép đủ 11 ô. M là mã phương pháp, không phải trọng số. M1 chưa được triển khai vì quy tắc phân bổ chưa chốt.
+M2 chọn D sau bổ sung thấp nhất; M3 chọn chiều dài RC mới được phủ lớn nhất. Cùng 10 cặp khởi đầu xếp theo D, quota A10/B8/C12 và trùng hành lang <70%; M3 kế thừa D ở khởi đầu nhưng sau đó chỉ tối đa độ phủ. Không hoán đổi, không ép đủ 11 ô. M là mã phương pháp, không phải trọng số.
+
+Với M1/M2b, chạy cell thiết lập rồi mục 7–9. M1 phân bổ số suất theo tỷ trọng chiều dài RC trong từng vùng, có xét số ứng viên, rồi chọn theo tỷ lệ chiều dài thuộc đúng ô mục tiêu. M2b dùng cùng quota RC nhưng chọn theo D. M2a là bộ M2 gốc đã lưu; nếu thiếu bản phù hợp, chạy M2 riêng ở mục 2–3. Không thêm M1/M2b vào `METHODS`.
 
 Module không gọi HTTP, không khởi động QGIS hoặc ghi đè bộ 30 gốc; cần khôi phục cache hợp lệ trước. Chạy lại cùng cell để dùng lại kết quả từng phương pháp đã hoàn thành; phương pháp đang dở có thể phải chạy lại các khởi đầu. Xem [công thức, dữ liệu và giới hạn](docs/lez/SELECTION_BENCHMARKS.md).
 
@@ -705,7 +708,7 @@ Giữ các bộ cũ để đối chiếu. Không chép CSV lịch sử vào ngu�
 | `reports/trips/latest_real.json` | Chuyến/điểm thực, QC và chỉ tiêu vận hành |
 | `reports/field/latest_survey_coverage.json` | Tổ hợp đã có chuyến đạt điều kiện và lý do chưa được đếm |
 
-Notebook 12 trả về `paths` chỉ thư mục kết quả, bảng chung, kết quả từng phương pháp, báo cáo và manifest riêng. Gọi `benchmark_status(ROOT)` để đọc trạng thái mới nhất; kết quả M2–M5 không ghi đè bộ 30, M0 hoặc độ nhạy.
+Notebook 12 trả về `paths` chỉ thư mục kết quả, bảng chung, kết quả từng phương pháp, báo cáo và manifest riêng. Gọi `benchmark_status(ROOT)` để đọc trạng thái mới nhất; kết quả M2–M5 không ghi đè bộ 30, M0 hoặc độ nhạy. M1/M2b có `paths` riêng với bảng M1/M2a/M2b, bảng từng ô, lịch sử khởi đầu M2b và manifest.
 
 Bundle M0 có `random_sets.csv/json` (30 ID/chỉ tiêu từng bộ), `metric_summary.csv`, `route_frequency.csv`, `D_distribution.png`, protocol/hash và checkpoint. Bản chọn ngày 02/11 có ở [docs/results](docs/results/M0_2026_11_02.md), đọc được sau clone; nó không thay con trỏ `latest` tại máy.
 
@@ -1034,7 +1037,7 @@ Notebook và tài liệu có thể dùng đường dẫn tương đối, nhưng 
 | Tổng quan / máy mới | [Tổng quan](docs/PROJECT_OVERVIEW.md), [máy mới](docs/setup/GETTING_STARTED.md), [mục lục](docs/README.md) |
 | Biểu đồ D và hồi quy mô tả | [Notebook 11](notebooks/11_random_comparison_plots.ipynb), [hướng dẫn biểu đồ](docs/lez/RANDOM_COMPARISON_PLOTS.md) |
 | M0 và kết quả lưu trong repo | [Hướng dẫn M0](docs/lez/RANDOM_BASELINE.md), [kết quả ngày 02/11](docs/results/M0_2026_11_02.md) |
-| M2–M5 trên dữ liệu đã lưu | [Notebook 12](notebooks/12_selection_benchmarks.ipynb), [công thức và quy tắc](docs/lez/SELECTION_BENCHMARKS.md) |
+| M1–M5 trên dữ liệu đã lưu | [Notebook 12](notebooks/12_selection_benchmarks.ipynb), [công thức và quy tắc](docs/lez/SELECTION_BENCHMARKS.md) |
 | Điều phối / khảo sát / GPS / T5 | [Điều phối](docs/lez/PROJECT_AUTOMATION.md), [bằng chứng](docs/lez/FIELD_WORKFLOW.md), [GPS](docs/lez/TRIP_PROCESSING.md), [T3](docs/lez/SURVEY_COVERAGE.md), [T5](docs/lez/OPERATING_METRICS.md) |
 | Cài/chọn kernel | [.../work/docs/setup/PYQGIS_SETUP.md](docs/setup/PYQGIS_SETUP.md) |
 | Bộ tải và resume/lỗi/cache | [.../work/docs/overpass/DOWNLOAD_README.md](docs/overpass/DOWNLOAD_README.md) |
