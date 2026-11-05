@@ -1,0 +1,182 @@
+{
+  "title": "So sánh dữ liệu dự án work và bộ mô hình trong tài liệu ADB",
+  "comparison_date": "2026-10-13",
+  "client_timezone": "Asia/Hong_Kong",
+  "output_pdf": "work/docs/lez/SO_SANH_DU_LIEU_WORK_VA_ADB.pdf",
+  "pdf_sha256": "8f0b1c18a8f0984fe6b3527a2df470705bee13a835916e438bd10aff265efd8e",
+  "pages": 11,
+  "source_pdf": {
+    "path": "/Users/quanh.hg/Documents/Document/work/ADB.pdf",
+    "sha256": "8b79726c22040b17bbe1f16a8b64c5087e8fbec1e40415c0c5d59a99fb06307b",
+    "pages": 11,
+    "declared_version": "v3_2026-09-30"
+  },
+  "project_sources_sha256": {
+    "work/reports/overpass/completion_audit.json": "bdf245cac804cea0fed9f841ebcd488bc8b80838ebc37f4319e456e0a001ffea",
+    "work/reports/network/latest_network_report.json": "ef04b97d76bb2e4118631cf2878fe98018710e92290a5a6574d5d7ea2635d582",
+    "work/reports/sampling/latest_sampling_abc.json": "4bc8888bc5502f52bae0a4b7e7ce43d3dee3a1f31dd6999fa13bff2226c61827",
+    "work/reports/selection/latest_selection_30.json": "5dea23cc6acbb9790f0c0f94061a3adb71453f95ff2c95be9bc0c119f493a6a4",
+    "work/config/selection_30.json": "4d41c1104edc6c5d987820ce57953c367487d77f8599f446a2595b15b1b894b1",
+    "work/config/field_workflow.json": "6e54960a40086a63463a1ccad8a1a81ff7706a148cf8d3b76d6223eaf0fff84a",
+    "work/reports/field/latest_field_workflow.json": "9b859eb0bef93f415cf844e03954644afca5e3ac5fcf2bf3dd736f5b8cfa2d09",
+    "work/reports/trips/latest_real.json": "d2604e1943b71ce87a63b7cacb05603636db0427a11cb50d5c85a749f80280ef",
+    "work/config/trip_processing.json": "1971e39f96ec51f8d1f2e84b94c7616076177d03394169c97304e394149c1f50",
+    "work/docs/lez/TRIP_PROCESSING.md": "4c194d34e017001cae3005dd0d7ea1402f4aa7e0b63414da10845533c4c318f5",
+    "work/data/processed/selection_30/84d40779115a4e22a6fa/selected_routes.csv": "dcbdbbaa6bcf8b2a85ac1eb051771713faccfbf235fd552903615bc66583fe3c",
+    "work/data/processed/selection_30/84d40779115a4e22a6fa/network_sample_matrix.csv": "93537ee087c20378afc8638b1f0bd25517f3683804dbff09aa7bf3592a25d9b0",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/network_matrix.csv": "6270c488ed5f29b5e9cfd3cb37a2c9689bdcb4af72c59120bd1840b1902d98e3",
+    "work/data/hanoi_tiles/tiles.csv": "91db552022e5ebb6425a341f5ed40f8d8e1325963b827dc3991b1dabb6f7d6d5",
+    "work/data/measurements/incoming/trips.csv": "cc3017b6ecba5853606760cd8e389e02ef197056cf1889620f432c55dc113f8a",
+    "work/data/measurements/incoming/gps_points.csv": "6976f45fe4b26688efce209df7ee70220dee2beecfac58ef94350e55963f6ab7",
+    "work/config/sampling_abc.json": "6515838bce8207f0778c679e7918684e4c992463674fbf89b9762c2736913ea1",
+    "work/data/processed/network.gpkg": "c3feaa1aedb1db411aea2ad63a5b49afeb65768d0dba3d710bb7e88e69091bb8"
+  },
+  "source_ids": {
+    "W1": "work/reports/overpass/completion_audit.json",
+    "W2": "work/reports/network/latest_network_report.json",
+    "W3": "work/reports/sampling/latest_sampling_abc.json",
+    "W4": "work/reports/selection/latest_selection_30.json",
+    "W5": "work/config/selection_30.json",
+    "W6": "work/config/field_workflow.json",
+    "W7": "work/reports/field/latest_field_workflow.json",
+    "W8": "work/reports/trips/latest_real.json",
+    "W9": "work/config/trip_processing.json",
+    "W10": "work/docs/lez/TRIP_PROCESSING.md"
+  },
+  "live_checks": {
+    "tiles": 183,
+    "all_tiles_done": true,
+    "selected_routes": 30,
+    "selected_A_B_C": {
+      "A": 10,
+      "B": 8,
+      "C": 12
+    },
+    "actual_trip_rows": 0,
+    "actual_gps_rows": 0,
+    "sqlite_counts": {
+      "segments": 567934,
+      "scope_parts": 448317,
+      "arcs": 867630,
+      "routable_arcs": 708233
+    },
+    "adb_model_source_files_found_in_work": []
+  },
+  "work_network_overlay": {
+    "physical_routable_parts": 364699,
+    "normalized_pieces": 364902,
+    "network_length_m": 27738367.813752525,
+    "rc1_rc4_network_length_m": 22425962.718539663,
+    "connector_network_length_m": 5312405.095212871,
+    "statistical_cells": 12,
+    "max_domain_cell_partition_error_m": 6.752088665962219e-09,
+    "max_part_length_error_m": 9.428518410459219e-09,
+    "aggregate_length_error_m": 7.450580596923828e-09,
+    "cross_ABC_boundary_parts_excluded_from_candidate_routing": 203,
+    "cross_LEZ_boundary_parts_excluded_from_candidate_routing": 199,
+    "rc1_rc4_domain_lengths_m": {
+      "inside": 2749758.87316729,
+      "outside": 19676203.84537236
+    },
+    "rc_network_fraction_sum": 1.0,
+    "status": "provisional_access_network_not_field_verified",
+    "uncertain_ring_alignment_parts_excluded_from_routing": 8023,
+    "routing_unavailable_cells": [
+      {
+        "sampling_zone": "A",
+        "rc": "RC1"
+      }
+    ],
+    "target_reallocation": {
+      "basis": "2027 pilot eligible routing availability, preserve 20A and original scoring/RC criteria",
+      "A": {
+        "RC2": 6,
+        "RC3": 7,
+        "RC4": 7
+      },
+      "B": {
+        "RC1": 5,
+        "RC2": 5,
+        "RC3": 5,
+        "RC4": 5
+      },
+      "C": {
+        "RC1": 5,
+        "RC2": 5,
+        "RC3": 5,
+        "RC4": 5
+      }
+    }
+  },
+  "work_selection_metrics": {
+    "D_combined": 0.36518658692754424,
+    "D_by_domain": {
+      "inside": 0.42750169313525804,
+      "outside": 0.3100930516025221
+    },
+    "D_domain_mean": 0.3687973723688901,
+    "route_count": 30,
+    "inside": 18,
+    "outside": 12,
+    "sampling_zone_counts": {
+      "A": 10,
+      "B": 8,
+      "C": 12
+    },
+    "zone_group_counts": {
+      "A": {
+        "inside": 10,
+        "outside": 0
+      },
+      "B": {
+        "inside": 8,
+        "outside": 0
+      },
+      "C": {
+        "inside": 0,
+        "outside": 12
+      }
+    },
+    "quota_bucket_counts": {
+      "A_inside": 10,
+      "B_inside": 8,
+      "C_outside": 12
+    },
+    "traversed_length_m": 274031.31063705904,
+    "rc_traversed_length_m": 263169.6616055199,
+    "represented_primary_strata": [
+      "A",
+      "B",
+      "C"
+    ],
+    "material_cells": 11,
+    "touched_rc_cells": 11,
+    "unique_rc_length_m": 240898.85586544708,
+    "unique_rc_coverage_fraction": 0.010741962737068796,
+    "quantile_groups_covered": 33,
+    "max_traversed_overlap_fraction": 0.5106118009613794,
+    "max_unique_corridor_overlap_fraction": 0.5966994438350687
+  },
+  "adb_data_status": "described_in_pdf_only_not_received_or_recomputed",
+  "no_authority_or_location_certification": true,
+  "original_project_data_modified": false,
+  "original_osm_modified": false,
+  "original_pdf_modified": false,
+  "api_calls": 0,
+  "qa": {
+    "expected_pages": 11,
+    "actual_pages": 11,
+    "visual_review": "passed_all_11_final_rendered_pages",
+    "visual_review_date": "2026-10-13",
+    "all_pages_landscape_A4": true,
+    "side_by_side_consistent": true,
+    "no_text_overflow": true,
+    "numeric_anchors_checked": 18,
+    "used_vietnamese_fonts_embedded": true,
+    "portable_document_paths": true,
+    "full_boundary_term_used": true,
+    "source_hashes_checked": 18,
+    "adb_pdf_sha256_verified": true,
+    "actual_network_hash_matches_selected_routes_source": true
+  }
+}

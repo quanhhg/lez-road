@@ -1,0 +1,176 @@
+{
+  "title": "So sánh phương án bổ sung RC1 vùng A với bộ 30 tuyến hiện tại",
+  "created_at": "2026-10-11T01:12:59.974393+08:00",
+  "verified_date": "2026-10-11",
+  "snapshot_utc": "2026-10-01T00:00:00Z",
+  "output_pdf": "work/docs/lez/SO_SANH_PHUONG_AN_BO_SUNG_RC1_VUNG_A.pdf",
+  "pdf_sha256": "86c99e11f5f85d6ed4d3ada8e61557d4648bd2b8078b9e017d20de8db8520650",
+  "pages": 12,
+  "project_selection_modified": false,
+  "raw_osm_modified": false,
+  "new_real_routes_created": 0,
+  "previous_review_input_hashes_match": true,
+  "source_sha256": {
+    "work/config/lez_policy.json": "666d6cbbcbffe490cff9e632e985693492789461daa8e0fb9e80cbbe8944965f",
+    "work/config/sampling_abc.json": "6515838bce8207f0778c679e7918684e4c992463674fbf89b9762c2736913ea1",
+    "work/config/selection_30.json": "4d41c1104edc6c5d987820ce57953c367487d77f8599f446a2595b15b1b894b1",
+    "work/data/processed/network.gpkg": "c3feaa1aedb1db411aea2ad63a5b49afeb65768d0dba3d710bb7e88e69091bb8",
+    "work/data/processed/network/38c5e7c40a1e823cc0c0/network.gpkg": "c3feaa1aedb1db411aea2ad63a5b49afeb65768d0dba3d710bb7e88e69091bb8",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/manifest.json": "36d902fe83d322411a8bcb93d9748465e42846317f023c157bd209417b7fbbad",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/network_matrix.csv": "6270c488ed5f29b5e9cfd3cb37a2c9689bdcb4af72c59120bd1840b1902d98e3",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/network_parts.gpkg": "b65e32205375c6401300b34b320ffbf98d955a916f30b87cb36809b29a73bcef",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/policy_boundaries.gpkg": "d11ec4da8886b9abec9011131c71e604ba3bf7f9da0b19e3a9ae5f41547e1b51",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/routing_network_matrix.csv": "4f0a9da3ee08e793cc75d3a751c4e0da5dfeaf4cdc42d67ad70f2b13f4f32a38",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/sample_matrix.csv": "9dcb7384eb020f32eec199cbb3f2c39b7783e82bfb727f1e5f29462dde0b00f3",
+    "work/data/processed/selection_30/84d40779115a4e22a6fa/network_sample_matrix.csv": "93537ee087c20378afc8638b1f0bd25517f3683804dbff09aa7bf3592a25d9b0",
+    "work/data/processed/selection_30/84d40779115a4e22a6fa/selected_routes.csv": "dcbdbbaa6bcf8b2a85ac1eb051771713faccfbf235fd552903615bc66583fe3c",
+    "work/data/raw/research/60_tuyen_LEZ_QGIS.docx": "086c5a158191fb2b55d44cac4b22a31c0a64a14e5e021fcd80d9effe8ef8fe0c",
+    "work/data/raw/research/Chuyen_de_nghien_cuu_khao_sat_tuyen_chu_trinh_lai_Ha_Noi_2_10_2026.docx": "50e0ba9788f07cbd41bcacde2d75bd75f209d427a8a5b221c9e7d111daf4b1fc",
+    "work/data/raw/research/Phan_tich_ABC_LEZ.docx": "9cafef8c4b52f79ff8ca91d16168d93fab613d7df5365e144e8e2f894c5a9c32",
+    "work/data/raw/research/source_requirements.json": "fa0463bdc5474bd74d2f958c97beaed1fc0364dd035665346c865304f02508b4",
+    "work/reports/sampling/A_RC1_limitation.json": "64e8ffbd730ac9f20f48abc6bd941d198c1f6a66a189c89e185f9acd8774dc67",
+    "work/reports/sampling/latest_sampling_abc.json": "4bc8888bc5502f52bae0a4b7e7ce43d3dee3a1f31dd6999fa13bff2226c61827",
+    "work/reports/sampling/rc1_review_105/A_RC1_105_ban_do.png": "34f6907c22cfe759ce811ddfe27c2c3573660bededc09d044ba4590d6ce677e5",
+    "work/reports/sampling/rc1_review_105/diagnostic_routing.json": "fabef5c6485f8a5b8b74018a9b58a80d3fe917dadd841a7f63cfcf0a73986206",
+    "work/reports/sampling/rc1_review_105/review_data.json": "e77df9a857ada4e7916477dddf7e6b5f762ad508b248a4c7088d82a8d0e1ac32",
+    "work/reports/selection/latest_selection_30.json": "5dea23cc6acbb9790f0c0f94061a3adb71453f95ff2c95be9bc0c119f493a6a4",
+    "work/reports/selection/latest_sensitivity.json": "9fe46ed93f17ddb42b1c5d3d219bdf0a164ab1c26582b470edd9020211b4571c",
+    "work/scripts/lez/policy_boundaries.py": "b4f65a99acc070c9c140edf8b330ac216ea96ad7250b35322ee3a7da786ab9fc",
+    "work/scripts/lez/routing.py": "7e370be5fe27ded0ea85c3094c09e875d158dcaea5fb7cd3ecf618b8604a25ee",
+    "work/scripts/lez/sampling_abc.py": "8a1655b91510513483d04303b9a584dfb8241e54d0590b00b9e7170a5a7fb7a8",
+    "work/scripts/lez/selection_metrics.py": "1ef6a734e96754f399e462423719ff02bb59e7ac1686470fe3839d4b6a8edcf1"
+  },
+  "baseline": {
+    "status": "proposed_for_survey",
+    "quota": {
+      "inside": 18,
+      "outside": 12
+    },
+    "counts": {
+      "A": 10,
+      "B": 8,
+      "C": 12
+    },
+    "A_route_ids": [
+      "A01",
+      "A02",
+      "A03",
+      "A06",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A17",
+      "A18"
+    ],
+    "A_full_traversed_m": 29705.6902314221,
+    "A_RC_traversed_m": 28873.547696741614,
+    "A_RC_unique_m": 17617.55511041554,
+    "A_RC_network_m": 51448.037043109536,
+    "A_RC1_network_fraction": 0.1109363939765587,
+    "A_RC1_sample_m": 0,
+    "A_RC_unique_coverage_fraction": 0.3424339610013375,
+    "D_A_descriptive_calculated": 0.1500000614777171,
+    "production_metrics": {
+      "D_combined": 0.36518658692754424,
+      "D_by_domain": {
+        "inside": 0.42750169313525804,
+        "outside": 0.3100930516025221
+      },
+      "D_domain_mean": 0.3687973723688901,
+      "route_count": 30,
+      "inside": 18,
+      "outside": 12,
+      "sampling_zone_counts": {
+        "A": 10,
+        "B": 8,
+        "C": 12
+      },
+      "zone_group_counts": {
+        "A": {
+          "inside": 10,
+          "outside": 0
+        },
+        "B": {
+          "inside": 8,
+          "outside": 0
+        },
+        "C": {
+          "inside": 0,
+          "outside": 12
+        }
+      },
+      "quota_bucket_counts": {
+        "A_inside": 10,
+        "B_inside": 8,
+        "C_outside": 12
+      },
+      "traversed_length_m": 274031.31063705904,
+      "rc_traversed_length_m": 263169.6616055199,
+      "represented_primary_strata": [
+        "A",
+        "B",
+        "C"
+      ],
+      "material_cells": 11,
+      "touched_rc_cells": 11,
+      "unique_rc_length_m": 240898.85586544708,
+      "unique_rc_coverage_fraction": 0.010741962737068796,
+      "quantile_groups_covered": 33,
+      "max_traversed_overlap_fraction": 0.5106118009613794,
+      "max_unique_corridor_overlap_fraction": 0.5966994438350687
+    }
+  },
+  "arithmetic_example": {
+    "status": "hypothetical_vector_only_not_generated_routes",
+    "virtual_route_count": 2,
+    "each_route_length_m": 3000,
+    "each_RC_fraction": {
+      "RC1": 0.3,
+      "RC2": 0.2,
+      "RC3": 0.2,
+      "RC4": 0.3
+    },
+    "added_traversal_by_RC_m": {
+      "RC1": 1800,
+      "RC2": 1200,
+      "RC3": 1200,
+      "RC4": 1800
+    },
+    "reference_network_unchanged": true,
+    "before_D_A": 0.1500000614777171,
+    "after_D_A": 0.1180825483446679,
+    "before_D_global": 0.36518658692754424,
+    "after_D_global": 0.37553716220061656,
+    "unique_coverage": null,
+    "gates_verified": false
+  },
+  "web_sources": [
+    {
+      "id": 9,
+      "url": "https://www150.statcan.gc.ca/n1/pub/12-001-x/2022002/article/00002/05-eng.htm",
+      "accessed": "2026-10-11"
+    },
+    {
+      "id": 10,
+      "url": "https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=P1009HZG.TXT",
+      "accessed": "2026-10-11"
+    }
+  ],
+  "qa": {
+    "visual_review": "passed_all_12_final_rendered_pages",
+    "text_extractable": true,
+    "expected_pages": 12,
+    "actual_pages": 12,
+    "visual_review_date": "2026-10-11",
+    "source_hashes_checked": 28,
+    "no_source_drift": true,
+    "numeric_anchors_checked": true,
+    "all_10_A_route_ids_checked": true,
+    "no_margin_overflow": true,
+    "portable_paths_only": true,
+    "full_boundary_term_used": true,
+    "clickable_external_references": 2,
+    "hypothetical_example_labeled": true
+  }
+}

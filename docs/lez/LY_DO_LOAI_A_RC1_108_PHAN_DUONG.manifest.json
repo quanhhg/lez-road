@@ -1,0 +1,280 @@
+{
+  "review_date": "2026-10-09",
+  "status": "passed",
+  "pdf_file": "LY_DO_LOAI_A_RC1_108_PHAN_DUONG.pdf",
+  "pdf_sha256": "a9f0b913a6f6ec0ba4d4b2d282906a75f65858d599ee2a0c569b3c7170a32644",
+  "page_count": 18,
+  "metric_crs": "EPSG:3405",
+  "snapshot_utc": "2026-10-01T00:00:00Z",
+  "source_geometry_part_count": 108,
+  "crossing_boundary_parts": 3,
+  "inside_A_uncertainty_parts": 105,
+  "crossing_parts_also_wholly_in_uncertainty": true,
+  "inside_A_cohort_reason_counts": {
+    "D1": 104,
+    "D2": 1
+  },
+  "all_108_part_ids_present_in_pdf": true,
+  "all_105_appendix_rows_values_checked_from_pdf": true,
+  "all_pages_within_margins": true,
+  "fonts_embedded": true,
+  "source_hashes_verified_unchanged": true,
+  "source_hashes": {
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/network_matrix.csv": "6270c488ed5f29b5e9cfd3cb37a2c9689bdcb4af72c59120bd1840b1902d98e3",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/routing_network_matrix.csv": "4f0a9da3ee08e793cc75d3a751c4e0da5dfeaf4cdc42d67ad70f2b13f4f32a38",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/sample_matrix.csv": "9dcb7384eb020f32eec199cbb3f2c39b7783e82bfb727f1e5f29462dde0b00f3",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/network_parts.gpkg": "b65e32205375c6401300b34b320ffbf98d955a916f30b87cb36809b29a73bcef",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/policy_boundaries.gpkg": "d11ec4da8886b9abec9011131c71e604ba3bf7f9da0b19e3a9ae5f41547e1b51",
+    "work/data/processed/sampling_abc/87994b561209e33f58dc/manifest.json": "36d902fe83d322411a8bcb93d9748465e42846317f023c157bd209417b7fbbad",
+    "work/data/processed/network/38c5e7c40a1e823cc0c0/network.gpkg": "c3feaa1aedb1db411aea2ad63a5b49afeb65768d0dba3d710bb7e88e69091bb8",
+    "work/config/sampling_abc.json": "6515838bce8207f0778c679e7918684e4c992463674fbf89b9762c2736913ea1",
+    "work/config/lez_policy.json": "666d6cbbcbffe490cff9e632e985693492789461daa8e0fb9e80cbbe8944965f",
+    "work/reports/sampling/latest_sampling_abc.json": "4bc8888bc5502f52bae0a4b7e7ce43d3dee3a1f31dd6999fa13bff2226c61827",
+    "work/reports/selection/latest_selection_30.json": "5dea23cc6acbb9790f0c0f94061a3adb71453f95ff2c95be9bc0c119f493a6a4",
+    "work/scripts/lez/sampling_abc.py": "8a1655b91510513483d04303b9a584dfb8241e54d0590b00b9e7170a5a7fb7a8",
+    "work/scripts/lez/policy_boundaries.py": "b4f65a99acc070c9c140edf8b330ac216ea96ad7250b35322ee3a7da786ab9fc",
+    "work/reports/sampling/A_RC1_limitation.json": "64e8ffbd730ac9f20f48abc6bd941d198c1f6a66a189c89e185f9acd8774dc67",
+    "work/scripts/lez/routing.py": "7e370be5fe27ded0ea85c3094c09e875d158dcaea5fb7cd3ecf618b8604a25ee",
+    "work/data/processed/network.gpkg": "c3feaa1aedb1db411aea2ad63a5b49afeb65768d0dba3d710bb7e88e69091bb8",
+    "work/reports/sampling/rc1_review_105/review_data.json": "e77df9a857ada4e7916477dddf7e6b5f762ad508b248a4c7088d82a8d0e1ac32",
+    "work/reports/sampling/rc1_review_105/diagnostic_routing.json": "fabef5c6485f8a5b8b74018a9b58a80d3fe917dadd841a7f63cfcf0a73986206",
+    "work/reports/sampling/rc1_review_105/A_RC1_105_ban_do.png": "34f6907c22cfe759ce811ddfe27c2c3573660bededc09d044ba4590d6ce677e5",
+    "work/docs/lez/A_RC1_LIMITATION.md": "b4c48db495d58c49eb7bee9abb68c8c6421e6e808941ff043ca68de4c01131c2",
+    "work/config/selection_30.json": "4d41c1104edc6c5d987820ce57953c367487d77f8599f446a2595b15b1b894b1"
+  },
+  "official_gis_verified": false,
+  "field_access_verified": false,
+  "diagnostic_scope": "Only 105 wholly inside-A parts restored, three crossing parts still excluded",
+  "diagnostic_routes_generated": 0,
+  "production_candidates_and_selection_modified": false,
+  "sections": [
+    {
+      "key": "overview",
+      "title": "Kết luận và phạm vi rà soát",
+      "page": 1
+    },
+    {
+      "key": "mechanism",
+      "title": "1. Cơ chế loại được áp dụng như thế nào?",
+      "page": 2
+    },
+    {
+      "key": "crossing",
+      "title": "2. Ba phần được đề nghị xem xét ngoại lệ",
+      "page": 3
+    },
+    {
+      "key": "cross_map",
+      "title": "3. Vị trí và dữ liệu nguồn của ba phần",
+      "page": 4
+    },
+    {
+      "key": "cohort105",
+      "title": "4. Vì sao 105 phần nằm trong A vẫn bị loại?",
+      "page": 5
+    },
+    {
+      "key": "map105",
+      "title": "Bản đồ vị trí 105 phần và dải bất định",
+      "page": 6
+    },
+    {
+      "key": "connectivity",
+      "title": "5. Gỡ bộ lọc dải có đủ để tạo tuyến không?",
+      "page": 7
+    },
+    {
+      "key": "diagnostic",
+      "title": "6. Kết quả thử định tuyến tách riêng",
+      "page": 8
+    },
+    {
+      "key": "impact",
+      "title": "7. Hệ quả đối với bộ 60 và bộ 30",
+      "page": 9
+    },
+    {
+      "key": "exceptions",
+      "title": "8. Điều kiện để xem xét lại A × RC1",
+      "page": 10
+    },
+    {
+      "key": "sources",
+      "title": "Nguồn bằng chứng và cách tra cứu",
+      "page": 11
+    },
+    {
+      "key": "appendix_1",
+      "title": "Phụ lục - A_RC1_001 đến A_RC1_015",
+      "page": 12
+    },
+    {
+      "key": "appendix_2",
+      "title": "Phụ lục - A_RC1_016 đến A_RC1_030",
+      "page": 13
+    },
+    {
+      "key": "appendix_3",
+      "title": "Phụ lục - A_RC1_031 đến A_RC1_045",
+      "page": 14
+    },
+    {
+      "key": "appendix_4",
+      "title": "Phụ lục - A_RC1_046 đến A_RC1_060",
+      "page": 15
+    },
+    {
+      "key": "appendix_5",
+      "title": "Phụ lục - A_RC1_061 đến A_RC1_075",
+      "page": 16
+    },
+    {
+      "key": "appendix_6",
+      "title": "Phụ lục - A_RC1_076 đến A_RC1_090",
+      "page": 17
+    },
+    {
+      "key": "appendix_7",
+      "title": "Phụ lục - A_RC1_091 đến A_RC1_105",
+      "page": 18
+    }
+  ],
+  "page_bounds": [
+    {
+      "page": 1,
+      "body_bottom": 553.53613264,
+      "margin_violations": 0
+    },
+    {
+      "page": 2,
+      "body_bottom": 497.13613263999997,
+      "margin_violations": 0
+    },
+    {
+      "page": 3,
+      "body_bottom": 591.73613264,
+      "margin_violations": 0
+    },
+    {
+      "page": 4,
+      "body_bottom": 657.73613264,
+      "margin_violations": 0
+    },
+    {
+      "page": 5,
+      "body_bottom": 555.73613264,
+      "margin_violations": 0
+    },
+    {
+      "page": 6,
+      "body_bottom": 625.47935136,
+      "margin_violations": 0
+    },
+    {
+      "page": 7,
+      "body_bottom": 492.33613264,
+      "margin_violations": 0
+    },
+    {
+      "page": 8,
+      "body_bottom": 634.53613264,
+      "margin_violations": 0
+    },
+    {
+      "page": 9,
+      "body_bottom": 557.1361326399999,
+      "margin_violations": 0
+    },
+    {
+      "page": 10,
+      "body_bottom": 444.13613263999997,
+      "margin_violations": 0
+    },
+    {
+      "page": 11,
+      "body_bottom": 503.13613263999997,
+      "margin_violations": 0
+    },
+    {
+      "page": 12,
+      "body_bottom": 748.13617264,
+      "margin_violations": 0
+    },
+    {
+      "page": 13,
+      "body_bottom": 748.13617264,
+      "margin_violations": 0
+    },
+    {
+      "page": 14,
+      "body_bottom": 748.13617264,
+      "margin_violations": 0
+    },
+    {
+      "page": 15,
+      "body_bottom": 748.13617264,
+      "margin_violations": 0
+    },
+    {
+      "page": 16,
+      "body_bottom": 748.13617264,
+      "margin_violations": 0
+    },
+    {
+      "page": 17,
+      "body_bottom": 748.13617264,
+      "margin_violations": 0
+    },
+    {
+      "page": 18,
+      "body_bottom": 748.13617264,
+      "margin_violations": 0
+    }
+  ],
+  "visual_qa": {
+    "status": "passed",
+    "pages_reviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "render_engine": "Poppler pdftoppm",
+    "render_dpi": 110,
+    "visual_issues_found": 0,
+    "rendered_page_sha256": {
+      "final_page-01.png": "c26ea0dfaa7168593f49c76a2a02d151e5bfdcc3351e8dc05d6cbf0930a5fd61",
+      "final_page-02.png": "709c071abf1fe8b0a89a2a069fdcaaad604dc9d0e1c492d36fdaf0862e6fa9eb",
+      "final_page-03.png": "1a3ad9bfefcb2d10ce6dd6f58842a938c0f97ea6884b5fb1a218634ee4a5b0e7",
+      "final_page-04.png": "d4a75a6a46324e505042fa48116d5d4d1fc45d9c3d55d280607ca1bd7ebceebb",
+      "final_page-05.png": "c781a3349025eddd54c0fe243f6da9e557b6ad2a67f9eb857740c5bbbe3e24af",
+      "final_page-06.png": "0ebeb7826d54bf3b1f348ef8ffdacf8d05ae8051db4bb32e791ed1d205855677",
+      "final_page-07.png": "1231375a63789f030d7cec5abf8a401914fb18dfe85ef64a63460399695bdb98",
+      "final_page-08.png": "67955fc42751a105f716de3c9409fb4be1adac3710074f2cff4d680d1540376d",
+      "final_page-09.png": "a67f8f61ef8e935a7c2136ae76ec13032573328074f1dddc63d07e43482f314b",
+      "final_page-10.png": "c532f5f7c0446f5eb217157ed6eaa48608772ddbcb38598a89300a0f1d5469b4",
+      "final_page-11.png": "c2107a51881ef8514c11a096e873ec09c747f1a5492d0b1aba7f802107427393",
+      "final_page-12.png": "7fa20c9ea92ed6811dd251cc25493d2e897a9f166a237bbaa12ba6e6f18752e7",
+      "final_page-13.png": "6fb44854315b1d885cdec0a8b00199516e5ab8d00db3467559afc6ca7f20514d",
+      "final_page-14.png": "e464db70e4d273a0b2099a07bb124a396d2195a91e388e4a5a13d2c380f0dac2",
+      "final_page-15.png": "ee6a403b71bcdfebe4733ccdeb26b4d6ca60de6300821522b01803ce0a7adab4",
+      "final_page-16.png": "5f3521422759c59b1768e5a1ca382b093eb5fd58ab4e5669fdc0b71722cf0cf5",
+      "final_page-17.png": "1732aab6b498082f0af736db1a3a6424823babb133cce89413af0b8907042d7d",
+      "final_page-18.png": "a681264fd442d50c67ea44ad6515d09480fa1138bb3315a989c741379c97d25d"
+    }
+  }
+}
